@@ -1,0 +1,86 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ExpenseTrackerParser" as ExpenseTrackerParser LOGIC_COLOR
+participant ":DeleteExpenseCommandParser" as DeleteExpenseCommandParser LOGIC_COLOR
+participant "d:DeleteExpenseCommand" as DeleteExpenseCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+participant "<<utility>>\n:DebtCalculator" as DebtCalculator MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "delete 1"
+activate MainWindow
+
+MainWindow -> LogicManager : execute("delete 1")
+activate LogicManager
+
+LogicManager -> ExpenseTrackerParser : parseCommand("delete 1")
+activate ExpenseTrackerParser
+
+create DeleteExpenseCommandParser
+ExpenseTrackerParser -> DeleteExpenseCommandParser
+activate DeleteExpenseCommandParser
+
+DeleteExpenseCommandParser --> ExpenseTrackerParser
+deactivate DeleteExpenseCommandParser
+
+ExpenseTrackerParser -> DeleteExpenseCommandParser : parse("1")
+activate DeleteExpenseCommandParser
+
+create DeleteExpenseCommand
+DeleteExpenseCommandParser -> DeleteExpenseCommand
+activate DeleteExpenseCommand
+
+DeleteExpenseCommand --> DeleteExpenseCommandParser : d
+deactivate DeleteExpenseCommand
+
+DeleteExpenseCommandParser --> ExpenseTrackerParser : d
+deactivate DeleteExpenseCommandParser
+destroy DeleteExpenseCommandParser
+
+ExpenseTrackerParser --> LogicManager : d
+deactivate ExpenseTrackerParser
+
+LogicManager -> DeleteExpenseCommand : execute(m)
+activate DeleteExpenseCommand
+
+DeleteExpenseCommand -> Model : deleteExpense(targetIndex)
+activate Model
+
+Model -> DebtCalculator : calculate(remainingExpenses)
+activate DebtCalculator
+DebtCalculator --> Model : updatedBalances
+deactivate DebtCalculator
+
+Model --> DeleteExpenseCommand
+deactivate Model
+
+create CommandResult
+DeleteExpenseCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> DeleteExpenseCommand
+deactivate CommandResult
+
+DeleteExpenseCommand --> LogicManager : r
+deactivate DeleteExpenseCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "expense deleted"
+deactivate MainWindow
+
+@enduml

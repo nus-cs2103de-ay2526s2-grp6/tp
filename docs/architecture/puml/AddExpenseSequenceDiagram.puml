@@ -1,0 +1,86 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ExpenseTrackerParser" as ExpenseTrackerParser LOGIC_COLOR
+participant ":AddExpenseCommandParser" as AddExpenseCommandParser LOGIC_COLOR
+participant "a:AddExpenseCommand" as AddExpenseCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+participant "<<utility>>\n:DebtCalculator" as DebtCalculator MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "add n/Lunch a/20"
+activate MainWindow
+
+MainWindow -> LogicManager : execute("add n/Lunch a/20")
+activate LogicManager
+
+LogicManager -> ExpenseTrackerParser : parseCommand("add n/Lunch a/20")
+activate ExpenseTrackerParser
+
+create AddExpenseCommandParser
+ExpenseTrackerParser -> AddExpenseCommandParser
+activate AddExpenseCommandParser
+
+AddExpenseCommandParser --> ExpenseTrackerParser
+deactivate AddExpenseCommandParser
+
+ExpenseTrackerParser -> AddExpenseCommandParser : parse("n/Lunch a/20")
+activate AddExpenseCommandParser
+
+create AddExpenseCommand
+AddExpenseCommandParser -> AddExpenseCommand
+activate AddExpenseCommand
+
+AddExpenseCommand --> AddExpenseCommandParser : a
+deactivate AddExpenseCommand
+
+AddExpenseCommandParser --> ExpenseTrackerParser : a
+deactivate AddExpenseCommandParser
+destroy AddExpenseCommandParser
+
+ExpenseTrackerParser --> LogicManager : a
+deactivate ExpenseTrackerParser
+
+LogicManager -> AddExpenseCommand : execute(m)
+activate AddExpenseCommand
+
+AddExpenseCommand -> Model : addExpense(expense)
+activate Model
+
+Model -> DebtCalculator : calculate(allExpenses)
+activate DebtCalculator
+DebtCalculator --> Model : balances
+deactivate DebtCalculator
+
+Model --> AddExpenseCommand
+deactivate Model
+
+create CommandResult
+AddExpenseCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddExpenseCommand
+deactivate CommandResult
+
+AddExpenseCommand --> LogicManager : r
+deactivate AddExpenseCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "expense added"
+deactivate MainWindow
+
+@enduml
