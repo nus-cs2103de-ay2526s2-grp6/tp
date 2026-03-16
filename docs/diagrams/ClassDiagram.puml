@@ -1,0 +1,123 @@
+@startuml
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+
+skinparam class {
+    BackgroundColor #DDE8DC
+    BorderColor #5A8A6A
+    HeaderBackgroundColor #7AA882
+    FontColor #1E293B
+    AttributeFontColor #1E293B
+}
+
+' Top row: logic layer
+class ExpenseManager {
+    --
+    + addExpense(group: Group, description: String,\namount: double, payer: Person,\nparticipants: List<Person>,\nsplitType: SplitType): void
+    + deleteExpense(group: Group, expense: Expense): void
+    + editExpense(group: Group, expense: Expense): void
+    + markDebtSettled(debt: Debt): void
+    + renameGroup(group: Group, name: String): void
+    + searchExpenses(group: Group, keyword: String): List<Expense>
+}
+
+class DebtCalculator {
+    --
+    + computeBalances(group: Group): void
+    + simplifyDebts(group: Group): List<Debt>
+}
+
+class Storage {
+    --
+    + saveData(group: Group): void
+    + loadData(): Group
+}
+
+' Force top row left to right
+ExpenseManager -right[hidden]- DebtCalculator
+DebtCalculator -right[hidden]- Storage
+
+' Middle row: Group and Expense side by side
+class Group {
+    - name: String
+    - members: List<Person>
+    - expenses: List<Expense>
+    --
+    + addMember(p: Person): void
+    + removeMember(p: Person): void
+    + addExpense(e: Expense): void
+    + removeExpense(e: Expense): void
+    + rename(name: String): void
+    + getMembers(): List<Person>
+    + getExpenses(): List<Expense>
+}
+
+class Expense {
+    - description: String
+    - amount: double
+    - splitType: SplitType
+    - splitRatios: Map<Person, Double>
+    --
+    + getPayer(): Person
+    + getParticipants(): List<Person>
+    + getShareFor(p: Person): double
+    + getSplitType(): SplitType
+}
+
+' Force Group and Expense side by side
+Group -right[hidden]- Expense
+
+' Bottom row: Person, Debt, SplitType
+class Person {
+    - name: String
+    - balance: double
+    --
+    + getName(): String
+    + getBalance(): double
+    + adjustBalance(delta: double): void
+}
+
+class Debt {
+    - amount: double
+    - settled: boolean
+    --
+    + getDebtor(): Person
+    + getCreditor(): Person
+    + markSettled(): void
+    + isSettled(): boolean
+}
+
+enum SplitType {
+    EQUAL
+    CUSTOM_PERCENTAGE
+    CUSTOM_AMOUNT
+}
+
+' Force bottom row left to right
+Person -right[hidden]- Debt
+Debt -right[hidden]- SplitType
+
+' Logic layer -> middle row
+ExpenseManager -down-> Group : manages >
+ExpenseManager -down-> DebtCalculator : calls >
+ExpenseManager -down-> Storage : calls >
+
+' Group -> bottom row
+Group "1" *-down- "many" Person : has members
+Group "1" *-down- " many      " Expense : has expenses
+
+' Expense -> Person and SplitType
+Expense "many" -down-> "1" Person : paid by >
+Expense "many" .down.> "many" Person : involves >
+Expense -down-> SplitType : uses >
+
+' Debt -> Person
+Debt "many" -up-> "1" Person : debtor >
+Debt "many" -up-> "1" Person : creditor >
+
+ExpenseManager -right[hidden]- DebtCalculator
+DebtCalculator -right[hidden]- Storage
+
+@enduml

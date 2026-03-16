@@ -10,14 +10,14 @@
   - [UI Layer](#ui-layer)
   - [Storage layer](#storage-layer)
 - [4. UML Diagrams](#4-uml-diagrams)
-  - [4.1 Class Diagrams](#class-diagrams)
-  - [4.2 Sequence Diagrams](#sequence-diagrams)
-  - [4.3 Use Case Diagrams](#use-case-diagrams)
+  - [4.1 Class Diagrams](#class-diagram)
+  - [4.2 Sequence Diagrams](#sequence-diagram---add-expenses)
+  - [4.3 Use Case Diagrams](#use-case-diagram)
 - [5. Key Design Decisions](#5-key-design-decisions)
   - [5.1 Layered Architecture]( #layered-architecture)
 
 ## 1. System Overview
-The shared expense tracker is an application that enables groups of users to record, manage and settle shared expenses.
+The Shared Expense Tracker is an application that enables groups of users to record, manage and settle shared expenses.
 It targets friend groups, housemates and small teams who need to split costs without manual calculation.
 **The system allows users to:**
 - Create and manage expense groups with named members
@@ -27,21 +27,7 @@ It targets friend groups, housemates and small teams who need to split costs wit
 
 ## 2. Architecture Design
 # Architectural Pattern
-┌─────────────────────────────────────────────────────────┐
-│                       UI Layer                          │
-│         MainWindow | GroupPanel | ExpensePanel          │
-│                      DebtPanel                          │
-│                   (JavaFX + FXML)                       │
-├─────────────────────────────────────────────────────────┤
-│                      Logic Layer                        │
-│          ExpenseManager | DebtCalculator                │
-├─────────────────────────────────────────────────────────┤
-│                      Model Layer                        │
-│           Group | Person | Expense | Debt               │
-├─────────────────────────────────────────────────────────┤
-│                     Storage Layer                       │
-│                       Storage                           │
-└─────────────────────────────────────────────────────────┘
+![Architectural Pattern Diagram](diagrams/ArchitecturalPatternDiagram.png)
 Each layer communicates only with adjacent layers. The UI layer never directly addresses storage and the storage layer has no knowledge of the UI. 
 This separation makes the system easier to test and maintain. 
 
@@ -59,79 +45,29 @@ Built with JavaFX and FXML, each panel is a pair of a `.fxml` layout file and a 
 Handles reading and writing all application to local storage.
 
 ## 4. UML Diagrams
-# Class Diagrams
-┌──────────────────────────┐          ┌──────────────────────────────────────┐
-│          Group           │          │               Expense                │
-├──────────────────────────┤          ├──────────────────────────────────────┤
-│ - name: String           │  1    *  │ - description: String                │
-│ - members: List<Person>  │──────────│ - amount: double                     │
-│ - expenses: List<Expense>│          │ - payer: Person                      │
-├──────────────────────────┤          │ - participants: List<Person>         │
-│ + addMember(p)           │          │ - splitType: SplitType               │
-│ + removeMember(p)        │          │ - splitRatios: Map<Person, Double>   │
-│ + addExpense(e)          │          ├──────────────────────────────────────┤
-│ + removeExpense(e)       │          │ + getShareFor(p: Person): double     │
-│ + rename(name)           │          │ + getSplitType(): SplitType          │
-└──────────────────────────┘          └──────────────────────────────────────┘
-│ *                                        │ *        │ *
-│                                          │          │
-▼                               payer 1    ▼          ▼ participants *
-┌──────────────────────────┐          ┌──────────────────────────┐
-│          Person          │          │           Debt           │
-├──────────────────────────┤          ├──────────────────────────┤
-│ - name: String           │          │ - debtor: Person         │
-│ - balance: double        │◄─────────│ - creditor: Person       │
-├──────────────────────────┤   2      │ - amount: double         │
-│ + getName(): String      │          │ - settled: boolean       │
-│ + getBalance(): double   │          ├──────────────────────────┤
-│ + adjustBalance(delta)   │          │ + markSettled()          │
-└──────────────────────────┘          │ + isSettled(): boolean   │
-                                      └──────────────────────────┘
-**Relationships:**
-+ `Group` 1 — * `Expense` (one Group has many Expenses)
-+ `Group` 1 — * `Person` (one Group has many Persons)
-+ `Expense` * — 1 `Person` (many Expenses have one payer)
-+ `Expense` * — * `Person` (many Expenses involve many Persons as participants)
-+ `Debt` * — 2 `Person` (each Debt links one debtor and one creditor)
+# Class Diagram
+![Class Diagram](diagrams/ClassDiagram.png)
+The class diagram above illustrates the structure of the Shared Expense Tracker and the relationships between its core classes.
+- **ExpenseManager** sits at the top of the logic layer and coordinates all user operations. It manages the `Group`, calls `DebtCalculator` to recompute balances after every change and calls `Storage` to store the data between sessions.
+- **Group** is the central class, composing a list of `Person` members and a list of `Expense` records. It does not exist without both.
+- **Expense** records a single shared cost, referencing the `Person` who paid and the list of `Person` objects involved. It uses a `SplitType` enum to determine how the cost is divided.
+- **DebtCalculator** computes each `Person`'s net balance and simplifies all debts into the minimum number of `Debt` transactions needed to settle up.
+- **Debt** represents a single directional payment owed from one `Person` (debtor) to another (creditor) and tracks whether it has been settled.
+- **Storage** handles saving and loading all the data, ensuring that data persists between sessions.
 
-# Sequence Diagrams
+# Sequence Diagram - Add Expenses
+![Sequence Diagram](diagrams/SequenceDiagram.png)
+The sequence diagram above illustrates the interactions between components when a user adds a new expense.
+1. The user fills in the expense form on `ExpensePanel` and clicks Add.
+2. `ExpensePanel` calls `addExpense()` on `ExpenseManager`.
+3. `ExpenseManager` validates the input, creates a new `Expense` object and adds it to the `Group`.
+4. `ExpenseManager` calls `computeBalances()` on `DebtCalculator`, which updates each member's net balance(`update()`) and returns the simplified debt list.
+5. `ExpenseManager` calls `saveData()` on `Storage` to persist the updated state to disk.
+6. `ExpenseManager` calls `refreshUI()` on `ExpensePanel`, which displays the updated expense list  to the user.
 
-User          ExpensePanel      ExpenseManager             DebtCalculator     Storage
-|                 |                  |                           |               |
-|--[fill form]--> |                  |                           |               |
-|--[click Add]--> |                  |                           |               |
-|                 |--addExpense()--> |                           |               |
-|                 |                  |--validate()               |               |
-|                 |                  |--new Expense()            |               |
-|                 |                  |--group.addExpense(expense)|               |
-|                 |                  |--computeBalances()------->|               |
-|                 |                  |                           |--update()     |
-|                 |                  |<-----------return debts   |               |
-|                 |                  |--saveData()------------------------------>|
-|                 |<--refreshUI()----|                           |               |
-|<--updated list--|                  |                           |               |
-
-# Use Case Diagrams
-
-                    ┌─────────────────────────────────────────┐
-                    │          Shared Expense Tracker         │
-                    │                                         │
-                    │  ○ Create Group                         │
-                    │  ○ Rename Group                         │
-                    │  ○ Add Member                           │
-                    │  ○ Add Expense                          │
-[User] ─────────────│  ○ Edit Expense                         │
-                    │  ○ Delete Expense (with confirmation)   │
-                    │  ○ View Expense List                    │
-                    │  ○ View Balances                        │
-                    │  ○ Mark Debt as Settled                 │
-                    │  ○ Search Expenses                      │
-                    │  ○ Choose Split Method                  │
-                    │                                         │
-                    │  ○ Auto-calculate Balances  ◄─[System]  │
-                    │  ○ Auto-save Data           ◄─[System]  │
-                    │  ○ Auto-load Data           ◄─[System]  │
-                    └─────────────────────────────────────────┘
+# Use Case Diagram
+![Use Case Diagram](diagrams/UseCaseDiagram.png)
+The use case diagram above illustrates the set of sequence of actions that both the user and system perform in the Shared Expense Tracker. 
 
 ## 5. Key Design Decisions
 # Layered Architecture
