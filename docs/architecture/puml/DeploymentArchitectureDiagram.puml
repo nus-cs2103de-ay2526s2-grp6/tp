@@ -1,0 +1,17 @@
+@startuml
+!include style.puml
+skinparam nodesep 50
+skinparam ranksep 50
+
+node "User's Computer" <<device>> as UserPC {
+    node "OS (Windows / macOS / Linux)" <<executionEnvironment>> as OS {
+        node "Java 21 Runtime" <<executionEnvironment>> as JRE {
+            artifact "SharedExpenseTracker.jar" as App
+        }
+    }
+}
+
+file "data/tracker.txt" as StorageFile
+
+App -right-> StorageFile : " Reads/Writes to local disk"
+@enduml
