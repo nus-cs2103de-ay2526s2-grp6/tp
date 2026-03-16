@@ -1,0 +1,52 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor UI_COLOR_4
+skinparam classBackgroundColor UI_COLOR
+
+package UI <<Rectangle>>{
+    Class "<<interface>>\nUi" as Ui
+    Class MainWindow
+    Class ExpenseListPanel
+    Class ExpenseCard
+    Class BalancePanel
+    Class ResultDisplay
+    Class CommandBox
+    Class HelpWindow
+}
+
+package Model <<Rectangle>> {
+    Class HiddenModel #FFFFFF
+}
+
+package Logic <<Rectangle>> {
+    Class HiddenLogic #FFFFFF
+}
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Ui
+
+' MainWindow implements UI interface
+MainWindow .up.|> Ui
+
+MainWindow *-down-> "1" ExpenseListPanel
+MainWindow *-down-> "1" BalancePanel
+MainWindow *-down-> "1" ResultDisplay
+MainWindow *-down-> "1" CommandBox
+MainWindow *-down-> "0..1" HelpWindow
+
+' Scroll pane contains multiple expense cards
+ExpenseListPanel -down-> "*" ExpenseCard
+
+ExpenseCard ..> Model
+BalancePanel ..> Model
+
+' MainWindow passes the user input to Logic
+MainWindow -right-> Logic
+
+' Hints to keep the diagram wide and readable
+ExpenseListPanel -[hidden]right- BalancePanel
+BalancePanel -[hidden]right- ResultDisplay
+ResultDisplay -[hidden]right- CommandBox
+
+@enduml
