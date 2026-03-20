@@ -17,4 +17,8 @@ public class FilterCommand extends Command {
         model.filterExpenses(predicate);
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+    public Predicate<Expense> getPredicate() {
+        return predicate;
+    }
 }
