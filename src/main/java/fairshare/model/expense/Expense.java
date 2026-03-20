@@ -22,14 +22,22 @@ public class Expense {
     }
 
     public Person getPayer() {
-        return payer;
+        return this.payer;
     }
 
     public List<Person> getParticipants() {
-        return participants;
+        return this.participants;
     }
 
     public double getAmount() {
-        return amount;
+        return this.amount;
+    }
+
+    public String getExpenseName() {
+        return this.expenseName;
+    }
+
+    public List<Tag> getTags() {
+        return this.tags;
     }
 }

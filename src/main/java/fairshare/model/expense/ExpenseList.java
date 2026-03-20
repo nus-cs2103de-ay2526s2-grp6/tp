@@ -1,13 +1,17 @@
 package fairshare.model.expense;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public class ExpenseList {
-    private final List<Expense> expenses;
+    private final ObservableList<Expense> expenses;
+    private final ObservableList<Expense> unmodifiableExpenses;
 
     public ExpenseList() {
-        this.expenses = new ArrayList<>();
+        this.expenses = FXCollections.observableArrayList();
+        this.unmodifiableExpenses = FXCollections.unmodifiableObservableList(expenses);
     }
 
     public void addExpense(Expense expense) {
@@ -20,5 +24,9 @@ public class ExpenseList {
 
     public List<Expense> getExpenseList() {
         return this.expenses;
+    }
+
+    public ObservableList<Expense> getUnmodifiableExpenseList() {
+        return unmodifiableExpenses;
     }
 }
