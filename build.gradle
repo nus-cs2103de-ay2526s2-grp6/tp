@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
@@ -9,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    String javaFxVersion = '21.0.1'
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
 }
@@ -27,12 +30,17 @@ test {
     }
 }
 
+javafx {
+    version = '21.0.1'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
+}
+
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("fairshare.Main")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "fairshare"
     archiveClassifier = null
 }
 
