@@ -8,6 +8,7 @@ import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
@@ -24,6 +25,9 @@ public class CommandBox {
 
     @FXML
     private TextField commandTextField;
+
+    @FXML
+    private Button sendButton;
 
     /**
      * Constructs a {@code CommandBox} with the given command executor.
@@ -60,16 +64,20 @@ public class CommandBox {
     @FXML
     private void handleCommandEntered() {
         String commandText = commandTextField.getText();
+        System.out.println("handleCommandEntered called, text: " + commandText);
 
         if (commandText.isBlank()) {
+            System.out.println("Text is blank, returning");
             return;
         }
 
         try {
+            System.out.println("Executing command: " + commandText);
             commandExecutor.execute(commandText);
             commandTextField.setText("");
             commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
         } catch (CommandException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
             if (!commandTextField.getStyleClass().contains(
                     ERROR_STYLE_CLASS)) {
                 commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
@@ -93,5 +101,12 @@ public class CommandBox {
          */
         CommandResult execute(String commandText)
                 throws CommandException, ParseException;
+    }
+
+    @FXML
+    private void initialize() {
+        System.out.println("initialize() called");
+        commandTextField.setOnAction(event -> handleCommandEntered());
+        sendButton.setOnAction(event -> handleCommandEntered());
     }
 }

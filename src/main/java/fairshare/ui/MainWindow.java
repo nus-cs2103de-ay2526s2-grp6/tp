@@ -9,6 +9,8 @@ import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -54,7 +56,9 @@ public class MainWindow {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     MainWindow.class.getResource(FXML));
             fxmlLoader.setController(this);
-            fxmlLoader.load();
+            Parent root = fxmlLoader.load();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("FairShare");
         } catch (IOException e) {
             throw new UiException("Failed to load " + FXML, e);
         }
@@ -89,6 +93,8 @@ public class MainWindow {
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(
                 commandBox.getRoot());
+
+        System.out.println("commandBoxPlaceholder: " + commandBoxPlaceholder);
     }
 
     /**
