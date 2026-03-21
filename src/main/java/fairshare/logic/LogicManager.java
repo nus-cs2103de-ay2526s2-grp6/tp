@@ -1,11 +1,17 @@
 package fairshare.logic;
 
+import javafx.collections.ObservableList;
+
 import fairshare.logic.commands.Command;
 import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.FairShareParser;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.Model;
+import fairshare.model.balance.Balance;
+import fairshare.model.expense.Expense;
+
+import java.util.List;
 
 public class LogicManager implements Logic {
     private FairShareParser fairShareParser;
@@ -24,5 +30,15 @@ public class LogicManager implements Logic {
         // storage.saveExpenseList
 
         return cmdResult;
+    }
+
+    @Override
+    public ObservableList<Expense> getFilteredExpenseList() {
+        return model.getFilteredExpenseList();
+    }
+
+    @Override
+    public List<Balance> calculateBalances() {
+        return model.calculateBalances();
     }
 }
