@@ -6,23 +6,39 @@ plugins {
     id 'checkstyle'
 }
 
+repositories {
+    mavenCentral()
+}
+
 javafx {
     version = '21.0.1'
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics']
 }
 
 checkstyle {
     toolVersion = '11.0.0'
 }
 
-repositories {
-    mavenCentral()
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
 }
 
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
-    testImplementation("org.mockito:mockito-core:5.8.0")
+    testImplementation 'org.mockito:mockito-core:5.8.0'
 }
 
 test {
@@ -30,18 +46,12 @@ test {
 
     testLogging {
         events "passed", "skipped", "failed"
-
         showExceptions true
         exceptionFormat "full"
         showCauses true
         showStackTraces true
         showStandardStreams = false
     }
-}
-
-javafx {
-    version = '21.0.1'
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
 }
 
 application {
@@ -51,8 +61,4 @@ application {
 shadowJar {
     archiveBaseName = "fairshare"
     archiveClassifier = null
-}
-
-run{
-    standardInput = System.in
 }

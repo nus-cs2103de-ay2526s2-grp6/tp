@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      prefWidth="900" prefHeight="600">
+
+    <SplitPane VBox.vgrow="ALWAYS">
+        <StackPane fx:id="expenseListPanelPlaceholder"
+                   prefWidth="600"/>
+        <StackPane fx:id="balancePanelPlaceholder"
+                   prefWidth="300"/>
+    </SplitPane>
+
+    <StackPane fx:id="resultDisplayPlaceholder"
+               prefHeight="80"/>
+
+    <StackPane fx:id="commandBoxPlaceholder"
+               prefHeight="40"/>
+
+</VBox>

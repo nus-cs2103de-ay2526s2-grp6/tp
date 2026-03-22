@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<HBox xmlns:fx="http://javafx.com/fxml"
+      spacing="10" padding="5">
+    <Label fx:id="indexLabel"/>
+    <VBox spacing="3">
+        <Label fx:id="expenseNameLabel"
+               style="-fx-font-weight: bold;"/>
+        <Label fx:id="amountLabel"/>
+        <Label fx:id="payerLabel"/>
+        <Label fx:id="participantsLabel"/>
+        <Label fx:id="tagsLabel"/>
+    </VBox>
+</HBox>
