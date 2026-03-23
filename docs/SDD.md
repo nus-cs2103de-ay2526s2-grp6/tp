@@ -10,8 +10,8 @@
   - [UI Layer](#ui-layer)
   - [Storage layer](#storage-layer)
 - [4. UML Diagrams](#4-uml-diagrams)
-  - [4.1 Class Diagrams](#class-diagram)
-  - [4.2 Sequence Diagrams](#sequence-diagram---add-expenses)
+  - [4.1 Class Diagrams](#class-diagrams)
+  - [4.2 Sequence Diagrams](#sequence-diagrams-)
   - [4.3 Use Case Diagrams](#use-case-diagram)
 - [5. Key Design Decisions](#5-key-design-decisions)
   - [5.1 Layered Architecture]( #layered-architecture)
@@ -83,25 +83,41 @@ Handles reading and writing all expense data to a local plain-text file.
   representations of model objects
 
 ## 4. UML Diagrams
-# Class Diagram
-![Class Diagram](diagrams/ClassDiagram.png)
-The class diagram above illustrates the structure of the Shared Expense Tracker and the relationships between its core classes.
-- **ExpenseManager** sits at the top of the logic layer and coordinates all user operations. It manages the `Group`, calls `DebtCalculator` to recompute balances after every change and calls `Storage` to store the data between sessions.
-- **Group** is the central class, composing a list of `Person` members and a list of `Expense` records. It does not exist without both.
-- **Expense** records a single shared cost, referencing the `Person` who paid and the list of `Person` objects involved. It uses a `SplitType` enum to determine how the cost is divided.
-- **DebtCalculator** computes each `Person`'s net balance and simplifies all debts into the minimum number of `Debt` transactions needed to settle up.
-- **Debt** represents a single directional payment owed from one `Person` (debtor) to another (creditor) and tracks whether it has been settled.
-- **Storage** handles saving and loading all the data, ensuring that data persists between sessions.
+# Class Diagrams
+The system is organized into four layers. Each layer's class diagram
+is shown below.
 
-# Sequence Diagram - Add Expenses
-![Sequence Diagram](diagrams/SequenceDiagram.png)
-The sequence diagram above illustrates the interactions between components when a user adds a new expense.
-1. The user fills in the expense form on `ExpensePanel` and clicks Add.
-2. `ExpensePanel` calls `addExpense()` on `ExpenseManager`.
-3. `ExpenseManager` validates the input, creates a new `Expense` object and adds it to the `Group`.
-4. `ExpenseManager` calls `computeBalances()` on `DebtCalculator`, which updates each member's net balance(`update()`) and returns the simplified debt list.
-5. `ExpenseManager` calls `saveData()` on `Storage` to persist the updated state to disk.
-6. `ExpenseManager` calls `refreshUI()` on `ExpensePanel`, which displays the updated expense list  to the user.
+**UI Layer:**
+![UI Class Diagram](architecture/UiClassDiagram.png)
+
+**Logic Layer:**
+![Logic Class Diagram](architecture/LogicClassDiagram.png)
+
+**Model Layer:**
+![Model Class Diagram](architecture/ModelClassDiagram.png)
+
+**Storage Layer:**
+![Storage Class Diagram](architecture/StorageClassDiagram.png)
+
+# Sequence Diagrams 
+**Add Expense:**
+![Add Expense Sequence Diagram](architecture/AddExpenseSequenceDiagram.png)
+
+The sequence diagram above illustrates the flow when a user types
+`add n/Lunch a/20.0 p/alice s/alice s/bob t/food`:
+1. User types the command into `MainWindow`
+2. `MainWindow` calls `execute()` on `LogicManager`
+3. `LogicManager` passes the input to `FairShareParser`
+4. `FairShareParser` creates `AddCommandParser` which parses the
+   arguments and creates `AddCommand`
+5. `LogicManager` calls `execute(model)` on `AddCommand`
+6. `AddCommand` calls `addExpense()` on `Model`
+7. `Model` calls `DebtCalculator.calculate()` to recompute balances
+8. `LogicManager` calls `saveExpenseTracker()` on `Storage`
+9. `MainWindow` refreshes all UI panels
+
+**Delete Expense:**
+![Delete Expense Sequence Diagram](architecture/DeleteExpenseSequenceDiagram.png)
 
 # Use Case Diagram
 ![Use Case Diagram](diagrams/UseCaseDiagram.png)

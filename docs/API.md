@@ -5,49 +5,38 @@ This document provides a high-level overview of the internal component interface
 ---
 
 ## 1. Logic Component
-The Logic component is the primary interface between the UI and the data. It processes user input and returns system feedback.
 
 ### Key Methods
-* `execute(String commandText)`
-    * **Returns**: `CommandResult`
-    * **Throws**: `ParseException`
-    * **Role**: Orchestrates the parsing of user input and the execution of resulting commands against the Model.
-* `getFilteredExpenseList()`
-    * **Returns**: `ArrayList<Expense>`
-    * **Role**: Provides a live-updating list of expenses for display in the main UI panel.
-* `getBalances()`
-    * **Returns**: `ArrayList<Balance>`
-    * **Role**: Provides the calculated net totals for all persons based on the current filtered view.
-
----
+- `execute(String userInput)` — Returns `CommandResult`, throws
+  `ParseException`, `CommandException`. Parses and executes the
+  command against the Model, then saves state to Storage.
+- `getFilteredExpenseList()` — Returns `ObservableList<Expense>`.
+  Provides the current filtered expense list for the UI.
+- `calculateBalances()` — Returns `List<Balance>`. Returns the
+  simplified debt settlement list.
 
 ## 2. Model Component
-The Model maintains the state of the application and handles data integrity and calculations.
 
 ### Key Methods
-* `addExpense(double e)`
-    * **Role**: Appends a new expense to the internal list and triggers a debt recalculation.
-* `deleteExpense(int i)`
-    * **Role**: Removes the expense at the specified index and refreshes the balance list.
-* `updateFilteredList(Predicate p)`
-    * **Role**: Filters the visible data based on user search criteria or tags (e.g., `t/TurkeyTrip`).
-
----
+- `addExpense(Expense expense)` — Adds expense to the list.
+- `deleteExpense(int index)` — Removes expense at the given index,
+  returns the deleted `Expense`.
+- `filterExpenses(Predicate<Expense> predicate)` — Filters the
+  visible expense list.
+- `getFilteredExpenseList()` — Returns `ObservableList<Expense>`.
+- `calculateBalances()` — Returns `List<Balance>`.
 
 ## 3. Storage Component
-The Storage component manages the loading and saving of the expense list.
 
 ### Key Methods
-* `readExpenseTracker()`
-    * **Role**: Parses the `data/tracker.txt` file and returns a `ReadOnlyExpenseTracker` object.
-* `saveExpenseTracker(tracker)`
-    * **Role**: Converts the current state into a pipe-delimited string format and writes it to disk.
-
----
+- `readExpenseTracker()` — Returns `List<Expense>`, throws
+  `StorageException`. Reads from `data/expenses.txt`.
+- `saveExpenseTracker(List<Expense> expenses)` — throws
+  `StorageException`. Writes to `data/expenses.txt` in
+  pipe-delimited format.
 
 ## 4. Custom Exceptions
-The system uses the following exceptions to maintain stability:
-
-* **InvalidCommandException**: Used by the Logic component when user input does not match the expected command syntax.
-* **IllegalValueException**: Used by the Model when certain rules are violated (e.g., sharing an expense with zero people).
-* **CorruptedFileException**: Used by Storage when the local file is corrupted or unparseable.
+- `ParseException` — thrown when user input cannot be parsed
+- `CommandException` — thrown when a valid command fails to execute
+- `StorageException` — thrown when file read/write fails
+- `UiException` — thrown when an FXML file cannot be loaded
