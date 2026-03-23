@@ -127,6 +127,10 @@ public class MainWindow implements Ui {
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        } catch (Exception e) {
+            resultDisplay.setFeedbackToUser(
+                    "Error: " + e.getMessage());
+            throw new CommandException(e.getMessage());
         }
     }
 }

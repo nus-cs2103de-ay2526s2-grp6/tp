@@ -78,6 +78,11 @@ public class CommandBox {
                     ERROR_STYLE_CLASS)) {
                 commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
             }
+        } catch (Exception e) {
+            if (!commandTextField.getStyleClass().contains(
+                    ERROR_STYLE_CLASS)) {
+                commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
+            }
         }
     }
 
