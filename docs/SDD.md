@@ -3,18 +3,21 @@
 ## Table of Contents
 - [1. System Overview](#1-system-overview)
 - [2. Architecture Design](#2-architecture-design)
-  - [2.1 Architectural Pattern](#architectural-pattern)
+  - [2.1 Architectural Pattern](#21-architectural-pattern)
 - [3. Major System Components](#3-major-system-components)
-  - [Model Layer](#model-layer)
-  - [Logic Layer](#logic-layer)
-  - [UI Layer](#ui-layer)
-  - [Storage layer](#storage-layer)
+  - [3.1 Model Layer](#31-model-layer)
+  - [3.2 Logic Layer](#32-logic-layer)
+  - [3.3 UI Layer](#33-ui-layer)
+  - [3.4 Storage layer](#34-storage-layer)
 - [4. UML Diagrams](#4-uml-diagrams)
-  - [4.1 Class Diagrams](#class-diagrams)
-  - [4.2 Sequence Diagrams](#sequence-diagrams-)
-  - [4.3 Use Case Diagrams](#use-case-diagram)
+  - [4.1 Class Diagrams](#41-class-diagrams)
+  - [4.2 Sequence Diagrams](#42-sequence-diagrams-)
+  - [4.3 Use Case Diagrams](#43-use-case-diagram)
 - [5. Key Design Decisions](#5-key-design-decisions)
-  - [5.1 Layered Architecture]( #layered-architecture)
+  - [5.1 Layered Architecture]( #51-layered-architecture)
+  - [5.2 Command Pattern for Logic](#52-command-pattern-for-logic)
+  - [5.3 Plain-text Storage](#53-plain-text-storage)
+  - [5.4 JavaFX ObservableList for UI Binding](#54-javafx-observablelist-for-ui-binding)
 
 ## 1. System Overview
 The Shared Expense Tracker is an application that enables groups of users to record, manage and settle shared expenses.
@@ -30,13 +33,14 @@ It targets friend groups, housemates and small teams who need to split costs wit
 - Access a help window listing all available commands
 
 ## 2. Architecture Design
-### Architectural Pattern
+### 2.1 Architectural Pattern
 ![Architectural Pattern Diagram](diagrams/ArchitecturalPatternDiagram.png)
+
 Each layer communicates only with adjacent layers. The UI layer never directly addresses storage and the storage layer has no knowledge of the UI. 
 This separation makes the system easier to test and maintain. 
 
 ## 3. Major System Components
-### Model Layer
+### 3.1 Model Layer
 The model layer contains pure data classes with no business logic or UI
 dependencies. Key classes:
 - `Expense` — stores expense name, amount, payer, participants and tags
@@ -47,7 +51,7 @@ dependencies. Key classes:
 - `ModelManager` — implements `Model`, manages `ExpenseList` and
   `FilteredList`
 
-### Logic Layer
+### 3.2 Logic Layer
 The logic layer processes all user commands. It follows the Command
 Pattern — each command is parsed into a `Command` object and executed
 against the `Model`.
@@ -60,7 +64,7 @@ against the `Model`.
   execute operations against the model
 - `CommandResult` — wraps the feedback string returned after execution
 
-### UI Layer
+### 3.3 UI Layer
 Built with JavaFX and FXML. Each component loads its own `.fxml` file
 using `FXMLLoader`.
 - `MainWindow` — root window, implements `Ui`, holds all sub-panels
@@ -72,7 +76,7 @@ using `FXMLLoader`.
 - `CommandBox` — accepts user text input, executes on Enter or button
 - `HelpWindow` — separate popup window listing all available commands
 
-### Storage Layer
+### 3.4 Storage Layer
 Handles reading and writing all expense data to a local plain-text file.
 - `StorageManager` — implements `Storage`, delegates to
   `TxtExpenseTrackerStorage`
@@ -83,7 +87,7 @@ Handles reading and writing all expense data to a local plain-text file.
   representations of model objects
 
 ## 4. UML Diagrams
-### Class Diagrams
+### 4.1 Class Diagrams
 The system is organized into four layers. Each layer's class diagram
 is shown below.
 
@@ -99,7 +103,7 @@ is shown below.
 **Storage Layer:**
 ![Storage Class Diagram](architecture/StorageClassDiagram.png)
 
-### Sequence Diagrams 
+### 4.2 Sequence Diagrams 
 **Add Expense:**
 ![Add Expense Sequence Diagram](architecture/AddExpenseSequenceDiagram.png)
 
@@ -119,8 +123,9 @@ The sequence diagram above illustrates the flow when a user types
 **Delete Expense:**
 ![Delete Expense Sequence Diagram](architecture/DeleteExpenseSequenceDiagram.png)
 
-### Use Case Diagram
+### 4.3 Use Case Diagram
 ![Use Case Diagram](diagrams/UseCaseDiagram.png)
+
 The use case diagram above illustrates the set of sequence of actions that both the user and system perform in the Shared Expense Tracker. 
 
 ## 5. Key Design Decisions
@@ -141,7 +146,7 @@ the Open-Closed principle.
 
 ### 5.3 Plain-Text Storage
 **Decision:** Persist data as a pipe-delimited `.txt` file using custom
-serialisation.
+serialization.
 **Rationale:** Simple to implement and debug without external
 dependencies. Each expense is stored as one line in the format
 `name|amount|payer|shares|tags`.

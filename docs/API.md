@@ -3,10 +3,18 @@
 This document provides a high-level overview of the internal component interfaces and their interactions.
 
 ---
+## Table of Contents
+- [1. Logic Component](#1-logic-component)
+  - [Key Methods](#11-key-methods)
+- [2. Model Component](#2-model-component)
+  - [2.1 Key Methods](#21-key-methods)
+- [3. Storage Component](#3-storage-component)
+  - [3.1 Key Methods](#31-key-methods)
+- [4. Custom Exceptions](#4-custom-exceptions)
 
 ## 1. Logic Component
 
-### Key Methods
+### 1.1 Key Methods
 - `execute(String userInput)` — Returns `CommandResult`, throws
   `ParseException`, `CommandException`. Parses and executes the
   command against the Model, then saves state to Storage.
@@ -17,7 +25,7 @@ This document provides a high-level overview of the internal component interface
 
 ## 2. Model Component
 
-### Key Methods
+### 2.1 Key Methods
 - `addExpense(Expense expense)` — Adds expense to the list.
 - `deleteExpense(int index)` — Removes expense at the given index,
   returns the deleted `Expense`.
@@ -28,7 +36,7 @@ This document provides a high-level overview of the internal component interface
 
 ## 3. Storage Component
 
-### Key Methods
+### 3.1 Key Methods
 - `readExpenseTracker()` — Returns `List<Expense>`, throws
   `StorageException`. Reads from `data/expenses.txt`.
 - `saveExpenseTracker(List<Expense> expenses)` — throws
