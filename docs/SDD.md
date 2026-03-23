@@ -64,6 +64,9 @@ against the `Model`.
 - `AddCommand`, `DeleteCommand`, `FilterCommand`, `ListCommand` —
   execute operations against the model
 - `CommandResult` — wraps the feedback string returned after execution
+- `ParserUtil` — utility class providing shared parsing methods such
+  as tokenizing command arguments, extracting field values and
+  validating input formats
 
 ### 3.3 UI Layer
 Built with JavaFX and FXML. Each component loads its own `.fxml` file
@@ -124,10 +127,40 @@ The sequence diagram above illustrates the flow when a user types
 **Delete Expense:**
 ![Delete Expense Sequence Diagram](architecture/DeleteExpenseSequenceDiagram.png)
 
+The sequence diagram above illustrates the flow when a user types
+`delete 1`:
+1. User types the command into `MainWindow`
+2. `MainWindow` calls `execute()` on `LogicManager`
+3. `LogicManager` passes the input to `FairShareParser`
+4. `FairShareParser` creates `DeleteCommandParser` which parses the
+   index argument and creates `DeleteCommand`
+5. `LogicManager` calls `execute(model)` on `DeleteCommand`
+6. `DeleteCommand` calls `deleteExpense(targetIndex)` on `Model`
+7. `Model` calls `DebtCalculator.calculate()` to recompute balances
+   with the remaining expenses
+8. `LogicManager` calls `saveExpenseTracker()` on `Storage` to
+   persist the updated state
+9. `MainWindow` refreshes all UI panels and displays
+   "expense deleted"
+
 ### 4.3 Use Case Diagram
 ![Use Case Diagram](diagrams/UseCaseDiagram.png)
 
-The use case diagram above illustrates the set of sequence of actions that both the user and system perform in the Shared Expense Tracker. 
+The use case diagram above shows all interactions between actors and
+the system in the current implementation.
+
+**User** can:
+- Add an expense specifying name, amount, payer, participants and tags
+- Delete an expense by index
+- List all expenses
+- Filter expenses by name, payer, participant or tag
+- View the balance summary showing who owes whom
+- Open the help window to view all available commands
+
+**System** automatically:
+- Recalculates balances after every add or delete
+- Saves data to disk after every command
+- Loads saved data on application startup 
 
 ## 5. Key Design Decisions
 
