@@ -29,6 +29,7 @@ public class MainWindow implements Ui {
     private BalancePanel balancePanel;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
+    private HelpWindow helpWindow;
 
     @FXML
     private StackPane expenseListPanelPlaceholder;
@@ -74,7 +75,7 @@ public class MainWindow implements Ui {
     }
 
     /**
-     * Injects all sub-components into their placeholders.
+     * Injects all subcomponents into their placeholders.
      */
     public void fillInnerParts() {
         expenseListPanel = new ExpenseListPanel(
@@ -93,6 +94,8 @@ public class MainWindow implements Ui {
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(
                 commandBox.getRoot());
+
+        helpWindow = new HelpWindow(primaryStage);
     }
 
     /**
@@ -113,8 +116,13 @@ public class MainWindow implements Ui {
      */
     private CommandResult executeCommand(String commandText)
             throws CommandException, ParseException {
-        CommandResult result = logic.execute(commandText);
 
+        if (commandText.trim().equals("help")) {
+            helpWindow.show();
+            return new CommandResult("Opened help window.");
+        }
+
+        CommandResult result = logic.execute(commandText);
         resultDisplay.setFeedbackToUser(result.getResponse());
         expenseListPanel.refresh(logic.getFilteredExpenseList());
         balancePanel.refresh(logic.calculateBalances());

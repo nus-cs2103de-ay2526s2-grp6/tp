@@ -83,12 +83,10 @@ public class BalancePanel {
             if (isEmpty || balance == null) {
                 setGraphic(null);
                 setText(null);
+                setStyle("-fx-padding: 0;");
             } else {
-                setText(balance.getDebtor().getName()
-                        + " owes "
-                        + balance.getCreditor().getName()
-                        + " $"
-                        + String.format("%.2f", balance.getAmount()));
+                setGraphic(new BalanceCard(balance).getRoot());
+                setStyle("-fx-pdding: 4 8 4 8;");
             }
         }
     }

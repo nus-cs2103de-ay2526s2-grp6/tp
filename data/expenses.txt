@@ -1,1 +1,1 @@
-Lunch|20.0|alice|alice,bob|food
+travel|40.0|jamie|jamie,sally|travel
