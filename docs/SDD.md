@@ -1,4 +1,4 @@
-### Software Design Documentation (SDD)
+# Software Design Documentation (SDD)
 
 ## Table of Contents
 - [1. System Overview](#1-system-overview)
@@ -30,7 +30,7 @@ It targets friend groups, housemates and small teams who need to split costs wit
 - Access a help window listing all available commands
 
 ## 2. Architecture Design
-# Architectural Pattern
+### Architectural Pattern
 ![Architectural Pattern Diagram](diagrams/ArchitecturalPatternDiagram.png)
 Each layer communicates only with adjacent layers. The UI layer never directly addresses storage and the storage layer has no knowledge of the UI. 
 This separation makes the system easier to test and maintain. 
@@ -83,7 +83,7 @@ Handles reading and writing all expense data to a local plain-text file.
   representations of model objects
 
 ## 4. UML Diagrams
-# Class Diagrams
+### Class Diagrams
 The system is organized into four layers. Each layer's class diagram
 is shown below.
 
@@ -99,7 +99,7 @@ is shown below.
 **Storage Layer:**
 ![Storage Class Diagram](architecture/StorageClassDiagram.png)
 
-# Sequence Diagrams 
+### Sequence Diagrams 
 **Add Expense:**
 ![Add Expense Sequence Diagram](architecture/AddExpenseSequenceDiagram.png)
 
@@ -119,7 +119,7 @@ The sequence diagram above illustrates the flow when a user types
 **Delete Expense:**
 ![Delete Expense Sequence Diagram](architecture/DeleteExpenseSequenceDiagram.png)
 
-# Use Case Diagram
+### Use Case Diagram
 ![Use Case Diagram](diagrams/UseCaseDiagram.png)
 The use case diagram above illustrates the set of sequence of actions that both the user and system perform in the Shared Expense Tracker. 
 
@@ -151,5 +151,3 @@ dependencies. Each expense is stored as one line in the format
 the expense list.
 **Rationale:** JavaFX `ListView` automatically reflects changes to an
 `ObservableList`, reducing the need for manual UI refresh calls.
-
-----*End of document*----
