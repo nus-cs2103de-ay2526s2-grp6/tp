@@ -35,15 +35,14 @@ public class FairShare extends Application {
      */
     @Override
     public void init() throws Exception {
-        storage = new StorageManager(
-                new TxtExpenseTrackerStorage(DATA_FILE_PATH));
-        Model model = new ModelManager();
+        storage = new StorageManager(new TxtExpenseTrackerStorage(DATA_FILE_PATH));
 
+        Model model;
         try {
             List<Expense> savedExpenses = storage.readExpenseTracker();
-            savedExpenses.forEach(model::addExpense);
+            model = new ModelManager(savedExpenses);
         } catch (StorageException e) {
-            System.out.println("Could not load saved data: " + e.getMessage());
+            model = new ModelManager();
         }
 
         logic = new LogicManager(model, storage);
