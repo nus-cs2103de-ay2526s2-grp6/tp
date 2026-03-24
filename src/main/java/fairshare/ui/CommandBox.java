@@ -64,20 +64,21 @@ public class CommandBox {
     @FXML
     private void handleCommandEntered() {
         String commandText = commandTextField.getText();
-        System.out.println("handleCommandEntered called, text: " + commandText);
 
         if (commandText.isBlank()) {
-            System.out.println("Text is blank, returning");
             return;
         }
 
         try {
-            System.out.println("Executing command: " + commandText);
             commandExecutor.execute(commandText);
             commandTextField.setText("");
             commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
         } catch (CommandException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
+            if (!commandTextField.getStyleClass().contains(
+                    ERROR_STYLE_CLASS)) {
+                commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
+            }
+        } catch (Exception e) {
             if (!commandTextField.getStyleClass().contains(
                     ERROR_STYLE_CLASS)) {
                 commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);

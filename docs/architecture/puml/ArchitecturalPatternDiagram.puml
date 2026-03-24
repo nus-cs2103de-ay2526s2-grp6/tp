@@ -1,0 +1,43 @@
+@startuml
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam nodesep 50
+skinparam ranksep 50
+allowmixing
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+skinparam Component {
+    BackgroundColor #FFFFFF
+    BorderColor #888888
+    FontColor #000000
+}
+
+Package "Shared Expense Tracker" <<Rectangle>> {
+    Component UI #83E769
+    Component Logic #C8C8FA
+    Component Storage #FFE374
+    Component Model #F97181
+    Component Main #CCCCCC
+}
+
+Rectangle User
+File "data/expenses.txt" as textFile
+
+User .right.> UI
+
+UI -[#1D8900]-> Logic
+UI .[#1D8900].> Model
+
+Logic -down[#3333C4]-> Storage
+Logic -down[#3333C4]-> Model
+
+Main -up[#888888]-> UI
+Main -up[#888888]-> Logic
+Main -right[#888888]-> Model
+Main -down[#888888]-> Storage
+
+Storage .[#A38300].> textFile
+
+@enduml

@@ -10,6 +10,7 @@ package UI <<Rectangle>>{
     Class ExpenseListPanel
     Class ExpenseCard
     Class BalancePanel
+    Class BalanceCard
     Class ResultDisplay
     Class CommandBox
     Class HelpWindow
@@ -37,9 +38,10 @@ MainWindow *-down-> "0..1" HelpWindow
 
 ' Scroll pane contains multiple expense cards
 ExpenseListPanel -down-> "*" ExpenseCard
+BalancePanel -down-> "*" BalanceCard
 
 ExpenseCard ..> Model
-BalancePanel ..> Model
+BalanceCard ..> Model
 
 ' MainWindow passes the user input to Logic
 MainWindow -right-> Logic

@@ -1,4 +1,4 @@
-### Project Roadmap (timeline)
+# Project Roadmap (timeline)
 
 ## Week 7:
 + Create user stories and segregate into must-have and should-have sections
@@ -29,5 +29,3 @@
 + Create user guide
 + Create developer guide 
 + Release workable JAR file with instructions to run 
-
-----*End of document*----

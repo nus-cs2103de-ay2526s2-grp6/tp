@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fitToWidth="true">
+    <VBox spacing="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <Label text="FairShare Commands"
+               style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+        <Label text="──────────────────────────────────────"
+               style="-fx-text-fill: grey;"/>
+        <Label text="Add Expense"
+               style="-fx-font-weight: bold;"/>
+        <Label text="add n/NAME a/AMOUNT p/PAYER s/PERSON... t/TAG..."
+               style="-fx-font-family: monospace;"/>
+        <Label text="Example: add n/Lunch a/20.0 p/alice s/alice s/bob t/food"
+               style="-fx-text-fill: grey;"/>
+        <Label text="──────────────────────────────────────"
+               style="-fx-text-fill: grey;"/>
+        <Label text="Delete Expense"
+               style="-fx-font-weight: bold;"/>
+        <Label text="delete INDEX"
+               style="-fx-font-family: monospace;"/>
+        <Label text="Example: delete 1"
+               style="-fx-text-fill: grey;"/>
+        <Label text="──────────────────────────────────────"
+               style="-fx-text-fill: grey;"/>
+        <Label text="Filter Expenses"
+               style="-fx-font-weight: bold;"/>
+        <Label text="filter n/NAME       (by expense name)"
+               style="-fx-font-family: monospace;"/>
+        <Label text="filter p/PAYER      (by payer)"
+               style="-fx-font-family: monospace;"/>
+        <Label text="filter s/PERSON     (by participant)"
+               style="-fx-font-family: monospace;"/>
+        <Label text="filter t/TAG        (by tag)"
+               style="-fx-font-family: monospace;"/>
+        <Label text="Example: filter p/alice"
+               style="-fx-text-fill: grey;"/>
+        <Label text="──────────────────────────────────────"
+               style="-fx-text-fill: grey;"/>
+        <Label text="List All Expenses"
+               style="-fx-font-weight: bold;"/>
+        <Label text="list"
+               style="-fx-font-family: monospace;"/>
+        <Label text="──────────────────────────────────────"
+               style="-fx-text-fill: grey;"/>
+        <Label text="Help"
+               style="-fx-font-weight: bold;"/>
+        <Label text="help"
+               style="-fx-font-family: monospace;"/>
+    </VBox>
+</ScrollPane>
