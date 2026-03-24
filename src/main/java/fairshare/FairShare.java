@@ -11,7 +11,7 @@ import fairshare.model.ModelManager;
 import fairshare.model.expense.Expense;
 import fairshare.storage.Storage;
 import fairshare.storage.StorageManager;
-import fairshare.storage.TxtExpenseTrackerStorage;
+import fairshare.storage.TxtFairShareStorage;
 import fairshare.storage.exceptions.StorageException;
 import fairshare.ui.MainWindow;
 import javafx.application.Application;
@@ -35,11 +35,11 @@ public class FairShare extends Application {
      */
     @Override
     public void init() throws Exception {
-        storage = new StorageManager(new TxtExpenseTrackerStorage(DATA_FILE_PATH));
+        storage = new StorageManager(new TxtFairShareStorage(DATA_FILE_PATH));
 
         Model model;
         try {
-            List<Expense> savedExpenses = storage.readExpenseTracker();
+            List<Expense> savedExpenses = storage.readFairShare();
             model = new ModelManager(savedExpenses);
         } catch (StorageException e) {
             model = new ModelManager();

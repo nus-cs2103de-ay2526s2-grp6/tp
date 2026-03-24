@@ -45,7 +45,7 @@ public class LogicManager implements Logic {
         CommandResult result = cmd.execute(model);
 
         try {
-            storage.saveExpenseTracker(model.getExpenseList());
+            storage.saveFairShare(model.getExpenseList());
         } catch (StorageException e) {
             throw new CommandException("Could not save data: " + e.getMessage());
         }

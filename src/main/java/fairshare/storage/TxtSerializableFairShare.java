@@ -12,7 +12,7 @@ import fairshare.model.expense.Expense;
  * Serialises and deserialises the full expense list to and from
  * a plain-text file, where each line represents one expense.
  */
-public class TxtSerializableExpenseTracker {
+public class TxtSerializableFairShare {
 
     private final List<TxtAdaptedExpense> expenses;
 
@@ -22,7 +22,7 @@ public class TxtSerializableExpenseTracker {
      *
      * @param expenses the list of expenses to serialise; cannot be null.
      */
-    public TxtSerializableExpenseTracker(List<Expense> expenses) {
+    public TxtSerializableFairShare(List<Expense> expenses) {
         this.expenses = expenses.stream()
                 .map(TxtAdaptedExpense::new)
                 .collect(Collectors.toList());
@@ -73,7 +73,7 @@ public class TxtSerializableExpenseTracker {
      * @return a {@code TxtSerializableExpenseTracker} with loaded expenses.
      * @throws IOException if the file cannot be read.
      */
-    public static TxtSerializableExpenseTracker loadFromFile(Path filePath)
+    public static TxtSerializableFairShare loadFromFile(Path filePath)
             throws IOException {
         List<Expense> expenses = Files.readAllLines(filePath)
                 .stream()
@@ -82,6 +82,6 @@ public class TxtSerializableExpenseTracker {
                 .map(TxtAdaptedExpense::toModelType)
                 .collect(Collectors.toList());
 
-        return new TxtSerializableExpenseTracker(expenses);
+        return new TxtSerializableFairShare(expenses);
     }
 }
