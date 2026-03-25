@@ -14,6 +14,6 @@ public class AddCommand extends Command {
 
     public CommandResult execute(Model model) {
         model.addExpense(expense);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, expense.getExpenseName()), false);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, expense.getExpenseName()), false, false);
     }
 }

@@ -16,7 +16,8 @@ public class DeleteCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         try {
             Expense deletedExpense = model.deleteExpense(expenseIndex);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, deletedExpense.getExpenseName()), false);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, deletedExpense.getExpenseName()),
+                    false, false);
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_INVALID_INDEX);
         }

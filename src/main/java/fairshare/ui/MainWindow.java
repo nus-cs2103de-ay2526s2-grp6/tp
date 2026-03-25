@@ -8,12 +8,15 @@ import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.ui.exceptions.UiException;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * The main application window. Holds all UI subcomponents and
@@ -87,7 +90,7 @@ public class MainWindow implements Ui {
         commandBoxPlaceholder.getChildren().add(
                 commandBox.getRoot());
 
-        helpWindow = new HelpWindow(primaryStage);
+        helpWindow = new HelpWindow();
     }
 
     /**
@@ -113,11 +116,21 @@ public class MainWindow implements Ui {
                 helpWindow.show();
                 return;
             }
+            if (result.getIsExit()) {
+                handleExit();
+                return;
+            }
             balancePanel.refresh(logic.calculateBalances());
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
 
             throw e; // Rethrow to notify commandbox of an exception
         }
+    }
+
+    private void handleExit() {
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> Platform.exit());
+        delay.play();
     }
 }

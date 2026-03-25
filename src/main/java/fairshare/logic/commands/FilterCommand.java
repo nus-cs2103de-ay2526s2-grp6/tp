@@ -15,7 +15,7 @@ public class FilterCommand extends Command {
 
     public CommandResult execute(Model model) {
         model.filterExpenses(predicate);
-        return new CommandResult(MESSAGE_SUCCESS, false);
+        return new CommandResult(MESSAGE_SUCCESS, false, false);
     }
 
     public Predicate<Expense> getPredicate() {

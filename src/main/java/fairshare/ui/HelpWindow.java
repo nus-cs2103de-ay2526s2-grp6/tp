@@ -41,7 +41,10 @@ public class HelpWindow {
               list
             
             Help
-              help""";
+              help
+            
+            Exit
+              exit""";
 
     private final Stage helpStage;
 
@@ -50,10 +53,8 @@ public class HelpWindow {
     /**
      * Constructs a {@code HelpWindow}.
      *
-     * @param primaryStage the primary stage of the application;
-     *                     cannot be null.
      */
-    public HelpWindow(Stage primaryStage) {
+    public HelpWindow() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     HelpWindow.class.getResource(FXML));
