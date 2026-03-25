@@ -65,7 +65,11 @@ public class ParserUtil {
 
     public static double parseAmount(String amount) throws ParseException {
         try {
-            return Double.parseDouble(amount);
+            double parsedAmt = Double.parseDouble(amount);
+            if (parsedAmt <= 0) {
+                throw new ParseException("Amount must be greater than zero.");
+            }
+            return parsedAmt;
         } catch (NumberFormatException e) {
             throw new ParseException("Invalid amount: " + amount);
         }
