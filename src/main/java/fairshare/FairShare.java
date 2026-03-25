@@ -11,10 +11,11 @@ import fairshare.model.ModelManager;
 import fairshare.model.expense.Expense;
 import fairshare.storage.Storage;
 import fairshare.storage.StorageManager;
-import fairshare.storage.TxtExpenseTrackerStorage;
+import fairshare.storage.TxtFairShareStorage;
 import fairshare.storage.exceptions.StorageException;
 import fairshare.ui.MainWindow;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -28,14 +29,7 @@ public class FairShare extends Application {
     private Logic logic;
     private Storage storage;
 
-    /**
-     * Entry point called by {@code Launcher}.
-     *
-     * @param args command line arguments.
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private Image fairshareIcon = new Image(getClass().getResourceAsStream("/images/fairshare.png"));
 
     /**
      * Initialises Storage, Model and Logic, and loads saved expenses.
@@ -44,16 +38,14 @@ public class FairShare extends Application {
      */
     @Override
     public void init() throws Exception {
-        storage = new StorageManager(
-                new TxtExpenseTrackerStorage(DATA_FILE_PATH));
-        Model model = new ModelManager();
+        storage = new StorageManager(new TxtFairShareStorage(DATA_FILE_PATH));
 
+        Model model;
         try {
-            List<Expense> savedExpenses = storage.readExpenseTracker();
-            savedExpenses.forEach(model::addExpense);
+            List<Expense> savedExpenses = storage.readFairShare();
+            model = new ModelManager(savedExpenses);
         } catch (StorageException e) {
-            System.out.println(
-                    "Could not load saved data: " + e.getMessage());
+            model = new ModelManager();
         }
 
         logic = new LogicManager(model, storage);
@@ -66,24 +58,9 @@ public class FairShare extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.getIcons().add(fairshareIcon);
         MainWindow mainWindow = new MainWindow(primaryStage, logic);
         mainWindow.fillInnerParts();
         mainWindow.start(primaryStage);
-    }
-
-    /**
-     * Saves all expenses to disk when the application closes.
-     *
-     * @throws Exception if saving fails.
-     */
-    @Override
-    public void stop() throws Exception {
-        try {
-            storage.saveExpenseTracker(
-                    logic.getFilteredExpenseList());
-        } catch (StorageException e) {
-            System.out.println(
-                    "Could not save data: " + e.getMessage());
-        }
     }
 }

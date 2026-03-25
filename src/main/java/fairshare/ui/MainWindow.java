@@ -3,19 +3,23 @@ package fairshare.ui;
 import java.io.IOException;
 
 import fairshare.logic.Logic;
+import fairshare.logic.commands.Command;
 import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.ui.exceptions.UiException;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
- * The main application window. Holds all UI sub-components and
+ * The main application window. Holds all UI subcomponents and
  * connects the UI to the Logic layer.
  */
 public class MainWindow implements Ui {
@@ -66,15 +70,6 @@ public class MainWindow implements Ui {
     }
 
     /**
-     * Returns the primary stage of this window.
-     *
-     * @return the {@code Stage}.
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    /**
      * Injects all subcomponents into their placeholders.
      */
     public void fillInnerParts() {
@@ -95,7 +90,7 @@ public class MainWindow implements Ui {
         commandBoxPlaceholder.getChildren().add(
                 commandBox.getRoot());
 
-        helpWindow = new HelpWindow(primaryStage);
+        helpWindow = new HelpWindow();
     }
 
     /**
@@ -110,32 +105,32 @@ public class MainWindow implements Ui {
      * Executes the command and refreshes all panels.
      *
      * @param commandText the raw command string entered by the user.
-     * @return the {@code CommandResult} from executing the command.
      * @throws CommandException if the command execution fails.
      * @throws ParseException   if the command cannot be parsed.
      */
-    private CommandResult executeCommand(String commandText)
-            throws CommandException, ParseException {
+    private void executeCommand(String commandText) throws CommandException, ParseException {
         try {
-            if (commandText.trim().equals("help")) {
-                helpWindow.show();
-                resultDisplay.setFeedbackToUser("Opened help window.");
-                return new CommandResult("Opened help window.");
-            }
-
             CommandResult result = logic.execute(commandText);
-
             resultDisplay.setFeedbackToUser(result.getResponse());
-            expenseListPanel.refresh(logic.getFilteredExpenseList());
+            if (result.getIsHelp()) {
+                helpWindow.show();
+                return;
+            }
+            if (result.getIsExit()) {
+                handleExit();
+                return;
+            }
             balancePanel.refresh(logic.calculateBalances());
-
-            return result;
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
-            throw e;
-        } catch (Exception e) {
-            resultDisplay.setFeedbackToUser("Error: " + e.getMessage());
-            throw new CommandException(e.getMessage());
+
+            throw e; // Rethrow to notify commandbox of an exception
         }
+    }
+
+    private void handleExit() {
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> Platform.exit());
+        delay.play();
     }
 }

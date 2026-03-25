@@ -14,6 +14,11 @@ public class ExpenseList {
         this.unmodifiableExpenses = FXCollections.unmodifiableObservableList(expenses);
     }
 
+    public ExpenseList(List<Expense> expenses) {
+        this.expenses = FXCollections.observableArrayList(expenses);
+        this.unmodifiableExpenses = FXCollections.unmodifiableObservableList(this.expenses);
+    }
+
     public void addExpense(Expense expense) {
         expenses.add(expense);
     }

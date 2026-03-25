@@ -2,7 +2,6 @@ package fairshare.ui;
 
 import java.io.IOException;
 
-import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.ui.exceptions.UiException;
@@ -46,6 +45,10 @@ public class CommandBox {
         } catch (IOException e) {
             throw new UiException("Failed to load " + FXML, e);
         }
+
+        // Reset commandbox text color whenever there is a change in text
+        commandTextField.textProperty().addListener((observable,
+        oldValue, newValue) -> commandTextField.setStyle(""));
     }
 
     /**
@@ -64,25 +67,15 @@ public class CommandBox {
     @FXML
     private void handleCommandEntered() {
         String commandText = commandTextField.getText();
-
         if (commandText.isBlank()) {
             return;
         }
 
         try {
             commandExecutor.execute(commandText);
-            commandTextField.setText("");
-            commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+            commandTextField.clear();
         } catch (CommandException | ParseException e) {
-            if (!commandTextField.getStyleClass().contains(
-                    ERROR_STYLE_CLASS)) {
-                commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
-            }
-        } catch (Exception e) {
-            if (!commandTextField.getStyleClass().contains(
-                    ERROR_STYLE_CLASS)) {
-                commandTextField.getStyleClass().add(ERROR_STYLE_CLASS);
-            }
+            commandTextField.setStyle("-fx-text-inner-color: red;");
         }
     }
 
@@ -96,12 +89,10 @@ public class CommandBox {
          * Executes the given command text.
          *
          * @param commandText the raw command string.
-         * @return the {@code CommandResult} from the execution.
          * @throws CommandException if the command execution fails.
          * @throws ParseException   if the command cannot be parsed.
          */
-        CommandResult execute(String commandText)
-                throws CommandException, ParseException;
+        void execute(String commandText) throws CommandException, ParseException;
     }
 
     @FXML

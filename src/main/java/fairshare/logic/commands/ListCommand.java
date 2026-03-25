@@ -7,6 +7,6 @@ public class ListCommand extends Command {
 
     public CommandResult execute(Model model) {
         model.filterExpenses(expense -> true); // Matches all expenses
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(MESSAGE_SUCCESS, false, false);
     }
 }

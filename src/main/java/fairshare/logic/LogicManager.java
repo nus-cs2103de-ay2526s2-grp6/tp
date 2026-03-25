@@ -40,17 +40,14 @@ public class LogicManager implements Logic {
      * {@inheritDoc}
      */
     @Override
-    public CommandResult execute(String userInput)
-            throws ParseException, CommandException {
+    public CommandResult execute(String userInput) throws ParseException, CommandException {
         Command cmd = fairShareParser.parseCommand(userInput);
         CommandResult result = cmd.execute(model);
 
         try {
-            storage.saveExpenseTracker(
-                    model.getFilteredExpenseList());
+            storage.saveFairShare(model.getExpenseList());
         } catch (StorageException e) {
-            System.out.println(
-                    "Could not save data: " + e.getMessage());
+            throw new CommandException("Could not save data: " + e.getMessage());
         }
 
         return result;

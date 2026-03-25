@@ -13,16 +13,16 @@ import fairshare.storage.exceptions.StorageException;
  * An implementation of {@code ExpenseTrackerStorage} that reads and writes
  * expense data from and to a plain-text file on local disk.
  */
-public class TxtExpenseTrackerStorage implements ExpenseTrackerStorage {
+public class TxtFairShareStorage implements FairShareStorage {
     private final Path filePath;
 
     /**
-     * Constructs a {@code TxtExpenseTrackerStorage} with the given file path.
+     * Constructs a {@code TxtFairShareStorage} with the given file path.
      *
      * @param filePath the path of the data file to read from and write to;
      *                 cannot be null.
      */
-    public TxtExpenseTrackerStorage(Path filePath) {
+    public TxtFairShareStorage(Path filePath) {
         this.filePath = filePath;
     }
 
@@ -32,7 +32,7 @@ public class TxtExpenseTrackerStorage implements ExpenseTrackerStorage {
      * @return the {@code Path} to the data file.
      */
     @Override
-    public Path getExpenseTrackerFilePath() {
+    public Path getFairShareFilePath() {
         return filePath;
     }
 
@@ -44,13 +44,13 @@ public class TxtExpenseTrackerStorage implements ExpenseTrackerStorage {
      * @throws StorageException if the file exists but cannot be read or parsed.
      */
     @Override
-    public List<Expense> readExpenseTracker() throws StorageException {
+    public List<Expense> readFairShare() throws StorageException {
         if (!Files.exists(filePath)) {
             return new ArrayList<>();
         }
 
         try {
-            return TxtSerializableExpenseTracker
+            return TxtSerializableFairShare
                     .loadFromFile(filePath)
                     .toModelType();
         } catch (IOException e) {
@@ -67,9 +67,9 @@ public class TxtExpenseTrackerStorage implements ExpenseTrackerStorage {
      * @throws StorageException if the file cannot be written to.
      */
     @Override
-    public void saveExpenseTracker(List<Expense> expenses) throws StorageException {
+    public void saveFairShare(List<Expense> expenses) throws StorageException {
         try {
-            new TxtSerializableExpenseTracker(expenses).saveToFile(filePath);
+            new TxtSerializableFairShare(expenses).saveToFile(filePath);
         } catch (IOException e) {
             throw new StorageException(
                     "Failed to save data to file: " + filePath, e);

@@ -53,15 +53,6 @@ public class ExpenseListPanel {
     }
 
     /**
-     * Refreshes the panel with an updated expense list.
-     *
-     * @param expenses the updated list of expenses; cannot be null.
-     */
-    public void refresh(ObservableList<Expense> expenses) {
-        expenseListView.setItems(expenses);
-    }
-
-    /**
      * A custom {@code ListCell} that renders each {@code Expense}
      * as an {@code ExpenseCard}.
      */

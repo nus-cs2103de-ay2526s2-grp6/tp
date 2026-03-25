@@ -13,40 +13,39 @@ import fairshare.storage.exceptions.StorageException;
  */
 public class StorageManager implements Storage {
 
-    private final ExpenseTrackerStorage expenseTrackerStorage;
+    private final FairShareStorage fairShareStorage;
 
     /**
      * Constructs a {@code StorageManager} with the given storage implementation.
      *
-     * @param expenseTrackerStorage the storage implementation to delegate to;
+     * @param fairShareStorage the storage implementation to delegate to;
      *                              cannot be null.
      */
-    public StorageManager(ExpenseTrackerStorage expenseTrackerStorage) {
-        this.expenseTrackerStorage = expenseTrackerStorage;
+    public StorageManager(FairShareStorage fairShareStorage) {
+        this.fairShareStorage = fairShareStorage;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Path getExpenseTrackerFilePath() {
-        return expenseTrackerStorage.getExpenseTrackerFilePath();
+    public Path getFairShareFilePath() {
+        return fairShareStorage.getFairShareFilePath();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Expense> readExpenseTracker() throws StorageException {
-        return expenseTrackerStorage.readExpenseTracker();
+    public List<Expense> readFairShare() throws StorageException {
+        return fairShareStorage.readFairShare();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void saveExpenseTracker(List<Expense> expenses)
-            throws StorageException {
-        expenseTrackerStorage.saveExpenseTracker(expenses);
+    public void saveFairShare(List<Expense> expenses) throws StorageException {
+        fairShareStorage.saveFairShare(expenses);
     }
 }

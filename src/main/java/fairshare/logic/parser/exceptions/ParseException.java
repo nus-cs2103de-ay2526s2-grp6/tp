@@ -1,8 +1,6 @@
 package fairshare.logic.parser.exceptions;
 
-import fairshare.logic.exceptions.FairShareException;
-
-public class ParseException extends FairShareException {
+public class ParseException extends Exception {
     public ParseException(String message) {
         super(message);
     }

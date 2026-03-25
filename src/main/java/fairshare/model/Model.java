@@ -12,5 +12,6 @@ public interface Model {
     Expense deleteExpense(int index);
     void filterExpenses(Predicate<Expense> predicate);
     ObservableList<Expense> getFilteredExpenseList();
+    List<Expense> getExpenseList();
     List<Balance> calculateBalances();
 }

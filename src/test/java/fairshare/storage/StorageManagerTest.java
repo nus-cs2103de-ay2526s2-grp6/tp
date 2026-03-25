@@ -28,13 +28,13 @@ public class StorageManagerTest {
     public void setUp() {
         testFilePath = tempDir.resolve("test_expenses.txt");
         storageManager = new StorageManager(
-                new TxtExpenseTrackerStorage(testFilePath));
+                new TxtFairShareStorage(testFilePath));
     }
 
     @Test
     public void readExpenseTracker_noFileExists_returnsEmptyList()
             throws StorageException {
-        List<Expense> result = storageManager.readExpenseTracker();
+        List<Expense> result = storageManager.readFairShare();
         assertTrue(result.isEmpty());
     }
 
@@ -48,9 +48,9 @@ public class StorageManagerTest {
                 payer, participants, tags);
 
         List<Expense> expenses = new ArrayList<>(List.of(expense));
-        storageManager.saveExpenseTracker(expenses);
+        storageManager.saveFairShare(expenses);
 
-        List<Expense> loaded = storageManager.readExpenseTracker();
+        List<Expense> loaded = storageManager.readFairShare();
         assertEquals(1, loaded.size());
         assertEquals("lunch", loaded.get(0).getExpenseName());
         assertEquals(20.0, loaded.get(0).getAmount());
@@ -60,6 +60,6 @@ public class StorageManagerTest {
     @Test
     public void getExpenseTrackerFilePath_returnsCorrectPath() {
         assertEquals(testFilePath,
-                storageManager.getExpenseTrackerFilePath());
+                storageManager.getFairShareFilePath());
     }
 }

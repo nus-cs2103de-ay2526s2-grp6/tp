@@ -1,6 +1,8 @@
 package fairshare.logic.parser;
 
 import fairshare.logic.commands.Command;
+import fairshare.logic.commands.ExitCommand;
+import fairshare.logic.commands.HelpCommand;
 import fairshare.logic.commands.ListCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 
@@ -21,8 +23,13 @@ public class FairShareParser {
             return new FilterCommandParser().parse(args);
         case "list":
             return new ListCommand();
+        case "help":
+            return new HelpCommand();
+        case "exit":
+            return new ExitCommand();
         default:
-            throw new ParseException("Invalid command: " + cmd);
+            throw new ParseException("Invalid command: " + cmd
+                    + "\nType \"help\" to view a list of available commands.");
         }
     }
 }

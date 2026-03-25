@@ -86,7 +86,7 @@ public class BalancePanel {
                 setStyle("-fx-padding: 0;");
             } else {
                 setGraphic(new BalanceCard(balance).getRoot());
-                setStyle("-fx-pdding: 4 8 4 8;");
+                setStyle("-fx-padding: 4 8 4 8;");
             }
         }
     }

@@ -12,8 +12,8 @@ public class AddCommand extends Command {
         this.expense = expense;
     }
 
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model) {
         model.addExpense(expense);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, expense.getExpenseName()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, expense.getExpenseName()), false, false);
     }
 }

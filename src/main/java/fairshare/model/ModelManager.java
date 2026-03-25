@@ -21,6 +21,11 @@ public class ModelManager implements Model {
         this.filteredExpenses = new FilteredList<>(this.expenseList.getUnmodifiableExpenseList(), LIST_ALL_EXPENSES);
     }
 
+    public ModelManager(List<Expense> expenseList) {
+        this.expenseList = new ExpenseList(expenseList);
+        this.filteredExpenses = new FilteredList<>(this.expenseList.getUnmodifiableExpenseList(), LIST_ALL_EXPENSES);
+    }
+
     public void addExpense(Expense expense) {
         expenseList.addExpense(expense);
     }
@@ -37,7 +42,11 @@ public class ModelManager implements Model {
         return filteredExpenses;
     }
 
+    public List<Expense> getExpenseList() {
+        return expenseList.getExpenseList();
+    }
+
     public List<Balance> calculateBalances() {
-        return BalanceCalculator.calculate(expenseList.getExpenseList());
+        return BalanceCalculator.calculate(filteredExpenses);
     }
 }
