@@ -9,7 +9,7 @@ import fairshare.logic.parser.exceptions.ParseException;
 public class FairShareParser {
 
     public Command parseCommand(String userInput) throws ParseException {
-        String[] parts = userInput.trim().split(" ", 2);
+        String[] parts = userInput.trim().split("\\s+", 2);
 
         String cmd = parts[0];
         String args = (parts.length == 2) ? parts[1] : "";
@@ -21,6 +21,8 @@ public class FairShareParser {
             return new DeleteCommandParser().parse(args);
         case "filter":
             return new FilterCommandParser().parse(args);
+        case "update":
+            return new UpdateCommandParser().parse(args);
         case "list":
             return new ListCommand();
         case "help":

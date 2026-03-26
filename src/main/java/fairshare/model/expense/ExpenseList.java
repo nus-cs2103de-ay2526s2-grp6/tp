@@ -27,6 +27,18 @@ public class ExpenseList {
         return expenses.remove(expenseIndex);
     }
 
+    public void updateExpense(Expense targetExpense, Expense updatedExpense) {
+        int expenseIndex = -1;
+        for (int i = 0; i < expenses.size(); i++) {
+            // Compare using mem address to allow duplicate expense (same name, payer, etc.)
+            if (targetExpense == expenses.get(i)) {
+                expenseIndex = i;
+                break;
+            }
+        }
+        expenses.set(expenseIndex, updatedExpense);
+    }
+
     public List<Expense> getExpenseList() {
         return this.expenses;
     }

@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 public interface Model {
     void addExpense(Expense expense);
     Expense deleteExpense(int index);
+    void updateExpense(Expense targetExpense, Expense updatedExpense);
     void filterExpenses(Predicate<Expense> predicate);
     ObservableList<Expense> getFilteredExpenseList();
     List<Expense> getExpenseList();

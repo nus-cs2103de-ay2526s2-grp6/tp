@@ -4,6 +4,7 @@ import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Expense {
     private String expenseName;
@@ -39,5 +40,27 @@ public class Expense {
 
     public List<Tag> getTags() {
         return this.tags;
+    }
+
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Expense)) {
+            return false;
+        }
+
+        Expense otherExpense = (Expense) other;
+        return this.expenseName.equals(otherExpense.expenseName)
+                && this.amount == otherExpense.amount
+                && this.payer.equals(otherExpense.payer)
+                && this.participants.equals(otherExpense.participants)
+                && this.tags.equals(otherExpense.tags);
+    }
+
+    public int hashCode() {
+        // Any two person expenses with the same variables is assumed to be the same expense (same hashcode)
+        return Objects.hash(expenseName, amount, payer, participants, tags);
     }
 }

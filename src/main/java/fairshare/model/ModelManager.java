@@ -34,6 +34,10 @@ public class ModelManager implements Model {
         return expenseList.deleteExpense(index);
     }
 
+    public void updateExpense(Expense targetExpense, Expense updatedExpense) {
+        expenseList.updateExpense(targetExpense, updatedExpense);
+    }
+
     public void filterExpenses(Predicate<Expense> predicate) {
         filteredExpenses.setPredicate(predicate);
     }

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import fairshare.logic.parser.exceptions.ParseException;
+import fairshare.model.person.Person;
+import fairshare.model.tag.Tag;
 
 public class ParserUtil {
 
@@ -18,7 +20,7 @@ public class ParserUtil {
         for (String token : tokens) {
             String[] parts = token.split("/", 2);
             if (parts.length < 2) {
-                throw new ParseException("Invalid filter: " + args + ", Expected: prefix/data");
+                throw new ParseException("Invalid flag: " + args + ", Expected: prefix/data");
             }
 
             String argType = parts[0];
@@ -28,7 +30,9 @@ public class ParserUtil {
                 data = new ArrayList<>(List.of(argData));
             } else {
                 data = map.get(argType);
-                data.add(argData);
+                if (!data.contains(argData)) {
+                    data.add(argData);
+                }
             }
             map.put(argType, data);
         }
@@ -51,6 +55,21 @@ public class ParserUtil {
         return data;
     }
 
+    public static Optional<String> getOptionalSingleFieldData(
+            Map<String, List<String>> map, String key) throws ParseException {
+        List<String> data = map.get(key);
+        if (data == null) {
+            return Optional.empty();
+        }
+
+        String output = data.getFirst();
+        if (output.isEmpty()) {
+            throw new ParseException("Missing value for flag: " + key + "/");
+        }
+
+        return Optional.of(data.getFirst());
+    }
+
     public static Optional<List<String>> getOptionalMultiFieldData(
             Map<String, List<String>> map, String key) throws ParseException {
         List<String> data = map.get(key);
@@ -63,6 +82,14 @@ public class ParserUtil {
         return Optional.of(data);
     }
 
+    public static int parseExpenseId(String expenseId) throws ParseException {
+        try {
+            return Integer.parseInt(expenseId);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Invalid expense id: " + expenseId);
+        }
+    }
+
     public static double parseAmount(String amount) throws ParseException {
         try {
             double parsedAmt = Double.parseDouble(amount);
@@ -73,5 +100,17 @@ public class ParserUtil {
         } catch (NumberFormatException e) {
             throw new ParseException("Invalid amount: " + amount);
         }
+    }
+
+    public static List<Person> parseParticipants(List<String> participants) {
+        return participants.stream()
+                .map(name -> new Person(name))
+                .toList();
+    }
+
+    public static List<Tag> parseTags(List<String> tags) {
+        return tags.stream()
+                .map(tagName -> new Tag(tagName))
+                .toList();
     }
 }

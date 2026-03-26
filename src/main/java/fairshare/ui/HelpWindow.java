@@ -34,6 +34,10 @@ public class HelpWindow {
               delete INDEX
               Example: delete 1
             
+            Update Expense
+              update INDEX n/NAME a/AMOUNT p/PAYER ... (at least 1)
+              Example: update 2 s/john s/mary a/12
+            
             Filter Expenses
               filter n/NAME       (by expense name)
               filter p/PAYER      (by payer)
