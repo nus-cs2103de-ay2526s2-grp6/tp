@@ -1,6 +1,7 @@
 package fairshare.model.balance;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 
 import java.util.ArrayList;
@@ -24,13 +25,16 @@ public class BalanceCalculator {
         for (Expense expense : expenses) {
             double totalAmt = expense.getAmount();
             Person payer = expense.getPayer();
-            List<Person> participants = expense.getParticipants();
+            List<Participant> participants = expense.getParticipants();
 
             if (!participants.isEmpty()) {
                 balances.put(payer, balances.getOrDefault(payer, 0d) + totalAmt);
 
-                double splitAmt = totalAmt / participants.size();
-                for (Person person : participants) {
+                int totalShares = expense.getTotalShares();
+                for (Participant participant : participants) {
+                    Person person = participant.getPerson();
+                    int shares = participant.getShares();
+                    double splitAmt = (totalAmt / totalShares) * shares;
                     balances.put(person, balances.getOrDefault(person, 0d) - splitAmt);
                 }
             }

@@ -59,7 +59,7 @@ public class ExpenseCard {
         payerLabel.setText("Paid by: " + expense.getPayer().getName());
 
         String participants = expense.getParticipants().stream()
-                .map(p -> p.getName())
+                .map(p -> p.getPerson().getName())
                 .collect(Collectors.joining(", "));
         participantsLabel.setText("Participants: " + participants);
 

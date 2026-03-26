@@ -1,12 +1,9 @@
 package fairshare.logic.parser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import fairshare.logic.parser.exceptions.ParseException;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -102,15 +99,39 @@ public class ParserUtil {
         }
     }
 
-    public static List<Person> parseParticipants(List<String> participants) {
-        return participants.stream()
-                .map(name -> new Person(name))
-                .toList();
+    public static List<Participant> parseParticipants(List<String> strParticipants) throws ParseException {
+        List<Participant> participants = new ArrayList<>();
+
+        for (String p : strParticipants) {
+            participants.add(parseParticipant(p));
+        }
+
+        return participants;
     }
 
     public static List<Tag> parseTags(List<String> tags) {
         return tags.stream()
                 .map(tagName -> new Tag(tagName))
                 .toList();
+    }
+
+    private static Participant parseParticipant(String strParticipant) throws ParseException {
+        String[] parts = strParticipant.split(":");
+        String name = parts[0];
+
+        if (parts.length == 1) {
+            return new Participant(new Person(name), 1);
+        }
+
+        String strShares = parts[1];
+        try {
+            int shares = Integer.parseInt(strShares);
+            if (shares <= 0) {
+                throw new ParseException("Expense participant's share must be greater than 0.");
+            }
+            return new Participant(new Person(name), shares);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Expense participant's share must be an integer (e.g., s/john:3)");
+        }
     }
 }

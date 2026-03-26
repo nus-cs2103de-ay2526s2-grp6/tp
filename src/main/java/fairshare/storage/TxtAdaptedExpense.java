@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -20,11 +21,11 @@ public class TxtAdaptedExpense {
     private final String expenseName;
     private final double amount;
     private final TxtAdaptedPerson payer;
-    private final List<TxtAdaptedPerson> shares;
+    private final List<TxtAdaptedParticipant> participants;
     private final List<TxtAdaptedTag> tags;
 
     /**
-     * COnstructs a {@code TxtAdaptedExpense} from an {@code Expense} model object.
+     * Constructs a {@code TxtAdaptedExpense} from an {@code Expense} model object.
      *
      * @param source the {@code Expense} to adapt; cannot be null.
      */
@@ -32,12 +33,12 @@ public class TxtAdaptedExpense {
         this.expenseName = source.getExpenseName();
         this.amount = source.getAmount();
         this.payer = new TxtAdaptedPerson(source.getPayer());
-        this.shares = source.getParticipants().stream()
-                .map(TxtAdaptedPerson::new)
-                .collect(Collectors.toList());
+        this.participants = source.getParticipants().stream()
+                .map(TxtAdaptedParticipant::new)
+                .toList();
         this.tags = source.getTags().stream()
                 .map(TxtAdaptedTag::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -47,16 +48,16 @@ public class TxtAdaptedExpense {
      * @param expenseName the expense name; cannot be null or empty.
      * @param amount      the expense amount; must be greater than 0.
      * @param payer       the adapted payer person; cannot be null.
-     * @param shares      the list of adapted participant persons; cannot be null.
+     * @param participants the list of adapted participant persons; cannot be null.
      * @param tags        the list of adapted tags; cannot be null.
      */
     public TxtAdaptedExpense(String expenseName, double amount,
-                             TxtAdaptedPerson payer, List<TxtAdaptedPerson> shares,
+                             TxtAdaptedPerson payer, List<TxtAdaptedParticipant> participants,
                              List<TxtAdaptedTag> tags) {
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
-        this.shares = shares;
+        this.participants = participants;
         this.tags = tags;
     }
 
@@ -92,8 +93,8 @@ public class TxtAdaptedExpense {
      *
      * @return a list of {@code TxtAdaptedPerson}.
      */
-    public List<TxtAdaptedPerson> getShares() {
-        return shares;
+    public List<TxtAdaptedParticipant> getParticipants() {
+        return participants;
     }
 
     /**
@@ -111,9 +112,9 @@ public class TxtAdaptedExpense {
      * @return the corresponding {@code Expense}.
      */
     public Expense toModelType() {
-        List<Person> participants = shares.stream()
-                .map(TxtAdaptedPerson::toModelType)
-                .collect(Collectors.toList());
+        List<Participant> participants = this.participants.stream()
+                .map(TxtAdaptedParticipant::toModelType)
+                .toList();
 
         List<Tag> tagList = tags.stream()
                 .map(TxtAdaptedTag::toModelType)
@@ -130,8 +131,8 @@ public class TxtAdaptedExpense {
      * @return a string representation of this expense.
      */
     public String serialize() {
-        String shareStr = shares.stream()
-                .map(TxtAdaptedPerson::serialize)
+        String participantsStr = participants.stream()
+                .map(TxtAdaptedParticipant::serialize)
                 .collect(Collectors.joining(LIST_SEPARATOR));
 
         String tagsStr = tags.stream()
@@ -141,7 +142,7 @@ public class TxtAdaptedExpense {
         return expenseName + "|"
                 + amount + "|"
                 + payer.serialize() + "|"
-                + shareStr + "|"
+                + participantsStr + "|"
                 + tagsStr;
     }
 
@@ -166,16 +167,16 @@ public class TxtAdaptedExpense {
         double amount = Double.parseDouble(parts[1].trim());
         TxtAdaptedPerson payer = TxtAdaptedPerson.deserialize(parts[2]);
 
-        List<TxtAdaptedPerson> shares = Arrays.stream(parts[3].split(LIST_SEPARATOR))
+        List<TxtAdaptedParticipant> participants = Arrays.stream(parts[3].split(LIST_SEPARATOR))
                 .filter(s -> !s.isBlank())
-                .map(TxtAdaptedPerson::deserialize)
-                .collect(Collectors.toList());
+                .map(TxtAdaptedParticipant::deserialize)
+                .toList();
 
         List<TxtAdaptedTag> tags = Arrays.stream(parts[4].split(LIST_SEPARATOR))
                 .filter(s -> !s.isBlank())
                 .map(TxtAdaptedTag::deserialize)
-                .collect(Collectors.toList());
+                .toList();
 
-        return new TxtAdaptedExpense(description, amount, payer, shares, tags);
+        return new TxtAdaptedExpense(description, amount, payer, participants, tags);
     }
 }

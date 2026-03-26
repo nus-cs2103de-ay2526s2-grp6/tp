@@ -3,6 +3,7 @@ package fairshare.logic.parser;
 import fairshare.logic.commands.UpdateCommand;
 import fairshare.logic.commands.UpdateCommand.UpdateFields;
 import fairshare.logic.parser.exceptions.ParseException;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -50,7 +51,7 @@ public class UpdateCommandParser implements Parser {
             updateFields.setPayer(new Person(strPayer.get()));
         }
         if (strParticipants.isPresent()) {
-            List<Person> participants = ParserUtil.parseParticipants(strParticipants.get());
+            List<Participant> participants = ParserUtil.parseParticipants(strParticipants.get());
             updateFields.setParticipants(participants);
         }
         if (strTags.isPresent()) {

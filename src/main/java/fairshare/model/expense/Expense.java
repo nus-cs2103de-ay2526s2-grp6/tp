@@ -10,11 +10,11 @@ public class Expense {
     private String expenseName;
     private double amount;
     private Person payer;
-    private List<Person> participants;
+    private List<Participant> participants;
     private List<Tag> tags;
 
     public Expense(String expenseName, double amount,
-                   Person payer, List<Person> participants, List<Tag> tags) {
+                   Person payer, List<Participant> participants, List<Tag> tags) {
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
@@ -26,7 +26,7 @@ public class Expense {
         return this.payer;
     }
 
-    public List<Person> getParticipants() {
+    public List<Participant> getParticipants() {
         return this.participants;
     }
 
@@ -40,6 +40,14 @@ public class Expense {
 
     public List<Tag> getTags() {
         return this.tags;
+    }
+
+    public int getTotalShares() {
+        int shares = 0;
+        for (Participant p : participants) {
+            shares += p.getShares();
+        }
+        return shares;
     }
 
     public boolean equals(Object other) {

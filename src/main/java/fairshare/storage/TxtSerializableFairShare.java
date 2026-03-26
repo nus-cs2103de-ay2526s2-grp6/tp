@@ -25,7 +25,7 @@ public class TxtSerializableFairShare {
     public TxtSerializableFairShare(List<Expense> expenses) {
         this.expenses = expenses.stream()
                 .map(TxtAdaptedExpense::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -45,7 +45,7 @@ public class TxtSerializableFairShare {
     public List<Expense> toModelType() {
         return expenses.stream()
                 .map(TxtAdaptedExpense::toModelType)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -60,7 +60,7 @@ public class TxtSerializableFairShare {
 
         List<String> lines = expenses.stream()
                 .map(TxtAdaptedExpense::serialize)
-                .collect(Collectors.toList());
+                .toList();
 
         Files.write(filePath, lines);
     }
@@ -80,7 +80,7 @@ public class TxtSerializableFairShare {
                 .filter(line -> !line.isBlank())
                 .map(TxtAdaptedExpense::deserialize)
                 .map(TxtAdaptedExpense::toModelType)
-                .collect(Collectors.toList());
+                .toList();
 
         return new TxtSerializableFairShare(expenses);
     }

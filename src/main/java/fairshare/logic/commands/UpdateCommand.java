@@ -3,6 +3,7 @@ package fairshare.logic.commands;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.model.Model;
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -38,7 +39,7 @@ public class UpdateCommand extends Command {
         String expenseName = updateFields.getExpenseName().orElse(targetExpense.getExpenseName());
         double amount = updateFields.getAmount().orElse(targetExpense.getAmount());
         Person payer = updateFields.getPayer().orElse(targetExpense.getPayer());
-        List<Person> participants = updateFields.getParticipants().orElse(targetExpense.getParticipants());
+        List<Participant> participants = updateFields.getParticipants().orElse(targetExpense.getParticipants());
         List<Tag> tags = updateFields.getTags().orElse(targetExpense.getTags());
 
         return new Expense(expenseName, amount, payer, participants, tags);
@@ -49,7 +50,7 @@ public class UpdateCommand extends Command {
         private String expenseName;
         private Double amount;
         private Person payer;
-        private List<Person> participants;
+        private List<Participant> participants;
         private List<Tag> tags;
 
         public void setExpenseName(String expenseName) {
@@ -76,11 +77,11 @@ public class UpdateCommand extends Command {
             return Optional.ofNullable(this.payer);
         }
 
-        public void setParticipants(List<Person> participants) {
+        public void setParticipants(List<Participant> participants) {
             this.participants = participants;
         }
 
-        public Optional<List<Person>> getParticipants() {
+        public Optional<List<Participant>> getParticipants() {
             return Optional.ofNullable(this.participants);
         }
 

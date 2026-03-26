@@ -52,7 +52,7 @@ public class FilterCommandParser implements Parser {
         // True if ANY of the specified participants are involved in an expense
         return expense -> participantNames.stream()
                 .anyMatch(participantName -> expense.getParticipants().stream()
-                        .anyMatch(p -> p.getName().equals(participantName)));
+                        .anyMatch(p -> p.getPerson().getName().equals(participantName)));
     }
 
     private Predicate<Expense> generatePredicateTags(List<String> tagNames) {

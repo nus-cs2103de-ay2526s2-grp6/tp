@@ -6,6 +6,7 @@ import java.util.Map;
 import fairshare.logic.commands.AddCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -19,14 +20,10 @@ public class AddCommandParser implements Parser {
         Person payer = new Person(ParserUtil.getSingleFieldData(map, "p"));
 
         List<String> strParticipants = ParserUtil.getMultiFieldData(map, "s");
-        List<Person> participants = strParticipants.stream()
-                .map(name -> new Person(name))
-                .toList();
+        List<Participant> participants = ParserUtil.parseParticipants(strParticipants);
 
         List<String> strTags = ParserUtil.getMultiFieldData(map, "t");
-        List<Tag> tags = strTags.stream()
-                .map(tagName -> new Tag(tagName))
-                .toList();
+        List<Tag> tags = ParserUtil.parseTags(strTags);
 
         Expense expense = new Expense(expenseName, amount, payer, participants, tags);
         return new AddCommand(expense);
