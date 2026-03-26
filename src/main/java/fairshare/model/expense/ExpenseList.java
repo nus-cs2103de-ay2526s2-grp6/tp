@@ -23,7 +23,14 @@ public class ExpenseList {
         expenses.add(expense);
     }
 
-    public Expense deleteExpense(int expenseIndex) {
+    public Expense deleteExpense(Expense expense) {
+        int expenseIndex = -1;
+        for (int i = 0; i < expenses.size(); i++) {
+            if (expense == expenses.get(i)) {
+                expenseIndex = i;
+                break;
+            }
+        }
         return expenses.remove(expenseIndex);
     }
 
