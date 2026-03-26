@@ -4,12 +4,14 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       spacing="4"
-      style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: #f9f9f9;">
+      style="-fx-border-color: #cccccc;
+             -fx-border-radius: 5;
+             -fx-background-radius: 5;
+             -fx-background-color: #f9f9f9;">
     <padding>
         <Insets top="10" right="15" bottom="10" left="15"/>
     </padding>
     <Label fx:id="nameLabel"
            style="-fx-font-size: 14; -fx-font-weight: bold;"/>
-    <Label fx:id="balanceLabel"
-           style="-fx-font-size: 12;"/>
+    <VBox fx:id="debtsContainer" spacing="3"/>
 </VBox>

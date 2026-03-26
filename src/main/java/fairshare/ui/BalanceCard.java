@@ -1,17 +1,17 @@
 package fairshare.ui;
 
 import java.io.IOException;
+import java.util.List;
 
 import fairshare.model.balance.Balance;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A UI component that displays the details of a single {@code Balance}.
+ * A UI component that displays all debts of a single person.
  */
 public class BalanceCard {
 
@@ -23,14 +23,16 @@ public class BalanceCard {
     private Label nameLabel;
 
     @FXML
-    private Label balanceLabel;
+    private VBox debtsContainer;
 
     /**
-     * Constructs a {@code BalanceCard} for the given balance.
+     * Constructs a {@code BalanceCard} for the given person's balances.
      *
-     * @param balance the balance to display; cannot be null.
+     * @param personName the name of the debtor; cannot be null.
+     * @param balances   the list of balances for this person;
+     *                   cannot be null or empty.
      */
-    public BalanceCard(Balance balance) {
+    public BalanceCard(String personName, List<Balance> balances) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     BalanceCard.class.getResource(FXML));
@@ -40,18 +42,23 @@ public class BalanceCard {
             throw new UiException("Failed to load " + FXML, e);
         }
 
-        nameLabel.setText(balance.getDebtor().getName());
-        String amountText = String.format("owes $%.2f to %s",
-                balance.getAmount(),
-                balance.getCreditor().getName());
-        balanceLabel.setText(amountText);
-        balanceLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #cc0000;");
+        nameLabel.setText(personName);
+
+        for (Balance balance : balances) {
+            Label debtLabel = new Label(
+                    String.format("owes $%.2f to %s",
+                            balance.getAmount(),
+                            balance.getCreditor().getName()));
+            debtLabel.setStyle(
+                    "-fx-font-size: 12; -fx-text-fill: #cc0000;");
+            debtsContainer.getChildren().add(debtLabel);
+        }
     }
 
     /**
      * Returns the root node of this card.
      *
-     * @return the root {@code HBox}.
+     * @return the root {@code VBox}.
      */
     public VBox getRoot() {
         return root;

@@ -1,7 +1,10 @@
 package fairshare.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import fairshare.model.balance.Balance;
 import fairshare.ui.exceptions.UiException;
@@ -23,12 +26,13 @@ public class BalancePanel {
     private Region root;
 
     @FXML
-    private ListView<Balance> balanceListView;
+    private ListView<Map.Entry<String, List<Balance>>> balanceListView;
 
     /**
      * Constructs a {@code BalancePanel} with the given list of balances.
      *
-     * @param balances the initial list of balances to display; cannot be null.
+     * @param balances the initial list of balances to display;
+     *                 cannot be null.
      */
     public BalancePanel(List<Balance> balances) {
         try {
@@ -40,9 +44,9 @@ public class BalancePanel {
             throw new UiException("Failed to load " + FXML, e);
         }
 
-        balanceListView.setItems(
-                FXCollections.observableArrayList(balances));
-        balanceListView.setCellFactory(lv -> new BalanceListViewCell());
+        setBalances(balances);
+        balanceListView.setCellFactory(
+                lv -> new BalanceListViewCell());
     }
 
     /**
@@ -60,32 +64,56 @@ public class BalancePanel {
      * @param balances the updated list of balances; cannot be null.
      */
     public void refresh(List<Balance> balances) {
-        balanceListView.setItems(
-                FXCollections.observableArrayList(balances));
+        setBalances(balances);
     }
 
     /**
-     * A custom {@code ListCell} that renders each {@code Balance}
-     * as a formatted text entry.
+     * Groups balances by debtor name and sets them on the list view.
+     *
+     * @param balances the list of balances to group and display.
      */
-    private static class BalanceListViewCell extends ListCell<Balance> {
+    private void setBalances(List<Balance> balances) {
+        Map<String, List<Balance>> grouped = new LinkedHashMap<>();
+
+        for (Balance balance : balances) {
+            String debtorName = balance.getDebtor().getName();
+            grouped.computeIfAbsent(debtorName,
+                    k -> new ArrayList<>()).add(balance);
+        }
+
+        balanceListView.setItems(
+                FXCollections.observableArrayList(
+                        grouped.entrySet()));
+    }
+
+    /**
+     * A custom {@code ListCell} that renders each person's balances
+     * as a {@code BalanceCard}.
+     */
+    private static class BalanceListViewCell
+            extends ListCell<Map.Entry<String, List<Balance>>> {
 
         /**
          * Updates the cell with the given balance entry.
          *
-         * @param balance the balance to display.
+         * @param entry   the map entry containing person name and
+         *                their list of balances.
          * @param isEmpty whether the cell is empty.
          */
         @Override
-        protected void updateItem(Balance balance, boolean isEmpty) {
-            super.updateItem(balance, isEmpty);
+        protected void updateItem(
+                Map.Entry<String, List<Balance>> entry,
+                boolean isEmpty) {
+            super.updateItem(entry, isEmpty);
 
-            if (isEmpty || balance == null) {
+            if (isEmpty || entry == null) {
                 setGraphic(null);
                 setText(null);
                 setStyle("-fx-padding: 0;");
             } else {
-                setGraphic(new BalanceCard(balance).getRoot());
+                setGraphic(new BalanceCard(
+                        entry.getKey(),
+                        entry.getValue()).getRoot());
                 setStyle("-fx-padding: 4 8 4 8;");
             }
         }
