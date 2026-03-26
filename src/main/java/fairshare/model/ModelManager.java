@@ -30,8 +30,8 @@ public class ModelManager implements Model {
         expenseList.addExpense(expense);
     }
 
-    public Expense deleteExpense(int index) {
-        return expenseList.deleteExpense(index);
+    public Expense deleteExpense(Expense expense) {
+        return expenseList.deleteExpense(expense);
     }
 
     public void updateExpense(Expense targetExpense, Expense updatedExpense) {

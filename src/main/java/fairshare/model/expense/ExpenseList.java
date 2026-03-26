@@ -23,20 +23,14 @@ public class ExpenseList {
         expenses.add(expense);
     }
 
-    public Expense deleteExpense(int expenseIndex) {
+    public Expense deleteExpense(Expense expense) {
+        int expenseIndex = getExpenseIndex(expense);
         return expenses.remove(expenseIndex);
     }
 
     public void updateExpense(Expense targetExpense, Expense updatedExpense) {
-        int expenseIndex = -1;
-        for (int i = 0; i < expenses.size(); i++) {
-            // Compare using mem address to allow duplicate expense (same name, payer, etc.)
-            if (targetExpense == expenses.get(i)) {
-                expenseIndex = i;
-                break;
-            }
-        }
-        expenses.set(expenseIndex, updatedExpense);
+        int targetExpenseIndex = getExpenseIndex(targetExpense);
+        expenses.set(targetExpenseIndex, updatedExpense);
     }
 
     public List<Expense> getExpenseList() {
@@ -45,5 +39,17 @@ public class ExpenseList {
 
     public ObservableList<Expense> getUnmodifiableExpenseList() {
         return unmodifiableExpenses;
+    }
+
+    private int getExpenseIndex(Expense expense) {
+        int expenseIndex = -1;
+        for (int i = 0; i < expenses.size(); i++) {
+            // Compare using mem address to allow duplicate expense (same name, payer, etc.)
+            if (expense == expenses.get(i)) {
+                expenseIndex = i;
+                break;
+            }
+        }
+        return expenseIndex;
     }
 }
