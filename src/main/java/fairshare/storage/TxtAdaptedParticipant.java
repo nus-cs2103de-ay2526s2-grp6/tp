@@ -24,6 +24,24 @@ public class TxtAdaptedParticipant {
         return person.serialize() + ":" + shares;
     }
 
+    /**
+     * Returns the name of this participant.
+     *
+     * @return the name string.
+     */
+    public String getName() {
+        return person.getName();
+    }
+
+    /**
+     * Returns the number of shares of this participant.
+     *
+     * @return the shares as an int.
+     */
+    public int getShares() {
+        return shares;
+    }
+
     public static TxtAdaptedParticipant deserialize(String data) {
         String[] parts = data.split(":", 2);
 
