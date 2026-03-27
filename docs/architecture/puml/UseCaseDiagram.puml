@@ -35,6 +35,7 @@ rectangle "Shared Expense Tracker" {
     usecase "Auto-calculate Balances" as UC7
     usecase "Auto-save Data" as UC8
     usecase "Auto-load Data" as UC9
+    usecase "Update Expense" as UC_UPDATE
 }
 
 U --> UC1
@@ -43,6 +44,7 @@ U --> UC3
 U --> UC4
 U --> UC5
 U --> UC6
+U --> UC_UPDATE
 
 S --> UC7
 S --> UC8
@@ -52,5 +54,7 @@ UC1 .down.> UC7 : <<triggers>>
 UC1 .down.> UC8 : <<triggers>>
 UC2 .down.> UC7 : <<triggers>>
 UC2 .down.> UC8 : <<triggers>>
+UC_UPDATE .down.> UC7 : <<triggers>>
+UC_UPDATE .down.> UC8 : <<triggers>>
 
 @enduml
