@@ -26,9 +26,14 @@ public class HelpWindow {
 
     private static final String MESSAGE_HELP =
             """
-            Add Expense
+            Add Expense (equal split)
               add n/NAME a/AMOUNT p/PAYER s/PERSON... t/TAG...
               Example: add n/Lunch a/20.0 p/alice s/alice s/bob t/food
+              
+            Add Expense (proportional split)
+                add n/NAME a/AMOUNT p/PAYER s/PERSON:PARTS... t/TAG...
+                Example: add n/Lunch a/20.0 p/alice s/alice:3 s/bob:1 t/food
+                (alice pays 3/4, bob pays 1/4 of the total)
             
             Delete Expense
               delete INDEX
