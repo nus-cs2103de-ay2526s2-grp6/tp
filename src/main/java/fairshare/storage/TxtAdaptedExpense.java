@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
-import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
 /**

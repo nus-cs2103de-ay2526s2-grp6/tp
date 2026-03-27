@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -21,8 +22,9 @@ public class TxtAdaptedExpenseTest {
     @BeforeEach
     public void setUp() {
         Person payer = new Person("alice");
-        List<Person> participants = new ArrayList<>(
-                List.of(payer, new Person("bob"), new Person("carol")));
+        List<Participant> participants = new ArrayList<>(
+                List.of(new Participant(payer, 1), new Participant(new Person("bob"), 1),
+                        new Participant(new Person("carol"), 1)));
         List<Tag> tags = new ArrayList<>(
                 List.of(new Tag("food"), new Tag("trip")));
 
@@ -33,19 +35,19 @@ public class TxtAdaptedExpenseTest {
     @Test
     public void serialise_validExpense_correctFormat() {
         String serialised = adaptedExpense.serialize();
-        assertEquals("lunch|30.0|alice|alice,bob,carol|food,trip",
+        assertEquals("lunch|30.0|alice|alice:1,bob:1,carol:1|food,trip",
                 serialised);
     }
 
     @Test
     public void deserialise_validLine_correctFields() {
-        String line = "lunch|30.0|alice|alice,bob,carol|food,trip";
+        String line = "lunch|30.0|alice|alice:1,bob:1,carol:1|food,trip";
         TxtAdaptedExpense result = TxtAdaptedExpense.deserialize(line);
 
         assertEquals("lunch", result.getExpenseName());
         assertEquals(30.0, result.getAmount());
         assertEquals("alice", result.getPayer().getName());
-        assertEquals(3, result.getShares().size());
+        assertEquals(3, result.getParticipants().size());
         assertEquals(2, result.getTags().size());
     }
 

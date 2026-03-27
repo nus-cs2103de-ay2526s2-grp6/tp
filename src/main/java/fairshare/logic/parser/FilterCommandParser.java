@@ -9,7 +9,18 @@ import fairshare.logic.commands.FilterCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Expense;
 
+/**
+ * Parses input arguments and creates a new FilterCommand object.
+ */
 public class FilterCommandParser implements Parser {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of FilterCommand.
+     *
+     * @param args The raw string of user-input arguments.
+     * @return A {@code FilterCommand} object.
+     * @throws ParseException If the user input does not match the required format.
+     */
     public FilterCommand parse(String args) throws ParseException {
         Map<String, List<String>> map = ParserUtil.tokenize(args);
         Optional<List<String>> expenseNames = ParserUtil.getOptionalMultiFieldData(map, "n");

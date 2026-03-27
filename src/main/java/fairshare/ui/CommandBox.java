@@ -47,8 +47,9 @@ public class CommandBox {
         }
 
         // Reset commandbox text color whenever there is a change in text
-        commandTextField.textProperty().addListener((observable,
-        oldValue, newValue) -> commandTextField.setStyle(""));
+        commandTextField.textProperty().addListener((
+                observable, oldValue, newValue) ->
+                        commandTextField.setStyle(""));
     }
 
     /**

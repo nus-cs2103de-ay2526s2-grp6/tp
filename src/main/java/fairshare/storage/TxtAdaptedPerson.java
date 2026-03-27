@@ -12,7 +12,7 @@ public class TxtAdaptedPerson {
     /**
      * Constructs a {@code TxtAdaptedPerson} with the given name.
      *
-     * @param name the name of the person; cannot be null or empty.
+     * @param name the name of the person.
      */
     public TxtAdaptedPerson(String name) {
         this.name = name;
@@ -20,7 +20,8 @@ public class TxtAdaptedPerson {
 
     /**
      * Constructs a {@code TxtAdaptedPerson} from a {@code Person} model object.
-     * @param source the {@code Person} to adapt; cannot be null.
+     *
+     * @param source the {@code Person} to adapt.
      */
     public TxtAdaptedPerson(Person source) {
         this.name = source.getName();
@@ -56,7 +57,7 @@ public class TxtAdaptedPerson {
     /**
      * Deserializes a plain-text string into a {@code TxtAdaptedPerson}.
      *
-     * @param data the string to parse; cannot be null.
+     * @param data the string to parse.
      * @return the corresponding {@code TxtAdaptedPerson}.
      */
     public static TxtAdaptedPerson deserialize(String data) {

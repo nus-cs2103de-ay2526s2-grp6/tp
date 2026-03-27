@@ -3,7 +3,6 @@ package fairshare.ui;
 import java.io.IOException;
 
 import fairshare.logic.Logic;
-import fairshare.logic.commands.Command;
 import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.exceptions.ParseException;

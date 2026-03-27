@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 import fairshare.storage.exceptions.StorageException;
@@ -41,8 +42,8 @@ public class StorageManagerTest {
     @Test
     public void saveAndRead_validExpenses_sameData() throws StorageException {
         Person payer = new Person("alice");
-        List<Person> participants = new ArrayList<>(
-                List.of(payer, new Person("bob")));
+        List<Participant> participants = new ArrayList<>(
+                List.of(new Participant(payer, 1), new Participant(new Person("bob"), 1)));
         List<Tag> tags = new ArrayList<>(List.of(new Tag("food")));
         Expense expense = new Expense("lunch", 20.0,
                 payer, participants, tags);
