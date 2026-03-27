@@ -11,13 +11,15 @@ This document provides a high-level overview of the internal component interface
 - [3. Storage Component](#3-storage-component)
   - [3.1 Key Methods](#31-key-methods)
 - [4. Custom Exceptions](#4-custom-exceptions)
+- [5. Storage Format](#5-storage-format)
 
 ## 1. Logic Component
 
 ### 1.1 Key Methods
 - `execute(String userInput)` — Returns `CommandResult`, throws
   `ParseException`, `CommandException`. Parses and executes the
-  command against the Model, then saves state to Storage.
+  command against the Model, then saves state to Storage. Supported commands:
+  `add`, `delete`, `update`, `filter`, `list`, `help`, `exit`
 - `getFilteredExpenseList()` — Returns `ObservableList<Expense>`.
   Provides the current filtered expense list for the UI.
 - `calculateBalances()` — Returns `List<Balance>`. Returns the
@@ -37,14 +39,24 @@ This document provides a high-level overview of the internal component interface
 ## 3. Storage Component
 
 ### 3.1 Key Methods
-- `readExpenseTracker()` — Returns `List<Expense>`, throws
-  `StorageException`. Reads from `data/expenses.txt`.
-- `saveExpenseTracker(List<Expense> expenses)` — throws
+- `readFariShare()` — Returns `List<Expense>`, throws
+  `StorageException`. Reads from `data/expenses.txt`. If file is corrupted, deletes it and throws `StorageException` with warning.
+- `saveFairShare(List<Expense> expenses)` — throws
   `StorageException`. Writes to `data/expenses.txt` in
-  pipe-delimited format.
+  pipe-delimited format where participants are stored as `name:shares` e.g. `bob:2,mary:1`.
 
 ## 4. Custom Exceptions
 - `ParseException` — thrown when user input cannot be parsed
 - `CommandException` — thrown when a valid command fails to execute
 - `StorageException` — thrown when file read/write fails
 - `UiException` — thrown when an FXML file cannot be loaded
+
+## 5. Storage Format
+Each expense is stored as one line:
+```
+expenseName|amount|payerName|participant1:shares,participant2:shares|tag1,tag2
+```
+Example:
+```
+Lunch|40.0|alice|bob:2,mary:1|food
+```
