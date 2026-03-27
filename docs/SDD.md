@@ -25,7 +25,7 @@ It targets friend groups, housemates and small teams who need to split costs wit
 **The system allows users to:**
 - Record expenses with a payer, amount, description and list of involved
   participants using a command-line style input
-- - Support equal split and proportional split
+- Support equal split and proportional split
     (e.g. s/bob:2 s/mary:1 means bob pays 2/3, mary pays 1/3)
 - Update existing expenses without deleting and recreating them
 - Automatically calculate how much each member owes using a debt
@@ -89,7 +89,7 @@ using `FXMLLoader`.
 
 ### 3.4 Storage Layer
 Handles reading and writing all expense data to a local plain-text file.
-- - `StorageManager` — implements `Storage`, delegates to `TxtFairShareStorage`
+- `StorageManager` — implements `Storage`, delegates to `TxtFairShareStorage`
 - `TxtFairShareStorage` — reads and writes to `data/expenses.txt`. Handles corrupted files by deleting them and throwing a `StorageException` so the app can start fresh with a warning.
 - `TxtSerializableFairShare` — converts between `Expense` objects and text lines
 - `TxtAdaptedParticipant` — storage representation of a `Participant`, serialized as `name:shares` e.g. `bob:2`

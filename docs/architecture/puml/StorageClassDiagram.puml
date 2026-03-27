@@ -11,13 +11,14 @@ package Storage as StoragePackage {
     Class "<<interface>>\nStorage" as Storage
     Class StorageManager
 
-    package "ExpenseTracker Storage" #F4F6F6 {
-        Class "<<interface>>\nExpenseTrackerStorage" as ExpenseTrackerStorage
-        Class TxtExpenseTrackerStorage
-        Class TxtSerializableExpenseTracker
+    package "FairShare Storage" #F4F6F6 {
+        Class "<<interface>>\nFairShareStorage" as FairShareStorage
+        Class TxtFairShareStorage
+        Class TxtSerializableFairShare
         Class TxtAdaptedExpense
         Class TxtAdaptedPerson
         Class TxtAdaptedTag
+        Class TxtAdaptedParticipant
     }
 }
 
@@ -25,16 +26,17 @@ Class HiddenOutside #FFFFFF
 HiddenOutside -down..> Storage
 
 StorageManager .up.|> Storage
-Storage -right-|> ExpenseTrackerStorage
+Storage -right-|> FairShareStorage
 
-StorageManager -down-> "1" ExpenseTrackerStorage
+StorageManager -down-> "1" FairShareStorage
 
-TxtExpenseTrackerStorage .up.|> ExpenseTrackerStorage
+TxtFairShareStorage .up.|> FairShareStorage
 
-TxtExpenseTrackerStorage ..> TxtSerializableExpenseTracker
-TxtSerializableExpenseTracker *-down-> "*" TxtAdaptedExpense
+TxtFairShareStorage ..> TxtSerializableFairShare
+TxtSerializableFairShare *-down-> "*" TxtAdaptedExpense
 TxtAdaptedExpense *-down-> "1" TxtAdaptedPerson : payer >
-TxtAdaptedExpense *-down-> "*" TxtAdaptedPerson : shares >
+TxtAdaptedExpense *-down-> "*" TxtAdaptedParticipant : participants >
 TxtAdaptedExpense *-down-> "*" TxtAdaptedTag : tags >
+TxtAdaptedParticipant *-down-> "1" TxtAdaptedPerson : person >
 
 @enduml
