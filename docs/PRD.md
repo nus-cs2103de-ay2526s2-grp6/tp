@@ -34,22 +34,18 @@ Additional features may include debt simplification, uneven split methods (e.g. 
 
 ## User stories 
 ### MUST-HAVE:
-1. As a user, I want to create a new group, so that I can track expenses separately for different sets of people.
-2. As a user, I want to add a person’s name to the group so that they can be included in the shared expense calculation.
-3. As a user, I want to be able to specify who exactly is involved in an expense so that people do not pay for things that they did not share.
-4. As a user, I want the system to automatically calculate how much each person owes, so that I do not have to manually compute the split.
-5. As a user, I want to be able to view a list of all shared expenses so that I can verify if the records are correct.
-6. As a user, I want to view how much I owe or am owed in total, so that I can settle my debts easily.
-7. As a user, I want my group’s shared expense data to be automatically saved so that I do not lose my records whenever the session ends.
+1. As a user, I want to be able to specify who exactly is involved in an expense so that people do not pay for things that they did not share.
+2. As a user, I want the system to automatically calculate how much each person owes, so that I do not have to manually compute the split.
+3. As a user, I want to be able to view a list of all shared expenses so that I can verify if the records are correct.
+4. As a user, I want to view how much I owe or am owed in total, so that I can settle my debts easily.
+5. As a user, I want my group’s shared expense data to be automatically saved so that I do not lose my records whenever the session ends.
 
 ### SHOULD-HAVE:
 1. As a user, I want to be able to delete an expense so that I can fix mistakes in an added expense.
 2. As a user, I want to be able to update an existing expense so that I do not have to delete and recreate an entire entry due to trivial mistakes.
-3. As a user, I want a confirmation prompt before deleting an expense, so that I do not accidentally remove important data.
-4. As a user, I want to be able to mark a specific debt as settled so that I can keep track of who has paid whom back.
-5. As a user, I want to choose between equal split and custom split methods, so that expenses can reflect real-life arrangements.
-6. As a user, I want to rename a group, so that I can better identify it later.
-7. As a user, I want to be able to search for expenses by name or keyword so that I can quickly locate an expense without scrolling through a long list.
+3. As a user, I want to choose between equal split and custom split methods, so that expenses can reflect real-life arrangements.
+4. As a user, I want to rename a group, so that I can better identify it later.
+5. As a user, I want to be able to search for expenses by name or keyword so that I can quickly locate an expense without scrolling through a long list.
 
 ## Functional Requirements
 1. The system should allow a user to create a new expense group with a unique name.
