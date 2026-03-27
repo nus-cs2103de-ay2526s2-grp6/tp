@@ -25,6 +25,10 @@ It targets friend groups, housemates and small teams who need to split costs wit
 **The system allows users to:**
 - Record expenses with a payer, amount, description and list of involved
   participants using a command-line style input
+- - Support equal split and proportional split
+    (e.g. s/bob:2 s/mary:1 means bob pays 2/3, mary pays 1/3)
+- Update existing expenses without deleting and recreating them
+- Automatically calculate how much each member owes using a debt
 - Automatically calculate how much each member owes using a debt
   simplification algorithm
 - View a simplified balance summary showing who owes whom and how much
@@ -51,6 +55,7 @@ dependencies. Key classes:
 - `ExpenseList` — wraps an `ObservableList<Expense>` for JavaFX binding
 - `ModelManager` — implements `Model`, manages `ExpenseList` and
   `FilteredList`
+- `Participant` - stores a person and their number of shares for proportional split expenses. Each expense has a list of participants with share values that determine how the cost is divided.
 
 ### 3.2 Logic Layer
 The logic layer processes all user commands. It follows the Command
@@ -67,6 +72,8 @@ against the `Model`.
 - `ParserUtil` — utility class providing shared parsing methods such
   as tokenizing command arguments, extracting field values and
   validating input formats
+- `UpdateCommand` — updates specific fields of an existing expense by index. Uses an `UpdateFields` inner class to hold only the fields that need changing.
+- `UpdateCommandParser` — parses the update command arguments
 
 ### 3.3 UI Layer
 Built with JavaFX and FXML. Each component loads its own `.fxml` file
@@ -82,13 +89,10 @@ using `FXMLLoader`.
 
 ### 3.4 Storage Layer
 Handles reading and writing all expense data to a local plain-text file.
-- `StorageManager` — implements `Storage`, delegates to
-  `TxtExpenseTrackerStorage`
-- `TxtExpenseTrackerStorage` — reads and writes to `data/expenses.txt`
-- `TxtSerializableExpenseTracker` — converts between `Expense` objects
-  and text lines
-- `TxtAdaptedExpense`, `TxtAdaptedPerson`, `TxtAdaptedTag` — storage
-  representations of model objects
+- - `StorageManager` — implements `Storage`, delegates to `TxtFairShareStorage`
+- `TxtFairShareStorage` — reads and writes to `data/expenses.txt`. Handles corrupted files by deleting them and throwing a `StorageException` so the app can start fresh with a warning.
+- `TxtSerializableFairShare` — converts between `Expense` objects and text lines
+- `TxtAdaptedParticipant` — storage representation of a `Participant`, serialized as `name:shares` e.g. `bob:2`
 
 ## 4. UML Diagrams
 ### 4.1 Class Diagrams
@@ -143,6 +147,24 @@ The sequence diagram above illustrates the flow when a user types
 9. `MainWindow` refreshes all UI panels and displays
    "expense deleted"
 
+**Update Expense:**
+![Update Expense Sequence Diagram](architecture/UpdateExpenseSequenceDiagram.png)
+
+The flow when a user types `update 1 a/50.0`:
+1. User types the command into `MainWindow`
+2. `MainWindow` calls `execute()` on `LogicManager`
+3. `LogicManager` passes the input to `FairShareParser`
+4. `FairShareParser` creates `UpdateCommandParser` which parses the
+   index and fields, creating an `UpdateCommand` with an
+   `UpdateFields` object containing only the changed fields
+5. `LogicManager` calls `execute(model)` on `UpdateCommand`
+6. `UpdateCommand` gets the target expense from the filtered list,
+   creates a new `Expense` with the updated fields, and calls
+   `model.updateExpense()`
+7. `Model` recalculates balances via `DebtCalculator`
+8. `LogicManager` saves updated state via `Storage`
+9. `MainWindow` refreshes all UI panels
+
 ### 4.3 Use Case Diagram
 ![Use Case Diagram](architecture/UseCaseDiagram.png)
 
@@ -190,3 +212,18 @@ dependencies. Each expense is stored as one line in the format
 the expense list.
 **Rationale:** JavaFX `ListView` automatically reflects changes to an
 `ObservableList`, reducing the need for manual UI refresh calls.
+
+### 5.5 Proportional Split Using Participant Shares
+**Decision:** Model split proportions as integer shares per participant
+rather than percentages or fixed amounts.
+**Rationale:** Integer shares are simpler to input and reason about.
+`s/bob:2 s/mary:1` is more intuitive than `s/bob:66.67 s/mary:33.33`.
+The fraction is computed at display time from the participant's shares
+divided by the total shares.
+
+### 5.6 Graceful Handling of Corrupted Storage Files
+**Decision:** When the storage file cannot be parsed, delete it and
+start with an empty expense list rather than crashing.
+**Rationale:** A corrupted file should not prevent the app from
+launching. The user is shown a warning message on startup so they are
+aware their previous data was lost.

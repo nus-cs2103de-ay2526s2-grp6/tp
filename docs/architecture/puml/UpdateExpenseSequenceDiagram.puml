@@ -1,0 +1,93 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":FairShareParser" as FairShareParser LOGIC_COLOR
+participant ":UpdateCommandParser" as UpdateCommandParser LOGIC_COLOR
+participant "u:UpdateCommand" as UpdateCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+participant "<<utility>>\n:DebtCalculator" as DebtCalculator MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "update 1 a/50.0"
+activate MainWindow
+
+MainWindow -> LogicManager : execute("update 1 a/50.0")
+activate LogicManager
+
+LogicManager -> FairShareParser : parseCommand("update 1 a/50.0")
+activate FairShareParser
+
+create UpdateCommandParser
+FairShareParser -> UpdateCommandParser
+activate UpdateCommandParser
+
+UpdateCommandParser --> FairShareParser
+deactivate UpdateCommandParser
+
+FairShareParser -> UpdateCommandParser : parse("1 a/50.0")
+activate UpdateCommandParser
+
+create UpdateCommand
+UpdateCommandParser -> UpdateCommand
+activate UpdateCommand
+
+UpdateCommand --> UpdateCommandParser : u
+deactivate UpdateCommand
+
+UpdateCommandParser --> FairShareParser : u
+deactivate UpdateCommandParser
+destroy UpdateCommandParser
+
+FairShareParser --> LogicManager : u
+deactivate FairShareParser
+
+LogicManager -> UpdateCommand : execute(m)
+activate UpdateCommand
+
+UpdateCommand -> Model : getFilteredExpenseList()
+activate Model
+Model --> UpdateCommand : expenseList
+deactivate Model
+
+UpdateCommand -> UpdateCommand : createUpdatedExpense()
+
+UpdateCommand -> Model : updateExpense(target, updated)
+activate Model
+
+Model -> DebtCalculator : calculate(allExpenses)
+activate DebtCalculator
+DebtCalculator --> Model : balances
+deactivate DebtCalculator
+
+Model --> UpdateCommand
+deactivate Model
+
+create CommandResult
+UpdateCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> UpdateCommand
+deactivate CommandResult
+
+UpdateCommand --> LogicManager : r
+deactivate UpdateCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "Update success"
+deactivate MainWindow
+
+@enduml
