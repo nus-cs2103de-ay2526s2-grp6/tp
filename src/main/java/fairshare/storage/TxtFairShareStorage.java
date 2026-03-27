@@ -53,9 +53,17 @@ public class TxtFairShareStorage implements FairShareStorage {
             return TxtSerializableFairShare
                     .loadFromFile(filePath)
                     .toModelType();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            try {
+                Files.delete(filePath);
+            } catch (IOException deleteError) {
+                System.out.println(
+                        "Could not delete corrupted file: "
+                                + deleteError.getMessage());
+            }
             throw new StorageException(
-                    "Failed to read data from file: " + filePath, e);
+                    "Data file was corrupted and has been cleared. "
+                            + "Starting with empty expense list.");
         }
     }
 

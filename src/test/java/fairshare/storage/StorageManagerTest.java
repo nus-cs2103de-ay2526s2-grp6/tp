@@ -1,8 +1,11 @@
 package fairshare.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 import fairshare.storage.exceptions.StorageException;
@@ -32,17 +36,20 @@ public class StorageManagerTest {
     }
 
     @Test
-    public void readExpenseTracker_noFileExists_returnsEmptyList()
+    public void readFairShare_noFileExists_returnsEmptyList()
             throws StorageException {
         List<Expense> result = storageManager.readFairShare();
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void saveAndRead_validExpenses_sameData() throws StorageException {
+    public void saveAndRead_validExpenses_sameData()
+            throws StorageException {
         Person payer = new Person("alice");
-        List<Person> participants = new ArrayList<>(
-                List.of(payer, new Person("bob")));
+        List<Participant> participants = new ArrayList<>(
+                List.of(
+                        new Participant(payer, 1),
+                        new Participant(new Person("bob"), 2)));
         List<Tag> tags = new ArrayList<>(List.of(new Tag("food")));
         Expense expense = new Expense("lunch", 20.0,
                 payer, participants, tags);
@@ -55,10 +62,91 @@ public class StorageManagerTest {
         assertEquals("lunch", loaded.get(0).getExpenseName());
         assertEquals(20.0, loaded.get(0).getAmount());
         assertEquals("alice", loaded.get(0).getPayer().getName());
+        assertEquals(2, loaded.get(0).getParticipants().size());
     }
 
     @Test
-    public void getExpenseTrackerFilePath_returnsCorrectPath() {
+    public void saveAndRead_correctShares_preserved()
+            throws StorageException {
+        Person payer = new Person("alice");
+        List<Participant> participants = new ArrayList<>(
+                List.of(
+                        new Participant(new Person("bob"), 2),
+                        new Participant(new Person("mary"), 1)));
+        List<Tag> tags = new ArrayList<>(List.of(new Tag("food")));
+        Expense expense = new Expense("lunch", 30.0,
+                payer, participants, tags);
+
+        storageManager.saveFairShare(List.of(expense));
+        List<Expense> loaded = storageManager.readFairShare();
+
+        assertEquals(2,
+                loaded.get(0).getParticipants().get(0).getShares());
+        assertEquals(1,
+                loaded.get(0).getParticipants().get(1).getShares());
+    }
+
+    @Test
+    public void saveAndRead_multipleExpenses_allPreserved()
+            throws StorageException {
+        Person alice = new Person("alice");
+        Person bob = new Person("bob");
+
+        List<Participant> participants1 = new ArrayList<>(
+                List.of(new Participant(alice, 1),
+                        new Participant(bob, 1)));
+        List<Participant> participants2 = new ArrayList<>(
+                List.of(new Participant(bob, 2),
+                        new Participant(alice, 1)));
+
+        Expense expense1 = new Expense("lunch", 20.0, alice,
+                participants1, List.of(new Tag("food")));
+        Expense expense2 = new Expense("taxi", 30.0, bob,
+                participants2, List.of(new Tag("transport")));
+
+        storageManager.saveFairShare(List.of(expense1, expense2));
+        List<Expense> loaded = storageManager.readFairShare();
+
+        assertEquals(2, loaded.size());
+        assertEquals("lunch", loaded.get(0).getExpenseName());
+        assertEquals("taxi", loaded.get(1).getExpenseName());
+    }
+
+    @Test
+    public void readFairShare_corruptedFile_throwsStorageException()
+            throws IOException {
+        Files.writeString(testFilePath, "this is corrupted data");
+
+        assertThrows(StorageException.class, () ->
+                storageManager.readFairShare());
+    }
+
+    @Test
+    public void readFairShare_corruptedFile_deletesFile()
+            throws IOException {
+        Files.writeString(testFilePath, "this is corrupted data");
+
+        try {
+            storageManager.readFairShare();
+        } catch (StorageException e) {
+            // expected
+        }
+
+        assertTrue(!Files.exists(testFilePath));
+    }
+
+    @Test
+    public void readFairShare_oldFormatWithoutShares_throwsException()
+            throws IOException {
+        Files.writeString(testFilePath,
+                "lunch|30.0|alice|bob,mary|food");
+
+        assertThrows(StorageException.class, () ->
+                storageManager.readFairShare());
+    }
+
+    @Test
+    public void getFairShareFilePath_returnsCorrectPath() {
         assertEquals(testFilePath,
                 storageManager.getFairShareFilePath());
     }

@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import fairshare.logic.commands.FilterCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,16 +28,22 @@ public class FilterCommandParserTest {
         String expense1Name = "lunch";
         double expense1Amt = 25.0d;
         Person expense1Payer = new Person("john");
-        List<Person> expense1Participants = new ArrayList<>(
-                List.of(expense1Payer, new Person("alice"), new Person("jamie")));
+        List<Participant> expense1Participants = new ArrayList<>(
+                List.of(
+                        new Participant(expense1Payer, 1),
+                        new Participant(new Person("alice"), 1),
+                        new Participant(new Person("jamie"), 1)));
         List<Tag> expense1Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("jb")));
         expense1 = new Expense(expense1Name, expense1Amt, expense1Payer, expense1Participants, expense1Tags);
 
         String expense2Name = "dinner";
         double expense2Amt = 54.0d;
         Person expense2Payer = new Person("alice");
-        List<Person> expense2Participants = new ArrayList<>(
-                List.of(expense2Payer, new Person("jamie"), new Person("carrie")));
+        List<Participant> expense2Participants = new ArrayList<>(
+                List.of(
+                        new Participant(expense2Payer, 1),
+                        new Participant(new Person("jamie"), 1),
+                        new Participant(new Person("carrie"), 1)));
         List<Tag> expense2Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("school")));
         expense2 = new Expense(expense2Name, expense2Amt, expense2Payer, expense2Participants, expense2Tags);
     }
