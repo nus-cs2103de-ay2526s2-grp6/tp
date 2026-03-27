@@ -102,6 +102,16 @@ public class MainWindow implements Ui {
     }
 
     /**
+     * Displays a startup message in the result display.
+     * Used to warn the user about data issues on launch.
+     *
+     * @param message the message to display; cannot be null.
+     */
+    public void showStartupMessage(String message) {
+        resultDisplay.setFeedbackToUser(message);
+    }
+
+    /**
      * Executes the command and refreshes all panels.
      *
      * @param commandText the raw command string entered by the user.
