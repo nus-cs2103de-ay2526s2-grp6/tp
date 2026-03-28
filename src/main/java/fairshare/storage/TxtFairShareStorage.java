@@ -10,24 +10,29 @@ import fairshare.model.expense.Expense;
 import fairshare.storage.exceptions.StorageException;
 
 /**
- * An implementation of {@code ExpenseTrackerStorage} that reads and writes
+ * An implementation of {@code FairShareStorage} that reads and writes
  * expense data from and to a plain-text file on local disk.
  */
 public class TxtFairShareStorage implements FairShareStorage {
+
+    private static final String WARNING_CORRUPTED_FILE =
+            "\u26A0 WARNING: Data file was corrupted and has been "
+                    + "cleared. Starting with empty expense list.";
+
     private final Path filePath;
 
     /**
      * Constructs a {@code TxtFairShareStorage} with the given file path.
      *
-     * @param filePath the path of the data file to read from and write to;
-     *                 cannot be null.
+     * @param filePath the path of the data file to read from and write
+     *                 to; cannot be null.
      */
     public TxtFairShareStorage(Path filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * Returns the file path of the expense tracker data file.
+     * Returns the file path of the data file.
      *
      * @return the {@code Path} to the data file.
      */
@@ -37,11 +42,15 @@ public class TxtFairShareStorage implements FairShareStorage {
     }
 
     /**
-     * Reads expense tracker data from the local text file.
+     * Reads expense data from the local text file.
      * Returns an empty list if the file does not exist.
+     * If the file is corrupted, deletes it and throws a
+     * {@code StorageException} so the app can start fresh
+     * with a warning message.
      *
-     * @return a list of {@code TxtAdaptedExpense} with the loaded data.
-     * @throws StorageException if the file exists but cannot be read or parsed.
+     * @return a list of {@code Expense} with the loaded data.
+     * @throws StorageException if the file is corrupted or cannot
+     *                          be read.
      */
     @Override
     public List<Expense> readFairShare() throws StorageException {
@@ -53,9 +62,15 @@ public class TxtFairShareStorage implements FairShareStorage {
             return TxtSerializableFairShare
                     .loadFromFile(filePath)
                     .toModelType();
-        } catch (IOException e) {
-            throw new StorageException(
-                    "Failed to read data from file: " + filePath, e);
+        } catch (Exception e) {
+            try {
+                Files.delete(filePath);
+            } catch (IOException deleteError) {
+                System.out.println(
+                        "Could not delete corrupted file: "
+                                + deleteError.getMessage());
+            }
+            throw new StorageException(WARNING_CORRUPTED_FILE);
         }
     }
 
@@ -67,7 +82,8 @@ public class TxtFairShareStorage implements FairShareStorage {
      * @throws StorageException if the file cannot be written to.
      */
     @Override
-    public void saveFairShare(List<Expense> expenses) throws StorageException {
+    public void saveFairShare(List<Expense> expenses)
+            throws StorageException {
         try {
             new TxtSerializableFairShare(expenses).saveToFile(filePath);
         } catch (IOException e) {
