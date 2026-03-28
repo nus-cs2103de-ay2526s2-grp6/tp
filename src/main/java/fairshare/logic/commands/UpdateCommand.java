@@ -187,8 +187,8 @@ public class UpdateCommand extends Command {
          * @return True if all fields are null, otherwise false.
          */
         public boolean isEmpty() {
-            return (this.expenseName == null) && (this.amount == null) && (this.payer == null)
-                    && (this.participants == null) && (this.tags == null);
+            return (this.group == null) && (this.expenseName == null) && (this.amount == null)
+                    && (this.payer == null) && (this.participants == null) && (this.tags == null);
         }
     }
 }
