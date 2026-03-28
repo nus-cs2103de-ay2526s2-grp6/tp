@@ -51,13 +51,25 @@ public class TxtAdaptedParticipant {
     }
 
     /**
-     * Deserializes a plain-text string into a {@code TxtAdaptedParticipant}.
+     * Returns the name of this participant.
      *
-     * @param data the string to parse.
-     * @return the corresponding {@code TxtAdaptedParticipant}.
+     * @return the name string.
      */
+    public String getName() {
+        return person.getName();
+    }
+
+    /**
+     * Returns the number of shares of this participant.
+     *
+     * @return the shares as an int.
+     */
+    public int getShares() {
+        return shares;
+    }
+
     public static TxtAdaptedParticipant deserialize(String data) {
-        String[] parts = data.split(":", 2);
+        String[] parts = data.trim().split(":", 2);
 
         if (parts.length < 2) {
             throw new IllegalArgumentException(
@@ -65,7 +77,7 @@ public class TxtAdaptedParticipant {
         }
 
         TxtAdaptedPerson person =
-                TxtAdaptedPerson.deserialize(parts[0]);
+                TxtAdaptedPerson.deserialize(parts[0].trim());
         try {
             int shares = Integer.parseInt(parts[1].trim());
             return new TxtAdaptedParticipant(person, shares);

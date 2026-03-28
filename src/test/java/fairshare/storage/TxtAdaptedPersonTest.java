@@ -22,7 +22,8 @@ public class TxtAdaptedPersonTest {
 
     @Test
     public void deserialise_stringWithSpaces_returnsTrimmedPerson() {
-        TxtAdaptedPerson person = TxtAdaptedPerson.deserialize("  alice  ");
+        TxtAdaptedPerson person =
+                TxtAdaptedPerson.deserialize("  alice  ");
         assertEquals("alice", person.getName());
     }
 
