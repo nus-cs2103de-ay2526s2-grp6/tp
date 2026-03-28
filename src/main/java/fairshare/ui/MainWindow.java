@@ -3,7 +3,6 @@ package fairshare.ui;
 import java.io.IOException;
 
 import fairshare.logic.Logic;
-import fairshare.logic.commands.Command;
 import fairshare.logic.commands.CommandResult;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.logic.parser.exceptions.ParseException;
@@ -99,6 +98,16 @@ public class MainWindow implements Ui {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.show();
+    }
+
+    /**
+     * Displays a startup message in the result display.
+     * Used to warn the user about data issues on launch.
+     *
+     * @param message the message to display; cannot be null.
+     */
+    public void showStartupMessage(String message) {
+        resultDisplay.setFeedbackToUser(message);
     }
 
     /**

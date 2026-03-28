@@ -10,14 +10,14 @@ import fairshare.model.expense.Expense;
 import javafx.collections.ObservableList;
 
 /**
- * Represents the API of the Logic component.
+ * Represents the API of the logic component in FairShare
  */
 public interface Logic {
 
     /**
      * Executes the given user input as a command.
      *
-     * @param userInput the raw command string; cannot be null.
+     * @param userInput the raw command string.
      * @return the {@code CommandResult} from executing the command.
      * @throws ParseException   if the input cannot be parsed.
      * @throws CommandException if the command execution fails.
@@ -35,7 +35,7 @@ public interface Logic {
     /**
      * Returns the list of balances calculated from all expenses.
      *
-     * @return a list of {@code Balance}.
+     * @return a list of {@code Balance} objects.
      */
     List<Balance> calculateBalances();
 }

@@ -10,8 +10,18 @@ import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
+/**
+ * Parses input arguments and creates a new AddCommand object.
+ */
 public class AddCommandParser implements Parser {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of AddCommand.
+     *
+     * @param args The raw string of user-input arguments.
+     * @return An {@code AddCommand} object.
+     * @throws ParseException If the user input does not match the required format.
+     */
     public AddCommand parse(String args) throws ParseException {
         Map<String, List<String>> map = ParserUtil.tokenize(args);
 

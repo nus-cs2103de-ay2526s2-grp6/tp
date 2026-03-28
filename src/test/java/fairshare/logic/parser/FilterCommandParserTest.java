@@ -1,11 +1,14 @@
 package fairshare.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fairshare.logic.commands.FilterCommand;
 import fairshare.logic.parser.exceptions.ParseException;
@@ -13,8 +16,6 @@ import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class FilterCommandParserTest {
     private FilterCommandParser parser;

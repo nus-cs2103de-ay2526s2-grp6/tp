@@ -6,8 +6,18 @@ import fairshare.logic.commands.HelpCommand;
 import fairshare.logic.commands.ListCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 
+/**
+ * Represents a parser for user input. This is the main entry point of FairShare's parsing logic.
+ */
 public class FairShareParser {
 
+    /**
+     * Parses the user input into an executable command.
+     *
+     * @param userInput The raw text string entered by the user.
+     * @return A {@code Command} to be executed.
+     * @throws ParseException If the user input does not match any command word.
+     */
     public Command parseCommand(String userInput) throws ParseException {
         String[] parts = userInput.trim().split("\\s+", 2);
 

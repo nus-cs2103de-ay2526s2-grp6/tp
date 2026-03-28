@@ -15,8 +15,7 @@ import fairshare.storage.exceptions.StorageException;
 import javafx.collections.ObservableList;
 
 /**
- * The main logic manager. Parses user input, executes commands
- * against the model, and saves state to storage after each command.
+ * The main logic manager. Parses user input, executes commands, and saves state to storage after each command.
  */
 public class LogicManager implements Logic {
 
@@ -27,8 +26,8 @@ public class LogicManager implements Logic {
     /**
      * Constructs a {@code LogicManager} with the given model and storage.
      *
-     * @param model   the model to execute commands against; cannot be null.
-     * @param storage the storage to save state to; cannot be null.
+     * @param model   the model to execute commands against.
+     * @param storage the storage to save state to.
      */
     public LogicManager(Model model, Storage storage) {
         this.fairShareParser = new FairShareParser();
@@ -36,9 +35,6 @@ public class LogicManager implements Logic {
         this.storage = storage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public CommandResult execute(String userInput) throws ParseException, CommandException {
         Command cmd = fairShareParser.parseCommand(userInput);
@@ -53,17 +49,11 @@ public class LogicManager implements Logic {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ObservableList<Expense> getFilteredExpenseList() {
         return model.getFilteredExpenseList();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Balance> calculateBalances() {
         return model.calculateBalances();
