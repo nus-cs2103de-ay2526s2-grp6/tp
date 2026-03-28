@@ -80,7 +80,7 @@ public class ExpenseCard {
      * @param totalShares the total number of shares in the expense.
      * @return a formatted string showing the participant's name and fraction.
      */
-    private  String formatParticipant(Participant participant, int totalShares) {
+    private String formatParticipant(Participant participant, int totalShares) {
         return participant.getPerson().getName()
                 + "("
                 + participant.getShares()
