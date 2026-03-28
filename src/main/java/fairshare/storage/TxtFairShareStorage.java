@@ -37,11 +37,14 @@ public class TxtFairShareStorage implements FairShareStorage {
     }
 
     /**
-     * Reads expense tracker data from the local text file.
+     * Reads expense data from the local text file.
      * Returns an empty list if the file does not exist.
+     * If the file is corrupted, deletes it and throws a
+     * {@code StorageException} so the app can start fresh.
      *
-     * @return a list of {@code TxtAdaptedExpense} with the loaded data.
-     * @throws StorageException if the file exists but cannot be read or parsed.
+     * @return a list of {@code Expense} with the loaded data.
+     * @throws StorageException if the file is corrupted or cannot
+     *                          be read.
      */
     @Override
     public List<Expense> readFairShare() throws StorageException {
@@ -53,9 +56,17 @@ public class TxtFairShareStorage implements FairShareStorage {
             return TxtSerializableFairShare
                     .loadFromFile(filePath)
                     .toModelType();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            try {
+                Files.delete(filePath);
+            } catch (IOException deleteError) {
+                System.out.println(
+                        "Could not delete corrupted file: "
+                                + deleteError.getMessage());
+            }
             throw new StorageException(
-                    "Failed to read data from file: " + filePath, e);
+                    "Data file was corrupted and has been cleared. "
+                            + "Starting with empty expense list.");
         }
     }
 

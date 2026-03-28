@@ -7,6 +7,7 @@ import fairshare.model.expense.Participant;
  * Used for serializing and deserializing participant data to and from the local storage file.
  */
 public class TxtAdaptedParticipant {
+
     private final TxtAdaptedPerson person;
     private final int shares;
 
@@ -58,12 +59,19 @@ public class TxtAdaptedParticipant {
     public static TxtAdaptedParticipant deserialize(String data) {
         String[] parts = data.split(":", 2);
 
-        TxtAdaptedPerson person = TxtAdaptedPerson.deserialize(parts[0]);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException(
+                    "Invalid participant format: " + data);
+        }
+
+        TxtAdaptedPerson person =
+                TxtAdaptedPerson.deserialize(parts[0]);
         try {
-            int shares = Integer.parseInt(parts[1]);
+            int shares = Integer.parseInt(parts[1].trim());
             return new TxtAdaptedParticipant(person, shares);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid shares format");
+            throw new IllegalArgumentException(
+                    "Invalid shares format: " + parts[1]);
         }
     }
 }
