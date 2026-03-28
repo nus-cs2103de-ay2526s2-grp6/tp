@@ -7,7 +7,6 @@ import fairshare.model.expense.Participant;
  * Used for serializing and deserializing participant data to and from the local storage file.
  */
 public class TxtAdaptedParticipant {
-
     private final TxtAdaptedPerson person;
     private final int shares;
 
