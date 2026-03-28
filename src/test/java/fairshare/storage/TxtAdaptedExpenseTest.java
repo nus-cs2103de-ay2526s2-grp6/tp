@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -21,6 +22,7 @@ public class TxtAdaptedExpenseTest {
 
     @BeforeEach
     public void setUp() {
+        Group group = new Group("malaysia");
         Person payer = new Person("alice");
         List<Participant> participants = new ArrayList<>(
                 List.of(
@@ -30,7 +32,7 @@ public class TxtAdaptedExpenseTest {
         List<Tag> tags = new ArrayList<>(
                 List.of(new Tag("food"), new Tag("trip")));
 
-        expense = new Expense("lunch", 30.0, payer, participants, tags);
+        expense = new Expense(group, "lunch", 30.0, payer, participants, tags);
         adaptedExpense = new TxtAdaptedExpense(expense);
     }
 

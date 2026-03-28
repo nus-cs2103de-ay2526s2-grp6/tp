@@ -67,6 +67,12 @@ public class TxtAdaptedParticipant {
         return shares;
     }
 
+    /**
+     * Deserializes a plain-text string into a {@code TxtAdaptedParticipant}.
+     *
+     * @param data the string to parse.
+     * @return the corresponding {@code TxtAdaptedParticipant}.
+     */
     public static TxtAdaptedParticipant deserialize(String data) {
         String[] parts = data.trim().split(":", 2);
 
