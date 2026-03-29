@@ -13,7 +13,7 @@ public class TxtAdaptedParticipant {
     /**
      * Constructs a {@code TxtAdaptedParticipant} from a {@code Participant} object.
      *
-     * @param source The {@code Participant} to adapt.
+     * @param source the {@code Participant} to adapt.
      */
     public TxtAdaptedParticipant(Participant source) {
         this.person = new TxtAdaptedPerson(source.getPerson());
@@ -24,7 +24,7 @@ public class TxtAdaptedParticipant {
      * Constructs a {@code TxtAdaptedParticipant} with the specified adapted person and share weight.
      *
      * @param person The {@code TxtAdaptedPerson} representing the participant's identity.
-     * @param shares The integer share weight of the participant.
+     * @param shares the integer share weight of the participant.
      */
     public TxtAdaptedParticipant(TxtAdaptedPerson person, int shares) {
         this.person = person;
@@ -67,6 +67,12 @@ public class TxtAdaptedParticipant {
         return shares;
     }
 
+    /**
+     * Deserializes a plain-text string into a {@code TxtAdaptedParticipant}.
+     *
+     * @param data the string to parse.
+     * @return the corresponding {@code TxtAdaptedParticipant}.
+     */
     public static TxtAdaptedParticipant deserialize(String data) {
         String[] parts = data.trim().split(":", 2);
 

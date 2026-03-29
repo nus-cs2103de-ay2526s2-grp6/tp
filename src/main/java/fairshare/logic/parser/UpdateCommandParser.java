@@ -8,6 +8,7 @@ import fairshare.logic.commands.UpdateCommand;
 import fairshare.logic.commands.UpdateCommand.UpdateFields;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -43,33 +44,60 @@ public class UpdateCommandParser implements Parser {
     }
 
     private UpdateFields createUpdateFields(Map<String, List<String>> map) throws ParseException {
-        Optional<String> expenseName = ParserUtil.getOptionalSingleFieldData(map, "n");
-        Optional<String> strAmount = ParserUtil.getOptionalSingleFieldData(map, "a");
-        Optional<String> strPayer = ParserUtil.getOptionalSingleFieldData(map, "p");
-        Optional<List<String>> strParticipants = ParserUtil.getOptionalMultiFieldData(map, "s");
-        Optional<List<String>> strTags = ParserUtil.getOptionalMultiFieldData(map, "t");
-
         UpdateFields updateFields = new UpdateFields();
 
+        setGroup(map, updateFields);
+        setExpenseName(map, updateFields);
+        setAmount(map, updateFields);
+        setPayer(map, updateFields);
+        setParticipants(map, updateFields);
+        setTags(map, updateFields);
+
+        return updateFields;
+    }
+
+    private void setGroup(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<String> group = ParserUtil.getOptionalSingleFieldData(map, "g");
+        if (group.isPresent()) {
+            updateFields.setGroup(new Group(group.get()));
+        }
+    }
+
+    private void setExpenseName(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<String> expenseName = ParserUtil.getOptionalSingleFieldData(map, "n");
         if (expenseName.isPresent()) {
             updateFields.setExpenseName(expenseName.get());
         }
+    }
+
+    private void setAmount(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<String> strAmount = ParserUtil.getOptionalSingleFieldData(map, "a");
         if (strAmount.isPresent()) {
             double amount = ParserUtil.parseAmount(strAmount.get());
             updateFields.setAmount(amount);
         }
+    }
+
+    private void setPayer(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<String> strPayer = ParserUtil.getOptionalSingleFieldData(map, "p");
         if (strPayer.isPresent()) {
             updateFields.setPayer(new Person(strPayer.get()));
         }
+    }
+
+    private void setParticipants(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<List<String>> strParticipants = ParserUtil.getOptionalMultiFieldData(map, "s");
         if (strParticipants.isPresent()) {
             List<Participant> participants = ParserUtil.parseParticipants(strParticipants.get());
             updateFields.setParticipants(participants);
         }
+    }
+
+    private void setTags(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<List<String>> strTags = ParserUtil.getOptionalMultiFieldData(map, "t");
         if (strTags.isPresent()) {
             List<Tag> tags = ParserUtil.parseTags(strTags.get());
             updateFields.setTags(tags);
         }
-
-        return updateFields;
     }
 }
