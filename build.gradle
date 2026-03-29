@@ -39,6 +39,15 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
     testImplementation 'org.mockito:mockito-core:5.8.0'
+
+    def javaFxVersion = "21.0.1"
+    def osPlatforms = ['win', 'mac-aarch64', 'linux']
+    osPlatforms.each { os ->
+        implementation "org.openjfx:javafx-controls:${javaFxVersion}:${os}"
+        implementation "org.openjfx:javafx-fxml:${javaFxVersion}:${os}"
+        implementation "org.openjfx:javafx-graphics:${javaFxVersion}:${os}"
+        implementation "org.openjfx:javafx-media:${javaFxVersion}:${os}"
+    }
 }
 
 test {
