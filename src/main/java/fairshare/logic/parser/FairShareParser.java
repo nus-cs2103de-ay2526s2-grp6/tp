@@ -1,5 +1,6 @@
 package fairshare.logic.parser;
 
+import fairshare.logic.commands.ClearCommand;
 import fairshare.logic.commands.Command;
 import fairshare.logic.commands.ExitCommand;
 import fairshare.logic.commands.HelpCommand;
@@ -35,6 +36,8 @@ public class FairShareParser {
             return new UpdateCommandParser().parse(args);
         case "settle":
             return new SettleCommandParser().parse(args);
+        case "clear":
+            return new ClearCommand();
         case "list":
             return new ListCommand();
         case "help":

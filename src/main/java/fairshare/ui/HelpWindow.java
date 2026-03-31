@@ -50,6 +50,9 @@ public class HelpWindow {
             List All Expenses
               list
 
+            Clear All Expenses
+              clear
+
             Help
               help
 

@@ -57,6 +57,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void clearExpenseList() {
+        expenseList.clearExpenseList();
+    }
+
+    @Override
     public ObservableList<Expense> getFilteredExpenseList() {
         return filteredExpenses;
     }
