@@ -38,4 +38,11 @@ public interface Logic {
      * @return a list of {@code Balance} objects.
      */
     List<Balance> calculateBalances();
+
+    /**
+     * Returns the full unfiltered list of expenses.
+     *
+     * @return a {@code List} of all {@code Expense} objects.
+     */
+    List<Expense> getExpenseList();
 }

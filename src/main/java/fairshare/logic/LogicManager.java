@@ -58,4 +58,9 @@ public class LogicManager implements Logic {
     public List<Balance> calculateBalances() {
         return model.calculateBalances();
     }
+
+    @Override
+    public List<Expense> getExpenseList() {
+        return model.getExpenseList();
+    }
 }

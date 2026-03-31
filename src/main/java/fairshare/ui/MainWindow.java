@@ -30,6 +30,7 @@ public class MainWindow implements Ui {
 
     private ExpenseListPanel expenseListPanel;
     private BalancePanel balancePanel;
+    private TagPieChart tagPieChart;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
     private HelpWindow helpWindow;
@@ -39,6 +40,9 @@ public class MainWindow implements Ui {
 
     @FXML
     private StackPane balancePanelPlaceholder;
+
+    @FXML
+    private StackPane tagPieChartPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -81,6 +85,10 @@ public class MainWindow implements Ui {
         balancePanelPlaceholder.getChildren().add(
                 balancePanel.getRoot());
 
+        tagPieChart = new TagPieChart(logic.getExpenseList());
+        tagPieChartPlaceholder.getChildren().add(
+                tagPieChart.getRoot());
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(
                 resultDisplay.getRoot());
@@ -102,7 +110,6 @@ public class MainWindow implements Ui {
 
     /**
      * Displays a startup message in the result display.
-     * Used to warn the user about data issues on launch.
      *
      * @param message the message to display; cannot be null.
      */
@@ -117,10 +124,12 @@ public class MainWindow implements Ui {
      * @throws CommandException if the command execution fails.
      * @throws ParseException   if the command cannot be parsed.
      */
-    private void executeCommand(String commandText) throws CommandException, ParseException {
+    private void executeCommand(String commandText)
+            throws CommandException, ParseException {
         try {
             CommandResult result = logic.execute(commandText);
             resultDisplay.setFeedbackToUser(result.getResponse());
+
             if (result.getIsHelp()) {
                 helpWindow.show();
                 return;
@@ -129,11 +138,13 @@ public class MainWindow implements Ui {
                 handleExit();
                 return;
             }
+
             balancePanel.refresh(logic.calculateBalances());
+            tagPieChart.refresh(logic.getExpenseList());
+
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
-
-            throw e; // Rethrow to notify commandbox of an exception
+            throw e;
         }
     }
 
