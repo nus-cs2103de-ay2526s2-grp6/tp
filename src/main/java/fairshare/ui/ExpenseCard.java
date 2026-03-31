@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.ExpenseType;
 import fairshare.model.expense.Participant;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
@@ -57,23 +58,31 @@ public class ExpenseCard {
             throw new UiException("Failed to load " + FXML, e);
         }
 
-        int totalShares = expense.getTotalShares();
-
         indexLabel.setText(displayIndex + ". ");
         groupLabel.setText("Group: " + expense.getGroup().getGroupName());
         expenseNameLabel.setText(expense.getExpenseName());
         amountLabel.setText(String.format("$%.2f", expense.getAmount()));
-        payerLabel.setText("Paid by: " + expense.getPayer().getName());
 
-        String participants = expense.getParticipants().stream()
-                .map(p -> formatParticipant(p, totalShares))
-                .collect(Collectors.joining(", "));
-        participantsLabel.setText("Participants: " + participants);
+        if (expense.getExpenseType() == ExpenseType.SETTLEMENT) {
+            formatSettlement(expense);
+        } else {
+            formatExpense(expense);
+        }
 
-        String tags = expense.getTags().stream()
-                .map(t -> t.getTagName())
-                .collect(Collectors.joining(", "));
-        tagsLabel.setText("Tags: " + (tags.isEmpty() ? "-" : tags));
+        if (expense.getExpenseType() == ExpenseType.SETTLEMENT) {
+            root.setStyle("-fx-background-color: #4caf50; ");
+        } else {
+            root.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        }
+    }
+
+    /**
+     * Returns the root node of this card.
+     *
+     * @return the root {@code HBox}.
+     */
+    public HBox getRoot() {
+        return root;
     }
 
     /**
@@ -93,12 +102,25 @@ public class ExpenseCard {
                 + ")";
     }
 
-    /**
-     * Returns the root node of this card.
-     *
-     * @return the root {@code HBox}.
-     */
-    public HBox getRoot() {
-        return root;
+    private void formatSettlement(Expense expense) {
+        payerLabel.setText(expense.getPayer().getName() + " -> "
+                + expense.getParticipants().getFirst().getPerson().getName());
+
+    }
+
+    private void formatExpense(Expense expense) {
+        payerLabel.setText("Paid by: " + expense.getPayer().getName());
+
+        int totalShares = expense.getTotalShares();
+
+        String participants = expense.getParticipants().stream()
+                .map(p -> formatParticipant(p, totalShares))
+                .collect(Collectors.joining(", "));
+        participantsLabel.setText("Participants: " + participants);
+
+        String tags = expense.getTags().stream()
+                .map(t -> t.getTagName())
+                .collect(Collectors.joining(", "));
+        tagsLabel.setText("Tags: " + (tags.isEmpty() ? "-" : tags));
     }
 }

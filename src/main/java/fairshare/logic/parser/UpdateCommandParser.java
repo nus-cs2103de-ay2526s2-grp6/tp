@@ -52,6 +52,7 @@ public class UpdateCommandParser implements Parser {
         setPayer(map, updateFields);
         setParticipants(map, updateFields);
         setTags(map, updateFields);
+        setReceiver(map, updateFields);
 
         return updateFields;
     }
@@ -98,6 +99,13 @@ public class UpdateCommandParser implements Parser {
         if (strTags.isPresent()) {
             List<Tag> tags = ParserUtil.parseTags(strTags.get());
             updateFields.setTags(tags);
+        }
+    }
+
+    private void setReceiver(Map<String, List<String>> map, UpdateFields updateFields) throws ParseException {
+        Optional<String> strReceiver = ParserUtil.getOptionalSingleFieldData(map, "r");
+        if (strReceiver.isPresent()) {
+            updateFields.setReceiver(new Participant(new Person(strReceiver.get()), 1));
         }
     }
 }

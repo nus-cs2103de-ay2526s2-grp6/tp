@@ -17,6 +17,7 @@ public class Expense {
     private Person payer;
     private List<Participant> participants;
     private List<Tag> tags;
+    private ExpenseType expenseType;
 
     /**
      * Creates an instance of {@code Expense} with the specified name, amount, payer, participants, and tags
@@ -28,14 +29,15 @@ public class Expense {
      * @param participants The list of participants sharing the cost of this expense.
      * @param tags The list of categorical tags associated with this expense.
      */
-    public Expense(Group group, String expenseName, double amount,
-                   Person payer, List<Participant> participants, List<Tag> tags) {
+    public Expense(Group group, String expenseName, double amount, Person payer,
+                   List<Participant> participants, List<Tag> tags, ExpenseType expenseType) {
         this.group = group;
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
         this.participants = participants;
         this.tags = tags;
+        this.expenseType = expenseType;
     }
 
     /**
@@ -105,6 +107,33 @@ public class Expense {
         return this.group;
     }
 
+    /**
+     * Returns the type of this expense.
+     *
+     * @return The expense type as a {@code ExpenseType} object.
+     */
+    public ExpenseType getExpenseType() {
+        return this.expenseType;
+    }
+
+    /**
+     * Creates a special {@code Expense} representing a settlement between two persons.
+     * A settlement is an expense with one participant and a "settlement" tag.
+     *
+     * @param group The {@code Group} the settlement belongs to.
+     * @param payer The {@code Person} paying off the debt.
+     * @param receiver The {@code Person} receiving the payment.
+     * @param amount The amount being paid.
+     * @return An {@code Expense} object configured as a settlement.
+     */
+    public static Expense createSettlement(Group group, Person payer, Person receiver, double amount) {
+        String settlementName = "Settlement";
+        Participant receive = new Participant(receiver, 1);
+
+        return new Expense(group, settlementName, amount, payer, List.of(receive),
+                List.of(), ExpenseType.SETTLEMENT);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -127,6 +156,6 @@ public class Expense {
     @Override
     public int hashCode() {
         // Any two person expenses with the same variables is assumed to be the same expense (same hashcode)
-        return Objects.hash(expenseName, amount, payer, participants, tags);
+        return Objects.hash(group, expenseName, amount, payer, participants, tags);
     }
 }

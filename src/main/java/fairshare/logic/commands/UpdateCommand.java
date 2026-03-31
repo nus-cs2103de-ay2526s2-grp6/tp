@@ -6,6 +6,7 @@ import java.util.Optional;
 import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.model.Model;
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.ExpenseType;
 import fairshare.model.expense.Participant;
 import fairshare.model.group.Group;
 import fairshare.model.person.Person;
@@ -17,6 +18,12 @@ import fairshare.model.tag.Tag;
 public class UpdateCommand extends Command {
     private static final String MESSAGE_SUCCESS = "Update success";
     private static final String MESSAGE_INVALID_INDEX = "Cannot update an expense that is not in the list.";
+    private static final String MESSAGE_SETTLEMENT_NAME_UNMODIFIABLE = "Cannot modify the name of a settlement.";
+    private static final String MESSAGE_SETTLEMENT_DISALLOW_TAGS = "Settlements cannot be tagged.";
+    private static final String MESSAGE_SETTLEMENT_INCORRECT_RECEIVER_PREFIX =
+            "Please use r/RECEIVER to update the receiver of a settlement.";
+    private static final String MESSAGE_EXPENSE_INCORRECT_PARTICIPANT_PREFIX =
+            "Please use s/SHARER to update the participants of an expense.";
     private int expenseIndex;
     private UpdateFields updateFields;
 
@@ -42,7 +49,15 @@ public class UpdateCommand extends Command {
         try {
             List<Expense> displayedExpenseList = model.getFilteredExpenseList();
             Expense targetExpense = displayedExpenseList.get(expenseIndex);
-            Expense updatedExpense = createUpdatedExpense(targetExpense, updateFields);
+
+            Expense updatedExpense;
+            if (targetExpense.getExpenseType() == ExpenseType.SETTLEMENT) {
+                validateSettlementFields(updateFields);
+                updatedExpense = createUpdatedSettlement(targetExpense, updateFields);
+            } else {
+                validateExpenseFields(updateFields);
+                updatedExpense = createUpdatedExpense(targetExpense, updateFields);
+            }
             model.updateExpense(targetExpense, updatedExpense);
 
             return new CommandResult(MESSAGE_SUCCESS, false, false);
@@ -59,7 +74,47 @@ public class UpdateCommand extends Command {
         List<Participant> participants = updateFields.getParticipants().orElse(targetExpense.getParticipants());
         List<Tag> tags = updateFields.getTags().orElse(targetExpense.getTags());
 
-        return new Expense(group, expenseName, amount, payer, participants, tags);
+        return new Expense(group, expenseName, amount, payer, participants, tags, targetExpense.getExpenseType());
+    }
+
+    private Expense createUpdatedSettlement(Expense targetExpense, UpdateFields updateFields) {
+        Group group = updateFields.getGroup().orElse(targetExpense.getGroup());
+        String expenseName = updateFields.getExpenseName().orElse(targetExpense.getExpenseName());
+        double amount = updateFields.getAmount().orElse(targetExpense.getAmount());
+        Person payer = updateFields.getPayer().orElse(targetExpense.getPayer());
+
+        // Convert single participant (receiver) into a list of participants.
+        Optional<Participant> receiver = updateFields.getReceiver();
+        List<Participant> participants;
+        if (receiver.isPresent()) {
+            participants = List.of(receiver.get());
+        } else {
+            participants = targetExpense.getParticipants();
+        }
+
+        List<Tag> tags = updateFields.getTags().orElse(targetExpense.getTags());
+
+        return new Expense(group, expenseName, amount, payer, participants, tags, targetExpense.getExpenseType());
+    }
+
+    private void validateExpenseFields(UpdateFields updateFields) throws CommandException {
+        if (updateFields.getParticipants().isEmpty() && updateFields.getReceiver().isPresent()) {
+            throw new CommandException(MESSAGE_EXPENSE_INCORRECT_PARTICIPANT_PREFIX);
+        }
+    }
+
+    private void validateSettlementFields(UpdateFields updateFields) throws CommandException {
+        if (updateFields.getExpenseName().isPresent()) {
+            throw new CommandException(MESSAGE_SETTLEMENT_NAME_UNMODIFIABLE);
+        }
+
+        if (updateFields.getTags().isPresent()) {
+            throw new CommandException(MESSAGE_SETTLEMENT_DISALLOW_TAGS);
+        }
+
+        if (updateFields.getReceiver().isEmpty() && updateFields.getParticipants().isPresent()) {
+            throw new CommandException(MESSAGE_SETTLEMENT_INCORRECT_RECEIVER_PREFIX);
+        }
     }
 
     /**
@@ -72,6 +127,7 @@ public class UpdateCommand extends Command {
         private Person payer;
         private List<Participant> participants;
         private List<Tag> tags;
+        private Participant receiver; // Used for updating a settlement
 
         /**
          * Sets the new expense group.
@@ -182,13 +238,32 @@ public class UpdateCommand extends Command {
         }
 
         /**
+         * Sets the new receiver for this expense (settlement).
+         *
+         * @param receiver The updated receiver as a {@code Participant}.
+         */
+        public void setReceiver(Participant receiver) {
+            this.receiver = receiver;
+        }
+
+        /**
+         * Returns the updated receiver, if any.
+         *
+         * @return An {@code Optional} containing the new receiver, or empty if none.
+         */
+        public Optional<Participant> getReceiver() {
+            return Optional.ofNullable(this.receiver);
+        }
+
+        /**
          * Checks if any fields have been provided for the update.
          *
          * @return True if all fields are null, otherwise false.
          */
         public boolean isEmpty() {
             return (this.group == null) && (this.expenseName == null) && (this.amount == null)
-                    && (this.payer == null) && (this.participants == null) && (this.tags == null);
+                    && (this.payer == null) && (this.participants == null) && (this.tags == null)
+                    && (this.receiver == null);
         }
     }
 }

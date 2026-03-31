@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.ExpenseType;
 import fairshare.model.expense.Participant;
 import fairshare.model.group.Group;
 import fairshare.model.person.Person;
@@ -25,6 +26,7 @@ public class TxtAdaptedExpense {
     private final TxtAdaptedPerson payer;
     private final List<TxtAdaptedParticipant> participants;
     private final List<TxtAdaptedTag> tags;
+    private final ExpenseType expenseType;
 
     /**
      * Constructs a {@code TxtAdaptedExpense} from an {@code Expense} model object.
@@ -42,6 +44,7 @@ public class TxtAdaptedExpense {
         this.tags = source.getTags().stream()
                 .map(TxtAdaptedTag::new)
                 .toList();
+        this.expenseType = source.getExpenseType();
     }
 
     /**
@@ -55,13 +58,15 @@ public class TxtAdaptedExpense {
      * @param tags        the list of adapted tags; cannot be null.
      */
     public TxtAdaptedExpense(TxtAdaptedGroup group, String expenseName, double amount, TxtAdaptedPerson payer,
-                             List<TxtAdaptedParticipant> participants, List<TxtAdaptedTag> tags) {
+                             List<TxtAdaptedParticipant> participants, List<TxtAdaptedTag> tags,
+                             ExpenseType expenseType) {
         this.group = group;
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
         this.participants = participants;
         this.tags = tags;
+        this.expenseType = expenseType;
     }
 
     /**
@@ -126,7 +131,7 @@ public class TxtAdaptedExpense {
                 .map(TxtAdaptedTag::toModelType)
                 .collect(Collectors.toList());
 
-        return new Expense(group, expenseName, amount, payer, participants, tagList);
+        return new Expense(group, expenseName, amount, payer, participants, tagList, expenseType);
     }
 
     /**
@@ -148,12 +153,15 @@ public class TxtAdaptedExpense {
                 .map(TxtAdaptedTag::serialize)
                 .collect(Collectors.joining(LIST_SEPARATOR));
 
+        String expenseTypeStr = expenseType.name();
+
         return groupStr + "|"
                 + expenseName + "|"
                 + amount + "|"
                 + payerStr + "|"
                 + participantsStr + "|"
-                + tagsStr;
+                + tagsStr + "|"
+                + expenseTypeStr;
     }
 
     /**
@@ -168,7 +176,7 @@ public class TxtAdaptedExpense {
     public static TxtAdaptedExpense deserialize(String line) {
         String[] parts = line.split(FIELD_SEPARATOR, -1);
 
-        if (parts.length != 6) {
+        if (parts.length != 7) {
             throw new IllegalArgumentException(
                     "Invalid expense format: " + line);
         }
@@ -188,6 +196,8 @@ public class TxtAdaptedExpense {
                 .map(TxtAdaptedTag::deserialize)
                 .toList();
 
-        return new TxtAdaptedExpense(group, expenseName, amount, payer, participants, tags);
+        ExpenseType expenseType = ExpenseType.valueOf(parts[6]);
+
+        return new TxtAdaptedExpense(group, expenseName, amount, payer, participants, tags, expenseType);
     }
 }

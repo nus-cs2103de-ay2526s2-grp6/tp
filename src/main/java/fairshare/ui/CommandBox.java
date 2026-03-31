@@ -98,7 +98,6 @@ public class CommandBox {
 
     @FXML
     private void initialize() {
-        System.out.println("initialize() called");
         commandTextField.setOnAction(event -> handleCommandEntered());
         sendButton.setOnAction(event -> handleCommandEntered());
     }

@@ -33,6 +33,8 @@ public class FairShareParser {
             return new FilterCommandParser().parse(args);
         case "update":
             return new UpdateCommandParser().parse(args);
+        case "settle":
+            return new SettleCommandParser().parse(args);
         case "list":
             return new ListCommand();
         case "help":
