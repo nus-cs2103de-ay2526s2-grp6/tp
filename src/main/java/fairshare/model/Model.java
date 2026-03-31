@@ -43,6 +43,11 @@ public interface Model {
     void filterExpenses(Predicate<Expense> predicate);
 
     /**
+     * Removes all {@code Expense} from the expense list.
+     */
+    void clearExpenseList();
+
+    /**
      * Returns an unmodifiable observable view of the filtered expense list.
      *
      * @return An {@code ObservableList} containing the filtered expenses.
