@@ -24,6 +24,9 @@ public class ExpenseCard {
     private Label indexLabel;
 
     @FXML
+    private Label groupLabel;
+
+    @FXML
     private Label expenseNameLabel;
 
     @FXML
@@ -57,6 +60,7 @@ public class ExpenseCard {
         int totalShares = expense.getTotalShares();
 
         indexLabel.setText(displayIndex + ". ");
+        groupLabel.setText("Group: " + expense.getGroup().getGroupName());
         expenseNameLabel.setText(expense.getExpenseName());
         amountLabel.setText(String.format("$%.2f", expense.getAmount()));
         payerLabel.setText("Paid by: " + expense.getPayer().getName());

@@ -7,6 +7,7 @@ import fairshare.logic.commands.exceptions.CommandException;
 import fairshare.model.Model;
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -51,24 +52,44 @@ public class UpdateCommand extends Command {
     }
 
     private Expense createUpdatedExpense(Expense targetExpense, UpdateFields updateFields) {
+        Group group = updateFields.getGroup().orElse(targetExpense.getGroup());
         String expenseName = updateFields.getExpenseName().orElse(targetExpense.getExpenseName());
         double amount = updateFields.getAmount().orElse(targetExpense.getAmount());
         Person payer = updateFields.getPayer().orElse(targetExpense.getPayer());
         List<Participant> participants = updateFields.getParticipants().orElse(targetExpense.getParticipants());
         List<Tag> tags = updateFields.getTags().orElse(targetExpense.getTags());
 
-        return new Expense(expenseName, amount, payer, participants, tags);
+        return new Expense(group, expenseName, amount, payer, participants, tags);
     }
 
     /**
      * Represents a container for storing the details to update an expense with.
      */
     public static class UpdateFields {
+        private Group group;
         private String expenseName;
         private Double amount;
         private Person payer;
         private List<Participant> participants;
         private List<Tag> tags;
+
+        /**
+         * Sets the new expense group.
+         *
+         * @param group The updated expense {@code Group} this expense belongs to.
+         */
+        public void setGroup(Group group) {
+            this.group = group;
+        }
+
+        /**
+         * Returns the updated expense group, if any.
+         *
+         * @return An {@code Optional} containing the new group, or empty if none.
+         */
+        public Optional<Group> getGroup() {
+            return Optional.ofNullable(this.group);
+        }
 
         /**
          * Sets the new expense name.
@@ -166,8 +187,8 @@ public class UpdateCommand extends Command {
          * @return True if all fields are null, otherwise false.
          */
         public boolean isEmpty() {
-            return (this.expenseName == null) && (this.amount == null) && (this.payer == null)
-                    && (this.participants == null) && (this.tags == null);
+            return (this.group == null) && (this.expenseName == null) && (this.amount == null)
+                    && (this.payer == null) && (this.participants == null) && (this.tags == null);
         }
     }
 }

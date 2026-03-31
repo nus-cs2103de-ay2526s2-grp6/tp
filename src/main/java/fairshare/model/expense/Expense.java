@@ -3,6 +3,7 @@ package fairshare.model.expense;
 import java.util.List;
 import java.util.Objects;
 
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -10,6 +11,7 @@ import fairshare.model.tag.Tag;
  * Represents an expense in the shared expense tracker (FairShare)
  */
 public class Expense {
+    private Group group;
     private String expenseName;
     private double amount;
     private Person payer;
@@ -19,14 +21,16 @@ public class Expense {
     /**
      * Creates an instance of {@code Expense} with the specified name, amount, payer, participants, and tags
      *
+     * @param group The group the expense belongs to.
      * @param expenseName The name of the expense.
      * @param amount The amount (cost) of the expense.
      * @param payer The person who paid for the expense.
      * @param participants The list of participants sharing the cost of this expense.
      * @param tags The list of categorical tags associated with this expense.
      */
-    public Expense(String expenseName, double amount,
+    public Expense(Group group, String expenseName, double amount,
                    Person payer, List<Participant> participants, List<Tag> tags) {
+        this.group = group;
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
@@ -92,6 +96,15 @@ public class Expense {
         return shares;
     }
 
+    /**
+     * Returns the group this expense belongs to.
+     *
+     * @return The group as a {@code Group} object.
+     */
+    public Group getGroup() {
+        return this.group;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -103,7 +116,8 @@ public class Expense {
         }
 
         Expense otherExpense = (Expense) other;
-        return this.expenseName.equals(otherExpense.expenseName)
+        return this.group.equals(otherExpense.group)
+                && this.expenseName.equals(otherExpense.expenseName)
                 && this.amount == otherExpense.amount
                 && this.payer.equals(otherExpense.payer)
                 && this.participants.equals(otherExpense.participants)

@@ -10,6 +10,7 @@
     </padding>
     <Label fx:id="indexLabel"/>
     <VBox spacing="3">
+        <Label fx:id="groupLabel"/>
         <Label fx:id="expenseNameLabel"
                style="-fx-font-weight: bold;"/>
         <Label fx:id="amountLabel"/>

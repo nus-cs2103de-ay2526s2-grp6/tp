@@ -14,6 +14,7 @@ import fairshare.logic.commands.FilterCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -26,6 +27,7 @@ public class FilterCommandParserTest {
     public void setUp() {
         parser = new FilterCommandParser();
 
+        Group expense1Group = new Group("malaysia");
         String expense1Name = "lunch";
         double expense1Amt = 25.0d;
         Person expense1Payer = new Person("john");
@@ -35,8 +37,10 @@ public class FilterCommandParserTest {
                         new Participant(new Person("alice"), 1),
                         new Participant(new Person("jamie"), 1)));
         List<Tag> expense1Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("jb")));
-        expense1 = new Expense(expense1Name, expense1Amt, expense1Payer, expense1Participants, expense1Tags);
+        expense1 = new Expense(expense1Group, expense1Name, expense1Amt,
+                expense1Payer, expense1Participants, expense1Tags);
 
+        Group expense2Group = new Group("japan");
         String expense2Name = "dinner";
         double expense2Amt = 54.0d;
         Person expense2Payer = new Person("alice");
@@ -46,7 +50,8 @@ public class FilterCommandParserTest {
                         new Participant(new Person("jamie"), 1),
                         new Participant(new Person("carrie"), 1)));
         List<Tag> expense2Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("school")));
-        expense2 = new Expense(expense2Name, expense2Amt, expense2Payer, expense2Participants, expense2Tags);
+        expense2 = new Expense(expense2Group, expense2Name, expense2Amt,
+                expense2Payer, expense2Participants, expense2Tags);
     }
 
     // Test filtering by name

@@ -7,6 +7,7 @@ import fairshare.logic.commands.AddCommand;
 import fairshare.logic.parser.exceptions.ParseException;
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
 import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
@@ -25,6 +26,7 @@ public class AddCommandParser implements Parser {
     public AddCommand parse(String args) throws ParseException {
         Map<String, List<String>> map = ParserUtil.tokenize(args);
 
+        Group group = new Group(ParserUtil.getSingleFieldData(map, "g"));
         String expenseName = ParserUtil.getSingleFieldData(map, "n");
         double amount = ParserUtil.parseAmount(ParserUtil.getSingleFieldData(map, "a"));
         Person payer = new Person(ParserUtil.getSingleFieldData(map, "p"));
@@ -35,7 +37,7 @@ public class AddCommandParser implements Parser {
         List<String> strTags = ParserUtil.getMultiFieldData(map, "t");
         List<Tag> tags = ParserUtil.parseTags(strTags);
 
-        Expense expense = new Expense(expenseName, amount, payer, participants, tags);
+        Expense expense = new Expense(group, expenseName, amount, payer, participants, tags);
         return new AddCommand(expense);
     }
 }

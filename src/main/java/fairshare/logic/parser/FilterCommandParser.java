@@ -23,6 +23,7 @@ public class FilterCommandParser implements Parser {
      */
     public FilterCommand parse(String args) throws ParseException {
         Map<String, List<String>> map = ParserUtil.tokenize(args);
+        Optional<List<String>> groupNames = ParserUtil.getOptionalMultiFieldData(map, "g");
         Optional<List<String>> expenseNames = ParserUtil.getOptionalMultiFieldData(map, "n");
         Optional<List<String>> payerNames = ParserUtil.getOptionalMultiFieldData(map, "p");
         Optional<List<String>> participantNames = ParserUtil.getOptionalMultiFieldData(map, "s");
@@ -30,23 +31,28 @@ public class FilterCommandParser implements Parser {
 
         Predicate<Expense> predicate = expense -> true; // Matches all
 
+        if (groupNames.isPresent()) {
+            predicate = predicate.and(generatePredicateGroups(groupNames.get()));
+        }
         if (expenseNames.isPresent()) {
             predicate = predicate.and(generatePredicateExpenseName(expenseNames.get()));
         }
-
         if (payerNames.isPresent()) {
             predicate = predicate.and(generatePredicatePayers(payerNames.get()));
         }
-
         if (participantNames.isPresent()) {
             predicate = predicate.and(generatePredicateParticipants(participantNames.get()));
         }
-
         if (tagNames.isPresent()) {
             predicate = predicate.and(generatePredicateTags(tagNames.get()));
         }
 
         return new FilterCommand(predicate);
+    }
+
+    private Predicate<Expense> generatePredicateGroups(List<String> groupNames) {
+        return expense -> groupNames.stream()
+                .anyMatch(groupName -> expense.getGroup().getGroupName().equals(groupName));
     }
 
     private Predicate<Expense> generatePredicateExpenseName(List<String> expenseNames) {

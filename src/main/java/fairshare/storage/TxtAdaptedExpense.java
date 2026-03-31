@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.Participant;
+import fairshare.model.group.Group;
+import fairshare.model.person.Person;
 import fairshare.model.tag.Tag;
 
 /**
@@ -17,6 +19,7 @@ public class TxtAdaptedExpense {
     private static final String FIELD_SEPARATOR = "\\|"; //for splitting
     private static final String LIST_SEPARATOR = ","; //for splitting lists
 
+    private final TxtAdaptedGroup group;
     private final String expenseName;
     private final double amount;
     private final TxtAdaptedPerson payer;
@@ -29,6 +32,7 @@ public class TxtAdaptedExpense {
      * @param source the {@code Expense} to adapt; cannot be null.
      */
     public TxtAdaptedExpense(Expense source) {
+        this.group = new TxtAdaptedGroup(source.getGroup());
         this.expenseName = source.getExpenseName();
         this.amount = source.getAmount();
         this.payer = new TxtAdaptedPerson(source.getPayer());
@@ -50,9 +54,9 @@ public class TxtAdaptedExpense {
      * @param participants the list of adapted participant persons; cannot be null.
      * @param tags        the list of adapted tags; cannot be null.
      */
-    public TxtAdaptedExpense(String expenseName, double amount,
-                             TxtAdaptedPerson payer, List<TxtAdaptedParticipant> participants,
-                             List<TxtAdaptedTag> tags) {
+    public TxtAdaptedExpense(TxtAdaptedGroup group, String expenseName, double amount, TxtAdaptedPerson payer,
+                             List<TxtAdaptedParticipant> participants, List<TxtAdaptedTag> tags) {
+        this.group = group;
         this.expenseName = expenseName;
         this.amount = amount;
         this.payer = payer;
@@ -111,6 +115,9 @@ public class TxtAdaptedExpense {
      * @return the corresponding {@code Expense}.
      */
     public Expense toModelType() {
+        Group group = this.group.toModelType();
+        Person payer = this.payer.toModelType();
+
         List<Participant> participants = this.participants.stream()
                 .map(TxtAdaptedParticipant::toModelType)
                 .toList();
@@ -119,8 +126,7 @@ public class TxtAdaptedExpense {
                 .map(TxtAdaptedTag::toModelType)
                 .collect(Collectors.toList());
 
-        return new Expense(expenseName, amount,
-                payer.toModelType(), participants, tagList);
+        return new Expense(group, expenseName, amount, payer, participants, tagList);
     }
 
     /**
@@ -130,6 +136,10 @@ public class TxtAdaptedExpense {
      * @return a string representation of this expense.
      */
     public String serialize() {
+        String groupStr = group.serialize();
+
+        String payerStr = payer.serialize();
+
         String participantsStr = participants.stream()
                 .map(TxtAdaptedParticipant::serialize)
                 .collect(Collectors.joining(LIST_SEPARATOR));
@@ -138,9 +148,10 @@ public class TxtAdaptedExpense {
                 .map(TxtAdaptedTag::serialize)
                 .collect(Collectors.joining(LIST_SEPARATOR));
 
-        return expenseName + "|"
+        return groupStr + "|"
+                + expenseName + "|"
                 + amount + "|"
-                + payer.serialize() + "|"
+                + payerStr + "|"
                 + participantsStr + "|"
                 + tagsStr;
     }
@@ -148,7 +159,7 @@ public class TxtAdaptedExpense {
     /**
      * Deserializes a pipe-delimited plain-text line into a
      * {@code TxtAdaptedExpense}.
-     * Expected format: {@code description|amount|payer|share1,share2|tag1,tag2}
+     * Expected format: {@code group|description|amount|payer|share1,share2|tag1,tag2}
      *
      * @param line the line to parse; must follow the expected format.
      * @return the corresponding {@code TxtAdaptedExpense}.
@@ -157,25 +168,26 @@ public class TxtAdaptedExpense {
     public static TxtAdaptedExpense deserialize(String line) {
         String[] parts = line.split(FIELD_SEPARATOR, -1);
 
-        if (parts.length != 5) {
+        if (parts.length != 6) {
             throw new IllegalArgumentException(
                     "Invalid expense format: " + line);
         }
 
-        String description = parts[0].trim();
-        double amount = Double.parseDouble(parts[1].trim());
-        TxtAdaptedPerson payer = TxtAdaptedPerson.deserialize(parts[2]);
+        TxtAdaptedGroup group = TxtAdaptedGroup.deserialize(parts[0]);
+        String expenseName = parts[1].trim();
+        double amount = Double.parseDouble(parts[2].trim());
+        TxtAdaptedPerson payer = TxtAdaptedPerson.deserialize(parts[3]);
 
-        List<TxtAdaptedParticipant> participants = Arrays.stream(parts[3].split(LIST_SEPARATOR))
+        List<TxtAdaptedParticipant> participants = Arrays.stream(parts[4].split(LIST_SEPARATOR))
                 .filter(s -> !s.isBlank())
                 .map(TxtAdaptedParticipant::deserialize)
                 .toList();
 
-        List<TxtAdaptedTag> tags = Arrays.stream(parts[4].split(LIST_SEPARATOR))
+        List<TxtAdaptedTag> tags = Arrays.stream(parts[5].split(LIST_SEPARATOR))
                 .filter(s -> !s.isBlank())
                 .map(TxtAdaptedTag::deserialize)
                 .toList();
 
-        return new TxtAdaptedExpense(description, amount, payer, participants, tags);
+        return new TxtAdaptedExpense(group, expenseName, amount, payer, participants, tags);
     }
 }
