@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
@@ -9,8 +8,11 @@
     <SplitPane VBox.vgrow="ALWAYS">
         <StackPane fx:id="expenseListPanelPlaceholder"
                    prefWidth="600"/>
-        <StackPane fx:id="balancePanelPlaceholder"
-                   prefWidth="300"/>
+        <VBox prefWidth="300">
+            <StackPane fx:id="tagPieChartPlaceholder"/>
+            <StackPane fx:id="balancePanelPlaceholder"
+                       VBox.vgrow="ALWAYS"/>
+        </VBox>
     </SplitPane>
 
     <StackPane fx:id="resultDisplayPlaceholder"
