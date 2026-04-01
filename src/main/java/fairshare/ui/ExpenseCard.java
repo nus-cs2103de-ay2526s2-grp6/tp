@@ -121,20 +121,25 @@ public class ExpenseCard {
     }
 
     /**
-     * Format a participant's name with their proportion as a fraction.
-     * For example, bob with 2 shares out of 3 total displays as "bob (2/3)".
+     * Formats a participant's name with their percentage and
+     * dollar amount.
+     * For example, bob with 2 shares out of 3 total on a $40
+     * expense displays as "bob (67% · $26.67)".
      *
      * @param participant the participant to format; cannot be null.
      * @param totalShares the total number of shares in the expense.
-     * @return a formatted string showing the participant's name and fraction.
+     * @param totalAmount the total amount of the expense.
+     * @return a formatted string showing name, percentage and amount.
      */
-    private String formatParticipant(Participant participant, int totalShares) {
+    private String formatParticipant(Participant participant,
+                                     int totalShares, double totalAmount) {
+        int percentage = (int) Math.round(
+                (participant.getShares() * 100.0) / totalShares);
+        double share = (totalAmount / totalShares)
+                * participant.getShares();
         return participant.getPerson().getName()
-                + "("
-                + participant.getShares()
-                + "/"
-                + totalShares
-                + ")";
+                + " (" + percentage + "% · $"
+                + String.format("%.2f", share) + ")";
     }
 
     private void formatSettlement(Expense expense) {
@@ -144,18 +149,22 @@ public class ExpenseCard {
     }
 
     private void formatExpense(Expense expense) {
-        payerLabel.setText("Paid by: " + expense.getPayer().getName());
+        payerLabel.setText("Paid by: "
+                + expense.getPayer().getName());
 
         int totalShares = expense.getTotalShares();
+        double totalAmount = expense.getAmount();
 
         String participants = expense.getParticipants().stream()
-                .map(p -> formatParticipant(p, totalShares))
+                .map(p -> formatParticipant(
+                        p, totalShares, totalAmount))
                 .collect(Collectors.joining(", "));
         participantsLabel.setText("Participants: " + participants);
 
         String tags = expense.getTags().stream()
                 .map(t -> t.getTagName())
                 .collect(Collectors.joining(", "));
-        tagsLabel.setText("Tags: " + (tags.isEmpty() ? "-" : tags));
+        tagsLabel.setText("Tags: "
+                + (tags.isEmpty() ? "-" : tags));
     }
 }
