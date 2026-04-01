@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      spacing="5">
+      style="-fx-background-color: #f0f4fc;">
+
+    <Label text="Spending by Tag"
+           style="-fx-font-size: 15;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #1a2a4a;">
+        <padding>
+            <Insets top="12" right="0" bottom="0" left="15"/>
+        </padding>
+    </Label>
+
     <PieChart fx:id="tagPieChart"
-              title="Spending by Tag"
               labelsVisible="true"
-              legendVisible="true"
-              prefHeight="250"
-              animated="true"/>
+              legendVisible="false"
+              prefHeight="220"
+              animated="true"
+              style="-fx-background-color: #f0f4fc;"/>
+
 </VBox>

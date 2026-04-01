@@ -5,12 +5,23 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       style="-fx-background-color: #e8eef7;">
+
+    <Label text="Expenses"
+           style="-fx-font-size: 15;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #1a2a4a;">
+        <padding>
+            <Insets top="12" right="0" bottom="6" left="15"/>
+        </padding>
+    </Label>
+
     <ListView fx:id="expenseListView"
               VBox.vgrow="ALWAYS"
               style="-fx-background-color: #e8eef7;
                      -fx-border-color: transparent;
                      -fx-focus-color: transparent;
                      -fx-faint-focus-color: transparent;"/>
+
     <Label fx:id="emptyStateLabel"
            text="No expenses yet! Add one using the command box below."
            style="-fx-text-fill: #6b7fa8;
@@ -21,4 +32,5 @@
             <Insets top="10" left="15"/>
         </padding>
     </Label>
+
 </VBox>
