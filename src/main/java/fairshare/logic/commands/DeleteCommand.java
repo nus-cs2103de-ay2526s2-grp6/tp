@@ -31,6 +31,8 @@ public class DeleteCommand extends Command {
      * @throws CommandException If the provided index is out of bounds of the currently displayed list.
      */
     public CommandResult execute(Model model) throws CommandException {
+        assert model != null : "model should not be null";
+
         try {
             List<Expense> displayedExpenseList = model.getFilteredExpenseList();
             Expense expenseToDelete = displayedExpenseList.get(expenseIndex);
