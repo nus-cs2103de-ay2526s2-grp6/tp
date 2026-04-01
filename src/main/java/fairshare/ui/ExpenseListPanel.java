@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -104,18 +105,27 @@ public class ExpenseListPanel {
                 setGraphic(null);
                 setText(null);
                 setStyle("-fx-background-color: transparent;");
+                setOnMouseEntered(null);
+                setOnMouseExited(null);
             } else {
-                setGraphic(new ExpenseCard(
-                        expense, getIndex() + 1).getRoot());
+                HBox card = new ExpenseCard(
+                        expense, getIndex() + 1).getRoot();
+
+                card.setOnMouseEntered(e ->
+                        card.setStyle(card.getStyle()
+                                + "-fx-effect: dropshadow(gaussian,"
+                                + "rgba(74,127,232,0.25), 12, 0, 0, 3);"));
+
+                card.setOnMouseExited(e ->
+                        card.setStyle(card.getStyle()
+                                + "-fx-effect: dropshadow(gaussian,"
+                                + "rgba(74,127,232,0.12), 8, 0, 0, 2);"));
+
+                setGraphic(card);
                 setStyle("-fx-background-color: transparent;"
                         + "-fx-padding: 4 10 4 10;");
-                setOnMouseEntered(e -> setStyle(
-                        "-fx-background-color: rgba(74,127,232,0.05);"
-                                + "-fx-background-radius: 10;"
-                                + "-fx-padding: 4 10 4 10;"));
-                setOnMouseExited(e -> setStyle(
-                        "-fx-background-color: transparent;"
-                                + "-fx-padding: 4 10 4 10;"));
+                setOnMouseEntered(null);
+                setOnMouseExited(null);
             }
         }
     }
