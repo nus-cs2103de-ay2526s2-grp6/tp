@@ -31,6 +31,7 @@ public class MainWindow implements Ui {
     private ExpenseListPanel expenseListPanel;
     private BalancePanel balancePanel;
     private TagPieChart tagPieChart;
+    private StatusBar statusBar;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
     private HelpWindow helpWindow;
@@ -43,6 +44,9 @@ public class MainWindow implements Ui {
 
     @FXML
     private StackPane tagPieChartPlaceholder;
+
+    @FXML
+    private StackPane statusBarPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -88,6 +92,10 @@ public class MainWindow implements Ui {
         tagPieChart = new TagPieChart(logic.getExpenseList());
         tagPieChartPlaceholder.getChildren().add(
                 tagPieChart.getRoot());
+
+        statusBar = new StatusBar(logic.getExpenseList());
+        statusBarPlaceholder.getChildren().add(
+                statusBar.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(
@@ -141,6 +149,9 @@ public class MainWindow implements Ui {
 
             balancePanel.refresh(logic.calculateBalances());
             tagPieChart.refresh(logic.getExpenseList());
+            statusBar.refresh(logic.getExpenseList());
+            primaryStage.setTitle("FairShare ("
+                    + logic.getExpenseList().size() + " expenses)");
 
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
@@ -149,7 +160,8 @@ public class MainWindow implements Ui {
     }
 
     private void handleExit() {
-        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        PauseTransition delay = new PauseTransition(
+                Duration.seconds(2));
         delay.setOnFinished(event -> Platform.exit());
         delay.play();
     }

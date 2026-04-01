@@ -4,14 +4,16 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       spacing="4"
-      style="-fx-border-color: #cccccc;
-             -fx-border-radius: 5;
-             -fx-background-radius: 5;
-             -fx-background-color: #f9f9f9;">
+      style="-fx-background-color: #ffffff;
+             -fx-background-radius: 8;
+             -fx-border-radius: 8;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);">
     <padding>
         <Insets top="10" right="15" bottom="10" left="15"/>
     </padding>
     <Label fx:id="nameLabel"
-           style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+           style="-fx-font-size: 14;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #1a2a4a;"/>
     <VBox fx:id="debtsContainer" spacing="3"/>
 </VBox>

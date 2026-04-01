@@ -50,7 +50,7 @@ public class BalanceCard {
                             balance.getAmount(),
                             balance.getCreditor().getName()));
             debtLabel.setStyle(
-                    "-fx-font-size: 12; -fx-text-fill: #cc0000;");
+                    "-fx-font-size: 12; -fx-text-fill: #c62828;");
             debtsContainer.getChildren().add(debtLabel);
         }
     }

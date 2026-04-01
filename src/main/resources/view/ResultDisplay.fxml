@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      style="-fx-background-color: #f0f4fc;">
     <TextArea fx:id="resultDisplay"
               editable="false"
               prefHeight="80"
-              wrapText="true"/>
+              wrapText="true"
+              style="-fx-background-color: #f0f4fc;
+                     -fx-text-fill: #1a2a4a;
+                     -fx-border-color: transparent;
+                     -fx-focus-color: transparent;
+                     -fx-faint-focus-color: transparent;
+                     -fx-font-size: 13;"/>
 </VBox>

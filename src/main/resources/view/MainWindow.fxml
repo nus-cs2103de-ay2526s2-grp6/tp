@@ -3,22 +3,35 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      prefWidth="900" prefHeight="600">
+      prefWidth="1100" prefHeight="650"
+      style="-fx-background-color: #e8eef7;">
 
-    <SplitPane VBox.vgrow="ALWAYS">
+    <SplitPane VBox.vgrow="ALWAYS"
+               style="-fx-background-color: #e8eef7;
+                      -fx-border-color: transparent;">
         <StackPane fx:id="expenseListPanelPlaceholder"
-                   prefWidth="600"/>
-        <VBox prefWidth="300">
-            <StackPane fx:id="tagPieChartPlaceholder"/>
+                   prefWidth="650"
+                   style="-fx-background-color: #e8eef7;"/>
+        <VBox prefWidth="350"
+              style="-fx-background-color: #e8eef7;">
+            <StackPane fx:id="tagPieChartPlaceholder"
+                       style="-fx-background-color: #f0f4fc;"/>
             <StackPane fx:id="balancePanelPlaceholder"
-                       VBox.vgrow="ALWAYS"/>
+                       VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: #e8eef7;"/>
         </VBox>
     </SplitPane>
 
+    <StackPane fx:id="statusBarPlaceholder"
+               prefHeight="30"
+               style="-fx-background-color: #d0daf0;"/>
+
     <StackPane fx:id="resultDisplayPlaceholder"
-               prefHeight="80"/>
+               prefHeight="80"
+               style="-fx-background-color: #f0f4fc;"/>
 
     <StackPane fx:id="commandBoxPlaceholder"
-               prefHeight="40"/>
+               prefHeight="50"
+               style="-fx-background-color: #e8eef7;"/>
 
 </VBox>

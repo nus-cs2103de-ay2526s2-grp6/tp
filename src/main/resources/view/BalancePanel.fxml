@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      style="-fx-background-color: #e8eef7;">
     <ListView fx:id="balanceListView"
-              VBox.vgrow="ALWAYS"/>
+              VBox.vgrow="ALWAYS"
+              style="-fx-background-color: #e8eef7;
+                     -fx-border-color: transparent;
+                     -fx-focus-color: transparent;
+                     -fx-faint-focus-color: transparent;"/>
 </VBox>

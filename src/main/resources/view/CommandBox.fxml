@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <HBox xmlns:fx="http://javafx.com/fxml"
-      prefHeight="40"
-      spacing="5">
+      prefHeight="50"
+      spacing="8"
+      style="-fx-background-color: #e8eef7;
+             -fx-border-color: #c5d0e8;
+             -fx-border-width: 1 0 0 0;">
+    <padding>
+        <Insets top="8" right="12" bottom="8" left="12"/>
+    </padding>
     <TextField fx:id="commandTextField"
                promptText="Enter command here..."
-               prefHeight="40"
-               HBox.hgrow="ALWAYS"/>
+               prefHeight="34"
+               HBox.hgrow="ALWAYS"
+               style="-fx-background-color: #ffffff;
+                      -fx-text-fill: #1a2a4a;
+                      -fx-prompt-text-fill: #9aaac8;
+                      -fx-border-color: #c5d0e8;
+                      -fx-border-radius: 6;
+                      -fx-background-radius: 6;
+                      -fx-font-size: 13;
+                      -fx-padding: 0 10 0 10;"/>
     <Button fx:id="sendButton"
             text="Enter"
-            prefHeight="40"/>
+            prefHeight="34"
+            style="-fx-background-color: #4a7fe8;
+                   -fx-text-fill: white;
+                   -fx-border-radius: 6;
+                   -fx-background-radius: 6;
+                   -fx-font-weight: bold;
+                   -fx-cursor: hand;
+                   -fx-padding: 0 16 0 16;"/>
 </HBox>

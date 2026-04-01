@@ -3,16 +3,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
-
-<ScrollPane xmlns:fx="http://javafx.com/fxml" fitToWidth="true">
-    <VBox spacing="10">
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fitToWidth="true"
+            style="-fx-background-color: #f0f4fc;
+                   -fx-background: #f0f4fc;">
+    <VBox spacing="10"
+          style="-fx-background-color: #f0f4fc;">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-
-        <Label text="FairShare Commands" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
-
-        <Label fx:id="helpMessage" style="-fx-font-family: monospace;" wrapText="true"/>
-
+        <Label text="FairShare Commands"
+               style="-fx-font-size: 18;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #1a2a4a;"/>
+        <Label fx:id="helpMessage"
+               style="-fx-font-family: monospace;
+                      -fx-text-fill: #4a5568;
+                      -fx-font-size: 12;"
+               wrapText="true"/>
     </VBox>
 </ScrollPane>
