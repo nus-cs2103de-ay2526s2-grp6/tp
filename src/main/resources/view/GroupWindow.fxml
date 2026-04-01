@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fitToWidth="true"
+            style="-fx-background-color: #e8eef7;
+                   -fx-background: #e8eef7;">
+    <VBox spacing="16"
+          style="-fx-background-color: #e8eef7;">
+        <padding>
+            <Insets top="20" right="20"
+                    bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Groups"
+               style="-fx-font-size: 20;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #1a2a4a;"/>
+
+        <Label fx:id="activeGroupsHeader"
+               text="● Active"
+               style="-fx-font-size: 13;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #ff9800;"/>
+
+        <Label fx:id="noActiveLabel"
+               text="No active groups"
+               style="-fx-text-fill: #6b7fa8;
+                      -fx-font-style: italic;
+                      -fx-font-size: 12;"/>
+
+        <VBox fx:id="activeGroupsContainer" spacing="8"/>
+
+        <Label fx:id="pastGroupsHeader"
+               text="✓ Settled"
+               style="-fx-font-size: 13;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #2e7d32;"/>
+
+        <Label fx:id="noPastLabel"
+               text="No settled groups"
+               style="-fx-text-fill: #6b7fa8;
+                      -fx-font-style: italic;
+                      -fx-font-size: 12;"/>
+
+        <VBox fx:id="pastGroupsContainer" spacing="8"/>
+
+    </VBox>
+</ScrollPane>

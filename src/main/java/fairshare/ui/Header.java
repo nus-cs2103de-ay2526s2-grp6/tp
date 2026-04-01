@@ -5,7 +5,7 @@ import java.io.IOException;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 /**
@@ -18,7 +18,7 @@ public class Header {
     private HBox root;
 
     @FXML
-    private ImageView logoImageView;
+    private Button groupsButton;
 
     /**
      * Constructs a {@code Header}.
@@ -41,5 +41,14 @@ public class Header {
      */
     public HBox getRoot() {
         return root;
+    }
+
+    /**
+     * Sets the handler called when the Groups button is clicked.
+     *
+     * @param handler the handler to call; cannot be null.
+     */
+    public void setOnGroupsClicked(Runnable handler) {
+        groupsButton.setOnAction(e -> handler.run());
     }
 }
