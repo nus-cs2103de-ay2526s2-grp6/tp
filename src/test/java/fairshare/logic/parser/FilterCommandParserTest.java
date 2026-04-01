@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import fairshare.model.expense.ExpenseType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,7 @@ public class FilterCommandParserTest {
         String expense1Name = "lunch";
         double expense1Amt = 25.0d;
         Person expense1Payer = new Person("john");
+        ExpenseType expense1Type = ExpenseType.EXPENSE;
         List<Participant> expense1Participants = new ArrayList<>(
                 List.of(
                         new Participant(expense1Payer, 1),
@@ -38,12 +40,13 @@ public class FilterCommandParserTest {
                         new Participant(new Person("jamie"), 1)));
         List<Tag> expense1Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("jb")));
         expense1 = new Expense(expense1Group, expense1Name, expense1Amt,
-                expense1Payer, expense1Participants, expense1Tags);
+                expense1Payer, expense1Participants, expense1Tags, expense1Type);
 
         Group expense2Group = new Group("japan");
         String expense2Name = "dinner";
         double expense2Amt = 54.0d;
         Person expense2Payer = new Person("alice");
+        ExpenseType expense2Type = ExpenseType.EXPENSE;
         List<Participant> expense2Participants = new ArrayList<>(
                 List.of(
                         new Participant(expense2Payer, 1),
@@ -51,7 +54,7 @@ public class FilterCommandParserTest {
                         new Participant(new Person("carrie"), 1)));
         List<Tag> expense2Tags = new ArrayList<>(List.of(new Tag("food"), new Tag("school")));
         expense2 = new Expense(expense2Group, expense2Name, expense2Amt,
-                expense2Payer, expense2Participants, expense2Tags);
+                expense2Payer, expense2Participants, expense2Tags, expense2Type);
     }
 
     // Test filtering by name

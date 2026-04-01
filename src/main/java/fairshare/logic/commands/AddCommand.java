@@ -16,6 +16,8 @@ public class AddCommand extends Command {
      * @param expense The expense to be added.
      */
     public AddCommand(Expense expense) {
+        assert expense != null : "expense should not be null";
+
         this.expense = expense;
     }
 
@@ -26,6 +28,8 @@ public class AddCommand extends Command {
      * @return A {@code CommandResult} containing the success message.
      */
     public CommandResult execute(Model model) {
+        assert model != null : "model should not be null";
+
         model.addExpense(expense);
         return new CommandResult(String.format(MESSAGE_SUCCESS, expense.getExpenseName()), false, false);
     }

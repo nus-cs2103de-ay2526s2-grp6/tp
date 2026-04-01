@@ -62,6 +62,13 @@ public class ExpenseList {
     }
 
     /**
+     * Removes all expenses from the expense list.
+     */
+    public void clearExpenseList() {
+        expenses.clear();
+    }
+
+    /**
      * Returns the mutable list of expenses.
      *
      * @return A {@code List} containing the current expenses.

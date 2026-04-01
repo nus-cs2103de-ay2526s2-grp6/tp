@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+import fairshare.model.expense.ExpenseType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,7 @@ public class TxtAdaptedExpenseTest {
     public void setUp() {
         Group group = new Group("malaysia");
         Person payer = new Person("alice");
+        ExpenseType expenseType = ExpenseType.EXPENSE;
         List<Participant> participants = new ArrayList<>(
                 List.of(
                         new Participant(payer, 1),
@@ -32,7 +34,7 @@ public class TxtAdaptedExpenseTest {
         List<Tag> tags = new ArrayList<>(
                 List.of(new Tag("food"), new Tag("trip")));
 
-        expense = new Expense(group, "lunch", 30.0, payer, participants, tags);
+        expense = new Expense(group, "lunch", 30.0, payer, participants, tags, expenseType);
         adaptedExpense = new TxtAdaptedExpense(expense);
     }
 
