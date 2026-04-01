@@ -109,12 +109,13 @@ public class BalancePanel {
             if (isEmpty || entry == null) {
                 setGraphic(null);
                 setText(null);
-                setStyle("-fx-padding: 0;");
+                setStyle("-fx-background-color: transparent;");
             } else {
                 setGraphic(new BalanceCard(
                         entry.getKey(),
                         entry.getValue()).getRoot());
-                setStyle("-fx-padding: 4 8 4 8;");
+                setStyle("-fx-background-color: transparent;"
+                        + "-fx-padding: 4 10 4 10;");
             }
         }
     }

@@ -71,9 +71,12 @@ public class ExpenseListPanel {
             if (isEmpty || expense == null) {
                 setGraphic(null);
                 setText(null);
+                setStyle("-fx-background-color: transparent;");
             } else {
                 setGraphic(new ExpenseCard(
                         expense, getIndex() + 1).getRoot());
+                setStyle("-fx-background-color: transparent;"
+                        + "-fx-padding: 4 10 4 10;");
             }
         }
     }

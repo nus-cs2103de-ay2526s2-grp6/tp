@@ -6,14 +6,15 @@
 <HBox xmlns:fx="http://javafx.com/fxml"
       spacing="10"
       style="-fx-background-color: #ffffff;
-             -fx-background-radius: 8;
-             -fx-border-radius: 8;
-             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);">
+             -fx-background-radius: 10;
+             -fx-border-radius: 10;
+             -fx-effect: dropshadow(gaussian,
+                         rgba(74,127,232,0.12), 8, 0, 0, 2);">
     <padding>
-        <Insets top="10" right="12" bottom="10" left="12"/>
+        <Insets top="12" right="14" bottom="12" left="14"/>
     </padding>
     <Label fx:id="indexLabel"
-           style="-fx-text-fill: #6b7fa8;
+           style="-fx-text-fill: #9aaac8;
                   -fx-font-size: 12;"/>
     <VBox spacing="4">
         <Label fx:id="groupLabel"
