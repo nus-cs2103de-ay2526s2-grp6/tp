@@ -167,9 +167,6 @@ public class MainWindow implements Ui {
             groupWindow.refreshIfShowing(
                     logic.getExpenseList(),
                     logic.calculateBalances());
-            primaryStage.setTitle("FairShare ("
-                    + logic.getExpenseList().size()
-                    + " expenses)");
 
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());

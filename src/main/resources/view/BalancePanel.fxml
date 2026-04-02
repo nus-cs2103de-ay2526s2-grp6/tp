@@ -6,7 +6,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       style="-fx-background-color: #e8eef7;">
 
-    <Label text="Who Owes What"
+    <Label text="Balances"
            style="-fx-font-size: 15;
                   -fx-font-weight: bold;
                   -fx-text-fill: #1a2a4a;">

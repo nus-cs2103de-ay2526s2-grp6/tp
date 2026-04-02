@@ -8,6 +8,7 @@ import java.util.Map;
 
 import fairshare.model.balance.Balance;
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.ExpenseType;
 import fairshare.ui.exceptions.UiException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -177,13 +178,18 @@ public class GroupWindow {
                         + "-fx-font-weight: bold;"
                         + "-fx-text-fill: #1a2a4a;");
 
-        double total = expenses.stream()
+        double totalAmount = expenses.stream()
+                .filter(expense -> expense.getExpenseType() == ExpenseType.EXPENSE)
                 .mapToDouble(Expense::getAmount)
                 .sum();
 
+        long numOfExpenses = expenses.stream()
+                .filter(expense -> expense.getExpenseType() == ExpenseType.EXPENSE)
+                .count();
+
         Label totalLabel = new Label(
-                expenses.size() + " expenses  ·  "
-                        + String.format("$%.2f total", total));
+                numOfExpenses + " expenses  ·  "
+                        + String.format("$%.2f total", totalAmount));
         totalLabel.setStyle(
                 "-fx-font-size: 11;"
                         + "-fx-text-fill: #6b7fa8;");

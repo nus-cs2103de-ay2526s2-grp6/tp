@@ -101,19 +101,6 @@ public class ExpenseCard {
                             + "-fx-background-color: #4caf50; "
                             + "-fx-background-radius: 20; "
                             + "-fx-padding: 2 10 2 10;");
-        } else if (expense.getAmount() >= 100) {
-            root.setStyle("-fx-background-color: #fff8e1; "
-                    + "-fx-background-radius: 10; "
-                    + "-fx-border-radius: 10; "
-                    + "-fx-effect: dropshadow(gaussian, "
-                    + "rgba(255,152,0,0.15), 8, 0, 0, 2);");
-            groupLabel.setStyle(
-                    "-fx-text-fill: #ffffff; "
-                            + "-fx-font-size: 10; "
-                            + "-fx-font-weight: bold; "
-                            + "-fx-background-color: #ff9800; "
-                            + "-fx-background-radius: 20; "
-                            + "-fx-padding: 2 10 2 10;");
         } else {
             root.setStyle("-fx-background-color: #ffffff; "
                     + "-fx-background-radius: 10; "
