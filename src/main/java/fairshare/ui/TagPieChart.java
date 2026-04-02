@@ -18,12 +18,20 @@ import javafx.scene.layout.VBox;
 
 /**
  * A UI component that displays a pie chart showing spending
- * breakdown by tag across all expenses.
+ * breakdown by tag or group across all expenses.
  */
 public class TagPieChart {
 
     private static final String FXML = "/view/TagPieChart.fxml";
     private static final String UNTAGGED_LABEL = "Untagged";
+
+    private static final String[] FIXED_COLOURS = {
+            "#4a7fe8", "#e8734a", "#4ae87f", "#e8d44a",
+            "#a44ae8", "#4ae8d4", "#e84a7f", "#7fe84a"
+    };
+
+    private final Map<String, String> tagColourMap = new HashMap<>();
+    private int colourIndex = 0;
 
     private VBox root;
 
@@ -89,12 +97,29 @@ public class TagPieChart {
         ObservableList<PieChart.Data> pieData =
                 FXCollections.observableArrayList();
 
-        tagAmounts.forEach((tag, amount) ->
-                pieData.add(new PieChart.Data(
-                        tag + String.format(" $%.0f", amount),
-                        amount)));
+        tagAmounts.forEach((tag, amount) -> {
+            if (!tagColourMap.containsKey(tag)) {
+                tagColourMap.put(tag,
+                        FIXED_COLOURS[colourIndex
+                                % FIXED_COLOURS.length]);
+                colourIndex++;
+            }
+            pieData.add(new PieChart.Data(
+                    tag + String.format(" $%.0f", amount),
+                    amount));
+        });
 
         tagPieChart.setData(pieData);
+
+        // apply fixed colours after data is set
+        for (PieChart.Data data : tagPieChart.getData()) {
+            String label = data.getName()
+                    .replaceAll(" \\$.*", "");
+            String colour = tagColourMap.getOrDefault(
+                    label, FIXED_COLOURS[0]);
+            data.getNode().setStyle(
+                    "-fx-pie-color: " + colour + ";");
+        }
 
         boolean hasData = !pieData.isEmpty();
         tagPieChart.setVisible(hasData);
