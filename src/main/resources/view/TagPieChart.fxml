@@ -2,18 +2,37 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       style="-fx-background-color: #f0f4fc;">
 
-    <Label text="Spending by Tag"
-           style="-fx-font-size: 15;
-                  -fx-font-weight: bold;
-                  -fx-text-fill: #1a2a4a;">
+    <HBox spacing="8" alignment="CENTER_LEFT">
         <padding>
-            <Insets top="12" right="0" bottom="0" left="15"/>
+            <Insets top="12" right="12" bottom="0" left="15"/>
         </padding>
-    </Label>
+        <Label text="Spending by"
+               style="-fx-font-size: 15;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #1a2a4a;"/>
+        <ToggleButton fx:id="byTagButton"
+                      text="Tag"
+                      selected="true"
+                      style="-fx-font-size: 11;
+                             -fx-background-radius: 20;
+                             -fx-border-radius: 20;
+                             -fx-cursor: hand;
+                             -fx-padding: 2 10 2 10;"/>
+        <ToggleButton fx:id="byGroupButton"
+                      text="Group"
+                      style="-fx-font-size: 11;
+                             -fx-background-radius: 20;
+                             -fx-border-radius: 20;
+                             -fx-cursor: hand;
+                             -fx-padding: 2 10 2 10;"/>
+    </HBox>
 
     <PieChart fx:id="tagPieChart"
               labelsVisible="true"

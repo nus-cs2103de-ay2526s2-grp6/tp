@@ -24,12 +24,12 @@ public class HelpWindow {
     private static final String MESSAGE_HELP =
             """
             Add Expense (equal split)
-              add n/NAME a/AMOUNT p/PAYER s/PERSON... t/TAG...
-              Example: add n/Lunch a/20.0 p/alice s/alice s/bob t/food
+              add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON... t/TAG...
+              Example: add n/Lunch a/20.0 g/JB p/alice s/alice s/bob t/food
 
             Add Expense (proportional split)
-                add n/NAME a/AMOUNT p/PAYER s/PERSON:PARTS... t/TAG...
-                Example: add n/Lunch a/20.0 p/alice s/alice:3 s/bob:1 t/food
+                add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON:PARTS... t/TAG...
+                Example: add n/Lunch a/20.0 g/JB p/alice s/alice:3 s/bob:1 t/food
                 (alice pays 3/4, bob pays 1/4 of the total)
 
             Delete Expense
@@ -37,15 +37,21 @@ public class HelpWindow {
               Example: delete 1
 
             Update Expense
-              update INDEX n/NAME a/AMOUNT p/PAYER ... (at least 1)
+              update INDEX n/NAME a/AMOUNT g/GROUP p/PAYER ... (at least 1)
               Example: update 2 s/john s/mary a/12
 
+            Settle Debt
+                settle g/GROUP p/PAYER r/RECEIVER a/AMOUNT
+                Example: settle g/JB p/alice r/bob a/10.0
+            
             Filter Expenses
               filter n/NAME       (by expense name)
+              filter g/GROUP      (by group name)
               filter p/PAYER      (by payer)
               filter s/PERSON     (by participant)
               filter t/TAG        (by tag)
               Example: filter p/alice
+              Example: filter g/JB
 
             List All Expenses
               list
