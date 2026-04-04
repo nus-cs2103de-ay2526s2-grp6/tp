@@ -30,6 +30,9 @@ public class LogicManager implements Logic {
      * @param storage the storage to save state to.
      */
     public LogicManager(Model model, Storage storage) {
+        assert model != null : "model should not be null";
+        assert storage != null : "storage should not be null";
+
         this.fairShareParser = new FairShareParser();
         this.model = model;
         this.storage = storage;
