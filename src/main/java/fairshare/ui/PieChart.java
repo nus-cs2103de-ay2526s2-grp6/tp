@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -22,9 +21,9 @@ import javafx.scene.layout.VBox;
  * A UI component that displays a pie chart showing spending
  * breakdown by tag or group across all expenses.
  */
-public class TagPieChart {
+public class PieChart {
 
-    private static final String FXML = "/view/TagPieChart.fxml";
+    private static final String FXML = "/view/PieChart.fxml";
     private static final String UNTAGGED_LABEL = "Untagged";
 
     private static final String[] FIXED_COLOURS = {
@@ -39,7 +38,7 @@ public class TagPieChart {
     private VBox root;
 
     @FXML
-    private PieChart tagPieChart;
+    private javafx.scene.chart.PieChart pieChart;
 
     @FXML
     private Label noDataLabel;
@@ -55,10 +54,10 @@ public class TagPieChart {
      *
      * @param expenses the list of expenses to display; cannot be null.
      */
-    public TagPieChart(List<Expense> expenses) {
+    public PieChart(List<Expense> expenses) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    TagPieChart.class.getResource(FXML));
+                    PieChart.class.getResource(FXML));
             fxmlLoader.setController(this);
             root = fxmlLoader.load();
         } catch (IOException e) {
@@ -180,7 +179,7 @@ public class TagPieChart {
     }
 
     private void renderChart(Map<String, Double> amounts) {
-        ObservableList<PieChart.Data> pieData =
+        ObservableList<javafx.scene.chart.PieChart.Data> pieData =
                 FXCollections.observableArrayList();
 
         amounts.forEach((label, amount) -> {
@@ -190,14 +189,14 @@ public class TagPieChart {
                                 % FIXED_COLOURS.length]);
                 colourIndex++;
             }
-            pieData.add(new PieChart.Data(
+            pieData.add(new javafx.scene.chart.PieChart.Data(
                     label + String.format(" $%.0f", amount),
                     amount));
         });
 
-        tagPieChart.setData(pieData);
+        pieChart.setData(pieData);
 
-        for (PieChart.Data data : tagPieChart.getData()) {
+        for (javafx.scene.chart.PieChart.Data data : pieChart.getData()) {
             String label = data.getName()
                     .replaceAll(" \\$.*", "");
             String colour = colourMap.getOrDefault(
@@ -207,8 +206,8 @@ public class TagPieChart {
         }
 
         boolean hasData = !pieData.isEmpty();
-        tagPieChart.setVisible(hasData);
-        tagPieChart.setManaged(hasData);
+        pieChart.setVisible(hasData);
+        pieChart.setManaged(hasData);
         noDataLabel.setVisible(!hasData);
         noDataLabel.setManaged(!hasData);
     }

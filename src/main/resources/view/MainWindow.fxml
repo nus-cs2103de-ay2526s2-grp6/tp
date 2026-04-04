@@ -16,7 +16,7 @@
                    style="-fx-background-color: #e8eef7;"/>
         <VBox prefWidth="350"
               style="-fx-background-color: #e8eef7;">
-            <StackPane fx:id="tagPieChartPlaceholder"
+            <StackPane fx:id="pieChartPlaceholder"
                        style="-fx-background-color: #f0f4fc;"/>
             <StackPane fx:id="balancePanelPlaceholder"
                        VBox.vgrow="ALWAYS"

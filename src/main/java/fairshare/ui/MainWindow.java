@@ -30,7 +30,7 @@ public class MainWindow implements Ui {
 
     private ExpenseListPanel expenseListPanel;
     private BalancePanel balancePanel;
-    private TagPieChart tagPieChart;
+    private PieChart pieChart;
     private StatusBar statusBar;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
@@ -45,7 +45,7 @@ public class MainWindow implements Ui {
     private StackPane balancePanelPlaceholder;
 
     @FXML
-    private StackPane tagPieChartPlaceholder;
+    private StackPane pieChartPlaceholder;
 
     @FXML
     private StackPane statusBarPlaceholder;
@@ -97,9 +97,9 @@ public class MainWindow implements Ui {
         balancePanelPlaceholder.getChildren().add(
                 balancePanel.getRoot());
 
-        tagPieChart = new TagPieChart(logic.getExpenseList());
-        tagPieChartPlaceholder.getChildren().add(
-                tagPieChart.getRoot());
+        pieChart = new PieChart(logic.getExpenseList());
+        pieChartPlaceholder.getChildren().add(
+                pieChart.getRoot());
 
         statusBar = new StatusBar(logic.getExpenseList());
         statusBarPlaceholder.getChildren().add(
@@ -162,7 +162,7 @@ public class MainWindow implements Ui {
             }
 
             balancePanel.refresh(logic.calculateBalances());
-            tagPieChart.refresh(logic.getExpenseList());
+            pieChart.refresh(logic.getExpenseList());
             statusBar.refresh(logic.getExpenseList());
             groupWindow.refreshIfShowing(
                     logic.getExpenseList(),

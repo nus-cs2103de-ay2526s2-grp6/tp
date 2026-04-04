@@ -34,7 +34,7 @@
                              -fx-padding: 2 10 2 10;"/>
     </HBox>
 
-    <PieChart fx:id="tagPieChart"
+    <PieChart fx:id="pieChart"
               labelsVisible="true"
               legendVisible="false"
               prefHeight="200"
