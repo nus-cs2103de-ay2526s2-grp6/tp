@@ -120,6 +120,9 @@ public class MainWindow implements Ui {
                 groupWindow.show(
                         logic.getExpenseList(),
                         logic.calculateBalances()));
+
+        showStartupMessage("Welcome to FairShare! \n" +
+                "Add an expense or type 'help' to show all available commands.");
     }
 
     /**
