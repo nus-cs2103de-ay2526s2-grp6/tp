@@ -202,11 +202,15 @@ public class ParserUtil {
     }
 
     private static Participant parseParticipant(String strParticipant) throws ParseException {
+        if (strParticipant.trim().endsWith(":")) {
+            throw new ParseException("Missing shares: Please specify shares for every participant.");
+        }
+
         String[] parts = strParticipant.split(":");
         String participantName = parts[0];
 
         if (parts.length == 1) {
-            throw new ParseException("Missing shares: Please specify shares for every participant.");
+            return new Participant(new Person(participantName), 1);
         }
 
         String strShares = parts[1];
