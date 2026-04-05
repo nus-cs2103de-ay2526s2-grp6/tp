@@ -21,7 +21,7 @@
                fitHeight="100"
                preserveRatio="true">
         <image>
-            <Image url="@/images/fairshare_logo_updated.png"/>
+            <Image url="@/images/fairshare_logo.png"/>
         </image>
     </ImageView>
 
