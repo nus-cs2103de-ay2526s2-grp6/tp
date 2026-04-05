@@ -9,7 +9,8 @@ import fairshare.model.expense.Expense;
  * Represents a command to filter expenses based on the given conditions.
  */
 public class FilterCommand extends Command {
-    private static final String MESSAGE_SUCCESS = "Filter success.";
+    private static final String MESSAGE_SUCCESS = "Filter success. Displaying %d expenses.";
+    private static final String MESSAGE_EMPTY = "No expenses found.";
     private Predicate<Expense> predicate;
 
     /**
@@ -33,7 +34,12 @@ public class FilterCommand extends Command {
         assert model != null : "model should not be null";
 
         model.filterExpenses(predicate);
-        return new CommandResult(MESSAGE_SUCCESS, false, false);
+        int filteredListSize = model.getFilteredExpenseList().size();
+
+        if (filteredListSize == 0) {
+            return new CommandResult(MESSAGE_EMPTY, false, false);
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS, filteredListSize), false, false);
     }
 
     /**
@@ -42,6 +48,6 @@ public class FilterCommand extends Command {
      * @return The {@code Predicate<Expense>} condition.
      */
     public Predicate<Expense> getPredicate() {
-        return predicate;
+        return this.predicate;
     }
 }
