@@ -8,6 +8,7 @@ import java.util.Map;
 import fairshare.model.expense.Expense;
 import fairshare.model.expense.ExpenseType;
 import fairshare.ui.exceptions.UiException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,7 +51,7 @@ public class PieChart {
     private ToggleButton byGroupButton;
 
     /**
-     * Constructs a {@code TagPieChart} with the given list of expenses.
+     * Constructs a {@code PieChart} with the given list of expenses.
      *
      * @param expenses the list of expenses to display; cannot be null.
      */
@@ -182,6 +183,10 @@ public class PieChart {
         ObservableList<javafx.scene.chart.PieChart.Data> pieData =
                 FXCollections.observableArrayList();
 
+        double totalAmount = amounts.values().stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
         amounts.forEach((label, amount) -> {
             if (!colourMap.containsKey(label)) {
                 colourMap.put(label,
@@ -189,21 +194,30 @@ public class PieChart {
                                 % FIXED_COLOURS.length]);
                 colourIndex++;
             }
+
+            int percentage = (int) Math.round(
+                    (amount / totalAmount) * 100);
+
             pieData.add(new javafx.scene.chart.PieChart.Data(
-                    label + String.format(" $%.0f", amount),
+                    label + " $"
+                            + String.format("%.0f", amount)
+                            + " (" + percentage + "%)",
                     amount));
         });
 
         pieChart.setData(pieData);
 
-        for (javafx.scene.chart.PieChart.Data data : pieChart.getData()) {
-            String label = data.getName()
-                    .replaceAll(" \\$.*", "");
-            String colour = colourMap.getOrDefault(
-                    label, FIXED_COLOURS[0]);
-            data.getNode().setStyle(
-                    "-fx-pie-color: " + colour + ";");
-        }
+        Platform.runLater(() -> {
+            for (javafx.scene.chart.PieChart.Data data
+                    : pieChart.getData()) {
+                String label = data.getName()
+                        .replaceAll(" \\$.*", "");
+                String colour = colourMap.getOrDefault(
+                        label, FIXED_COLOURS[0]);
+                data.getNode().setStyle(
+                        "-fx-pie-color: " + colour + ";");
+            }
+        });
 
         boolean hasData = !pieData.isEmpty();
         pieChart.setVisible(hasData);
