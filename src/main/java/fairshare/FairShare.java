@@ -92,7 +92,7 @@ public class FairShare extends Application {
     public void stop() throws Exception {
         try {
             storage.saveFairShare(
-                    logic.getFilteredExpenseList());
+                    logic.getExpenseList());
         } catch (StorageException e) {
             System.out.println(
                     "Could not save data: " + e.getMessage());
