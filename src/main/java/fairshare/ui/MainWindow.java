@@ -1,6 +1,7 @@
 package fairshare.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import fairshare.logic.Logic;
 import fairshare.logic.commands.CommandResult;
@@ -97,7 +98,7 @@ public class MainWindow implements Ui {
         balancePanelPlaceholder.getChildren().add(
                 balancePanel.getRoot());
 
-        pieChart = new PieChart(logic.getExpenseList());
+        pieChart = new PieChart(new ArrayList<>(logic.getFilteredExpenseList()));
         pieChartPlaceholder.getChildren().add(
                 pieChart.getRoot());
 
@@ -169,7 +170,7 @@ public class MainWindow implements Ui {
             }
 
             balancePanel.refresh(logic.calculateBalances());
-            pieChart.refresh(logic.getExpenseList());
+            pieChart.refresh(new ArrayList<>(logic.getFilteredExpenseList()));
             statusBar.refresh(logic.getExpenseList());
             groupWindow.refreshIfShowing(
                     logic.getExpenseList(),
