@@ -15,7 +15,7 @@
         <Label text="FairShare Commands"
                style="-fx-font-size: 18;
                       -fx-font-weight: bold;
-                      -fx-text-fill: #1a2a4a;"/>
+                      -fx-text-fill: #003151;"/>
         <Label fx:id="helpMessage"
                style="-fx-font-family: monospace;
                       -fx-text-fill: #4a5568;
