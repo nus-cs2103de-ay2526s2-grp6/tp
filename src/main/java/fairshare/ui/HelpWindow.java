@@ -23,47 +23,65 @@ public class HelpWindow {
     private static final int HEIGHT = 400;
     private static final String MESSAGE_HELP =
             """
-            Add Expense (equal split)
-              add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON... t/TAG...
-              Example: add n/Lunch a/20.0 g/JB p/alice s/alice s/bob t/food
-
-            Add Expense (proportional split)
-                add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON:PARTS... t/TAG...
-                Example: add n/Lunch a/20.0 g/JB p/alice s/alice:3 s/bob:1 t/food
-                (alice pays 3/4, bob pays 1/4 of the total)
-
-            Delete Expense
-              delete INDEX
-              Example: delete 1
-
-            Update Expense
-              update INDEX n/NAME a/AMOUNT g/GROUP p/PAYER ... (at least 1)
-              Example: update 2 s/john s/mary a/12
-
-            Settle Debt
-                settle g/GROUP p/PAYER r/RECEIVER a/AMOUNT
-                Example: settle g/JB p/alice r/bob a/10.0
             
-            Filter Expenses
-              filter n/NAME       (by expense name)
-              filter g/GROUP      (by group name)
-              filter p/PAYER      (by payer)
-              filter s/PERSON     (by participant)
-              filter t/TAG        (by tag)
-              Example: filter p/alice
-              Example: filter g/JB
-
-            List All Expenses
-              list
-
-            Clear All Expenses
-              clear
-
-            Help
-              help
-
-            Exit
-              exit""";
+            ─────────────────────────────────────
+                      MANAGING EXPENSES
+            ─────────────────────────────────────
+            ➕  ADD AN EXPENSE
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                Equal split:
+                add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON...
+                
+                Proportional split:
+                add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON:PARTS...
+                
+                💡 Tip: s/alice:3 s/bob:1 means alice pays 3/4, bob pays 1/4
+                📌 Example: add n/Lunch a/20.0 g/JB p/alice s/alice:3 s/bob:1 t/food
+    
+            🗑️  DELETE AN EXPENSE
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                delete INDEX
+                📌 Example: delete 1
+    
+            ✏️  UPDATE AN EXPENSE
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                update INDEX [n/NAME] [a/AMOUNT] [p/PAYER] [s/PERSON...]
+                📌 Example: update 2 a/50.0 p/bob    
+                
+            ─────────────────────────────────────
+                       SETTLING DEBTS
+            ─────────────────────────────────────
+            💸  SETTLE A DEBT
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                settle g/GROUP p/PAYER r/RECEIVER a/AMOUNT
+                📌 Example: settle g/JB p/alice r/bob a/10.0
+                
+            ─────────────────────────────────────
+                     VIEWING & SEARCHING
+            ─────────────────────────────────────
+            🔍  FILTER EXPENSES
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                filter g/GROUP      → by group
+                filter n/NAME       → by expense name
+                filter p/PAYER      → by who paid
+                filter s/PERSON     → by participant
+                filter t/TAG        → by tag
+                📌 Example: filter g/JB
+    
+            📋  LIST ALL EXPENSES
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                list
+                
+            ─────────────────────────────────────
+                           OTHER
+            ─────────────────────────────────────
+            ❓  HELP
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                help
+    
+            🚪  EXIT
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                exit""";
 
     private Image helpIcon = new Image(getClass().getResourceAsStream("/images/help.png"));
 
