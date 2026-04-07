@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
-import fairshare.model.expense.ExpenseType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fairshare.model.expense.Expense;
+import fairshare.model.expense.ExpenseType;
 import fairshare.model.expense.Participant;
 import fairshare.model.group.Group;
 import fairshare.model.person.Person;
@@ -34,36 +34,61 @@ public class TxtAdaptedExpenseTest {
         List<Tag> tags = new ArrayList<>(
                 List.of(new Tag("food"), new Tag("trip")));
 
-        expense = new Expense(group, "lunch", 30.0, payer, participants, tags, expenseType);
+        expense = new Expense(group, "lunch", 30.0, payer,
+                participants, tags, expenseType);
         adaptedExpense = new TxtAdaptedExpense(expense);
     }
 
     @Test
-    public void serialise_validExpense_correctFormat() {
-        String serialised = adaptedExpense.serialize();
-        assertEquals("lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip",
-                serialised);
+    public void serialize_validExpense_correctFormat() {
+        String serialized = adaptedExpense.serialize();
+        assertEquals(
+                "malaysia|lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip|EXPENSE",
+                serialized);
     }
 
     @Test
-    public void deserialise_validLine_correctFields() {
-        String line = "lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip";
-        TxtAdaptedExpense result = TxtAdaptedExpense.deserialize(line);
+    public void deserialize_validLine_correctFields() {
+        String line =
+                "malaysia|lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip|EXPENSE";
+        Expense result = TxtAdaptedExpense.deserialize(line)
+                .toModelType();
 
+        assertEquals("malaysia", result.getGroup().getGroupName());
         assertEquals("lunch", result.getExpenseName());
         assertEquals(30.0, result.getAmount());
         assertEquals("alice", result.getPayer().getName());
         assertEquals(3, result.getParticipants().size());
         assertEquals(2, result.getTags().size());
+        assertEquals(ExpenseType.EXPENSE, result.getExpenseType());
     }
 
     @Test
     public void deserialise_validLine_correctShares() {
-        String line = "lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip";
-        TxtAdaptedExpense result = TxtAdaptedExpense.deserialize(line);
+        String line =
+                "malaysia|lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip|EXPENSE";
+        Expense result = TxtAdaptedExpense.deserialize(line)
+                .toModelType();
 
-        assertEquals("bob", result.getParticipants().get(1).getName());
-        assertEquals(2, result.getParticipants().get(1).getShares());
+        assertEquals("bob",
+                result.getParticipants().get(1).getPerson().getName());
+        assertEquals(2,
+                result.getParticipants().get(1).getShares());
+    }
+
+    @Test
+    public void deserialise_validSettlement_correctFields() {
+        String line =
+                "malaysia|Settlement|10.0|alice|bob:1||SETTLEMENT";
+        Expense result = TxtAdaptedExpense.deserialize(line)
+                .toModelType();
+
+        assertEquals("malaysia", result.getGroup().getGroupName());
+        assertEquals("Settlement", result.getExpenseName());
+        assertEquals(10.0, result.getAmount());
+        assertEquals("alice", result.getPayer().getName());
+        assertEquals(1, result.getParticipants().size());
+        assertEquals(ExpenseType.SETTLEMENT, result.getExpenseType());
     }
 
     @Test
@@ -75,7 +100,8 @@ public class TxtAdaptedExpenseTest {
 
     @Test
     public void deserialise_invalidParticipantFormat_throwsException() {
-        String invalidLine = "lunch|30.0|alice|bob|food";
+        String invalidLine =
+                "malaysia|lunch|30.0|alice|bob|food|EXPENSE";
         assertThrows(IllegalArgumentException.class, () ->
                 TxtAdaptedExpense.deserialize(invalidLine));
     }
@@ -84,11 +110,14 @@ public class TxtAdaptedExpenseTest {
     public void toModelType_validAdaptedExpense_correctExpense() {
         Expense result = adaptedExpense.toModelType();
 
+        assertEquals("malaysia",
+                result.getGroup().getGroupName());
         assertEquals("lunch", result.getExpenseName());
         assertEquals(30.0, result.getAmount());
         assertEquals("alice", result.getPayer().getName());
         assertEquals(3, result.getParticipants().size());
         assertEquals(2, result.getTags().size());
+        assertEquals(ExpenseType.EXPENSE, result.getExpenseType());
     }
 
     @Test
@@ -104,25 +133,29 @@ public class TxtAdaptedExpenseTest {
     @Test
     public void serialiseAndDeserialize_roundTrip_sameData() {
         String serialised = adaptedExpense.serialize();
-        TxtAdaptedExpense deserialized =
-                TxtAdaptedExpense.deserialize(serialised);
-        Expense result = deserialized.toModelType();
+        Expense result = TxtAdaptedExpense.deserialize(serialised)
+                .toModelType();
 
-        assertEquals(expense.getExpenseName(), result.getExpenseName());
+        assertEquals(expense.getGroup().getGroupName(),
+                result.getGroup().getGroupName());
+        assertEquals(expense.getExpenseName(),
+                result.getExpenseName());
         assertEquals(expense.getAmount(), result.getAmount());
         assertEquals(expense.getPayer().getName(),
                 result.getPayer().getName());
         assertEquals(expense.getParticipants().size(),
                 result.getParticipants().size());
-        assertEquals(expense.getTags().size(), result.getTags().size());
+        assertEquals(expense.getTags().size(),
+                result.getTags().size());
+        assertEquals(expense.getExpenseType(),
+                result.getExpenseType());
     }
 
     @Test
     public void serialiseAndDeserialize_roundTrip_correctShares() {
         String serialized = adaptedExpense.serialize();
-        TxtAdaptedExpense deserialized =
-                TxtAdaptedExpense.deserialize(serialized);
-        Expense result = deserialized.toModelType();
+        Expense result = TxtAdaptedExpense.deserialize(serialized)
+                .toModelType();
 
         assertEquals(
                 expense.getParticipants().get(1).getShares(),
