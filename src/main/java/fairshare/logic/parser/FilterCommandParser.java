@@ -52,7 +52,7 @@ public class FilterCommandParser implements Parser {
 
     private Predicate<Expense> generatePredicateGroups(List<String> groupNames) {
         return expense -> groupNames.stream()
-                .anyMatch(groupName -> expense.getGroup().getGroupName().equals(groupName));
+                .anyMatch(groupName -> expense.getGroup().getGroupName().equalsIgnoreCase(groupName));
     }
 
     private Predicate<Expense> generatePredicateExpenseName(List<String> expenseNames) {
