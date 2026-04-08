@@ -61,7 +61,7 @@ public class ExpenseCard {
 
         indexLabel.setText(displayIndex + ". ");
         groupLabel.setText(
-                expense.getGroup().getGroupName().toUpperCase());
+                expense.getGroup().getGroupName());
         expenseNameLabel.setText(expense.getExpenseName());
         amountLabel.setText(
                 String.format("$%.2f", expense.getAmount()));

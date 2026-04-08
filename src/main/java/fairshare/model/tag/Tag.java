@@ -14,7 +14,7 @@ public class Tag {
      * @param tagName The name of the tag.
      */
     public Tag(String tagName) {
-        this.tagName = tagName;
+        this.tagName = tagName.toLowerCase();
     }
 
     /**

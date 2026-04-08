@@ -12,7 +12,7 @@ public class Group {
      * @param groupName The group name.
      */
     public Group(String groupName) {
-        this.groupName = groupName;
+        this.groupName = groupName.toUpperCase();
     }
 
     /**

@@ -52,7 +52,7 @@ public class FilterCommandParser implements Parser {
 
     private Predicate<Expense> generatePredicateGroups(List<String> groupNames) {
         return expense -> groupNames.stream()
-                .anyMatch(groupName -> expense.getGroup().getGroupName().equals(groupName));
+                .anyMatch(groupName -> expense.getGroup().getGroupName().equalsIgnoreCase(groupName));
     }
 
     private Predicate<Expense> generatePredicateExpenseName(List<String> expenseNames) {
@@ -76,7 +76,7 @@ public class FilterCommandParser implements Parser {
         // True if ALL the specified tags are present in the expense
         return expense -> tagNames.stream()
                 .allMatch(tagName -> expense.getTags().stream()
-                        .anyMatch(tag -> tag.getTagName().equals(tagName)));
+                        .anyMatch(tag -> tag.getTagName().equalsIgnoreCase(tagName)));
     }
 }
 
