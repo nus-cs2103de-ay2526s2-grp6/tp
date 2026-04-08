@@ -62,14 +62,14 @@ public class FilterCommandParser implements Parser {
 
     private Predicate<Expense> generatePredicatePayers(List<String> payerNames) {
         return expense -> payerNames.stream()
-                .anyMatch(payerName -> expense.getPayer().getName().equals(payerName));
+                .anyMatch(payerName -> expense.getPayer().getName().equalsIgnoreCase(payerName));
     }
 
     private Predicate<Expense> generatePredicateParticipants(List<String> participantNames) {
         // True if ANY of the specified participants are involved in an expense
         return expense -> participantNames.stream()
                 .anyMatch(participantName -> expense.getParticipants().stream()
-                        .anyMatch(p -> p.getPerson().getName().equals(participantName)));
+                        .anyMatch(p -> p.getPerson().getName().equalsIgnoreCase(participantName)));
     }
 
     private Predicate<Expense> generatePredicateTags(List<String> tagNames) {
