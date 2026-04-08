@@ -43,9 +43,7 @@ public class ParserUtil {
                 data = new ArrayList<>(List.of(argData));
             } else {
                 data = map.get(argType);
-                if (!data.contains(argData)) {
-                    data.add(argData);
-                }
+                data.add(argData);
             }
             map.put(argType, data);
         }
@@ -185,6 +183,15 @@ public class ParserUtil {
 
         List<Participant> participants = new ArrayList<>();
         for (String p : strParticipants) {
+            Participant newParticipant = parseParticipant(p);
+
+            boolean isDuplicate = participants.stream()
+                            .anyMatch(participant -> participant.isSamePerson(newParticipant));
+
+            if (isDuplicate) {
+                throw new ParseException("An expense cannot have duplicate participants.");
+            }
+
             participants.add(parseParticipant(p));
         }
 

@@ -12,7 +12,7 @@ public class Person {
      * @param name The name of the person.
      */
     public Person(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     /**
@@ -35,15 +35,12 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        String myName = this.getName().trim();
-        String theirName = otherPerson.getName().trim();
-
-        return myName.equals(theirName);
+        return this.name.equalsIgnoreCase(otherPerson.name); // case-insensitive
     }
 
     @Override
     public int hashCode() {
-        // Any two person objects with the same name is assumed to be the same person (same hashcode)
-        return this.getName().trim().hashCode();
+        // Any two person objects with the same name (case-insensitive) is assumed to be the same person (same hashcode)
+        return this.getName().toLowerCase().hashCode();
     }
 }

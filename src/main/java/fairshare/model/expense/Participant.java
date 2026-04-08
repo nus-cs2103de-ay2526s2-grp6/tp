@@ -37,4 +37,16 @@ public class Participant {
     public int getShares() {
         return this.shares;
     }
+
+    public boolean isSamePerson(Participant otherParticipant) {
+        if (this == otherParticipant) {
+            return true;
+        }
+
+        if (otherParticipant == null) {
+            return false;
+        }
+
+        return this.person.equals(otherParticipant.person);
+    }
 }
