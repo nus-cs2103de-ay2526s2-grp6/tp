@@ -59,13 +59,18 @@ public class ParserUtil {
      * @param map The tokenized argument map.
      * @param key The prefix key to look up (e.g., "n" for name).
      * @return The string data associated with the given key.
-     * @throws ParseException If the key is missing or the data is empty.
+     * @throws ParseException If multiple values are detected, the key is missing, or the data is empty.
      */
     public static String getSingleFieldData(Map<String, List<String>> map, String key) throws ParseException {
         List<String> data = map.get(key);
         if (data == null || data.isEmpty()) {
             throw new ParseException("Missing mandatory field: " + key + "/");
         }
+
+        if (data.size() > 1) {
+            throw new ParseException("Multiple values detected for " + key + "/. Only one is allowed.");
+        }
+
         return data.getFirst();
     }
 
@@ -93,13 +98,17 @@ public class ParserUtil {
      * @param map The tokenized argument map.
      * @param key The prefix key to look up.
      * @return An {@code Optional} containing the string data if present, otherwise an empty {@code Optional}.
-     * @throws ParseException If the flag is present but no value is typed after it.
+     * @throws ParseException If multiple values are detected or if the flag is present but no value is typed after it.
      */
     public static Optional<String> getOptionalSingleFieldData(
             Map<String, List<String>> map, String key) throws ParseException {
         List<String> data = map.get(key);
         if (data == null) {
             return Optional.empty();
+        }
+
+        if (data.size() > 1) {
+            throw new ParseException("Multiple values detected for " + key + "/. Only one is allowed.");
         }
 
         String output = data.getFirst();
