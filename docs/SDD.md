@@ -140,8 +140,8 @@ The sequence diagram above illustrates the flow when a user types
 6. `AddCommand` calls `addExpense()` on `Model`
 7. `Model` calls `BalanceCalculator.calculate()` to recompute balances
 8. `LogicManager` calls `saveFairShare()` on `Storage`
-9. MainWindow refreshes ExpenseListPanel, BalancePanel
-   (grouped by group), PieChart, StatusBar and GroupWindow
+9. `MainWindow` refreshes `ExpenseListPanel`, `BalancePanel`
+   (grouped by group), `PieChart`, `StatusBar` and `GroupWindow`
    (if open)
 
 **Delete Expense:**
