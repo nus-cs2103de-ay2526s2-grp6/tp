@@ -121,7 +121,7 @@ public class BalancePanel {
                     "-fx-text-fill: #2e7d32;"
                             + "-fx-font-size: 12;"
                             + "-fx-font-weight: bold;"
-                            + "-fx-background-color: #e8f5e9;"
+                            + "-fx-background-color: #d0daf0;"
                             + "-fx-background-radius: 6;"
                             + "-fx-padding: 6 12 6 12;");
             cardContainer.getChildren().add(settledLabel);
@@ -165,7 +165,7 @@ public class BalancePanel {
         groupPane.setGraphic(titleLabel);
         groupPane.setText("");
         groupPane.setStyle(
-                "-fx-background-color: #ffffff;"
+                "-fx-background-color: #d0daf0;"
                         + "-fx-background-radius: 8;"
                         + "-fx-border-color: #c5d0e8;"
                         + "-fx-border-radius: 8;"

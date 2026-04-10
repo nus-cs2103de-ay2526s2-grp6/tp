@@ -34,3 +34,13 @@
     -fx-shape: "";
     -fx-padding: 0;
 }
+
+.titled-pane > .title {
+    -fx-background-color: #4a7fe8;
+    -fx-background-radius: 8;
+}
+
+.titled-pane > .title:hover {
+    -fx-background-color: #c5d0e8;
+    -fx-background-radius: 8;
+}
