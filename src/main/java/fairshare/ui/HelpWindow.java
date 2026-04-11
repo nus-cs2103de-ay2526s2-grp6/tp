@@ -42,7 +42,11 @@ public class HelpWindow {
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 delete INDEX
                 📌 Example: delete 1
-
+ 
+            🗑️  CLEAR ALL EXPENSES
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                clear
+    
             ✏️  UPDATE AN EXPENSE
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 update INDEX [n/NAME] [a/AMOUNT] [p/PAYER] [s/PERSON...]
