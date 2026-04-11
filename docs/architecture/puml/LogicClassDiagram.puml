@@ -1,4 +1,12 @@
 @startuml
+skinparam dpi 150
+skinparam defaultFontSize 13
+skinparam ClassFontSize 13
+skinparam ClassAttributeFontSize 12
+skinparam ArrowFontSize 12
+skinparam ClassPadding 15
+skinparam Nodesep 60
+skinparam Ranksep 60
 !include style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_4
@@ -78,7 +86,6 @@ Logic ..> CommandResult
 LogicManager .down.> CommandResult
 Command .up.> CommandResult : <<create>>
 
-' Hidden lines to force clean layout routing
 Storage --[hidden] Model
 Command .[hidden]up.> Storage
 

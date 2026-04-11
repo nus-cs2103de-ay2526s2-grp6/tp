@@ -20,6 +20,9 @@
     - [5.4 JavaFX ObservableList for UI Binding](#54-javafx-observablelist-for-ui-binding)
     - [5.5 Proportional Split Using Participant Shares](#55-proportional-split-using-participant-shares)
     - [5.6 Graceful Handling of Corrupted Storage Files](#56-graceful-handling-of-corrupted-storage-files)
+- [6. Testing](#6-testing)
+  - [6.1 Unit Testing](#61-unit-testing)
+  - [6.2 Manual Testing](#62-manual-testing)
 
 ## 1. System Overview
 The Shared Expense Tracker is an application that enables groups of users to record, manage and settle shared expenses.
@@ -105,6 +108,14 @@ The system is organized into four layers. Each layer's class diagram is shown be
 
 **UI Layer:**
 ![UI Class Diagram](architecture/UiClassDiagram.png)
+- BalancePanel uses an Accordion grouped by group name,
+  with each group expandable to show its balance cards.
+  Active groups show an orange indicator, settled groups
+  show a green indicator.
+- TagPieChart is now called PieChart and supports toggling
+  between spending by tag and spending by group
+- PieChart uses fixed colours per tag/group so colours do
+  not change on refresh
 
 **Logic Layer:**
 ![Logic Class Diagram](architecture/LogicClassDiagram.png)
@@ -129,8 +140,9 @@ The sequence diagram above illustrates the flow when a user types
 6. `AddCommand` calls `addExpense()` on `Model`
 7. `Model` calls `BalanceCalculator.calculate()` to recompute balances
 8. `LogicManager` calls `saveFairShare()` on `Storage`
-9. `MainWindow` refreshes `ExpenseListPanel`, `BalancePanel`,
-   `TagPieChart`, `StatusBar` and `GroupWindow` (if open)
+9. `MainWindow` refreshes `ExpenseListPanel`, `BalancePanel`
+   (grouped by group), `PieChart`, `StatusBar` and `GroupWindow`
+   (if open)
 
 **Delete Expense:**
 ![Delete Expense Sequence Diagram](architecture/DeleteExpenseSequenceDiagram.png)
@@ -234,3 +246,94 @@ controller wiring explicit and consistent across all UI components.
 
 **Rationale:** While `ExpenseListPanel` updates automatically via`ObservableList` binding, the other panels derive computed data
 (balances, tag totals, group status) that must be recalculated and re-rendered explicitly after each change.
+
+### 5.9 Balance Panel Grouped by Group
+**Decision:** Display balances in an accordion grouped by group name rather than a flat list.
+
+**Rationale:** When multiple groups exist, a flat balance list is confusing since the same person may owe different amounts in different groups. Grouping by group name makes
+it clear which debts belong to which trip or event.
+
+## 6. Testing
+
+### 6.1 Unit Testing
+Unit tests are written using JUnit 5 and cover the Storage layer comprehensively. The following test classes are included:
+
+**Storage Layer:**
+- `TxtAdaptedGroupTest` — tests serialization, deserialization
+  and model conversion of group data
+- `TxtAdaptedPersonTest` — tests serialization, deserialization
+  and model conversion of person data
+- `TxtAdaptedTagTest` — tests serialization, deserialization
+  and model conversion of tag data
+- `TxtAdaptedParticipantTest` — tests serialization,
+  deserialization and model conversion of participant data
+  including share values
+- `TxtAdaptedExpenseTest` — tests serialization, deserialization
+  and model conversion of expense data including group,
+  expense type and round-trip integrity
+- `TxtSerializableFairShareTest` — tests saving and loading
+  the full expense list to and from file, including empty lists,
+  settlements and nested directories
+- `TxtFairShareStorageTest` — tests the full storage pipeline
+  including corrupted file handling, file deletion and data
+  preservation across save and read cycles
+- `StorageManagerTest` — tests the storage manager as the
+  top-level storage interface
+
+**Logic Layer:**
+- `LogicManagerTest` — tests command execution, balance
+  calculation and expense list retrieval
+- `AddCommandTest`, `DeleteCommandTest`, `UpdateCommandTest`,
+  `FilterCommandTest`, `ListCommandTest`, `SettleCommandTest`,
+  `HelpCommandTest`, `ExitCommandTest`, `ClearCommandTest` —
+  tests each command's execution logic against the model
+- `FilterCommandParserTest` — tests parsing of filter command
+  arguments
+- `CommandResultTest` — tests the command result wrapper
+
+To run all tests: `gradlew test`
+
+### 6.2 Manual Testing
+
+The UI layer was tested manually as JavaFX components require
+a running application thread and cannot be unit tested without
+a dedicated testing framework such as TestFX.
+
+The following UI components were tested manually:
+
+**Layout and Styling:**
+- Header displays app logo, title and subtitle correctly
+- Expense list panel shows cards with correct colour coding
+  for normal expenses and settlements
+- Balance panel accordion groups balances correctly by group
+  with active and settled indicators
+- Pie chart toggles correctly between tag and group views
+  and updates after every command
+- Status bar shows correct expense count and total
+- Groups window shows correct active and settled groups
+
+**Functionality:**
+- Adding an expense updates the expense list, balance panel,
+  pie chart, status bar and groups window correctly
+- Deleting an expense updates all panels correctly
+- Updating an expense updates all panels correctly
+- Settling a debt updates all panels correctly
+- Filtering expenses updates the expense list and pie chart
+  correctly
+- Running `list` after a filter restores all expenses
+- Empty state message appears when expense list is empty
+- Balance panel empty state appears when all debts are settled
+- Groups window active and settled categorisation is correct
+- Help window displays all available commands correctly
+- Startup message displays on first launch
+- Escape key clears the command box
+- Groups window refreshes automatically when open
+
+**Edge Cases Tested:**
+- Corrupted data file on startup shows warning message and
+  starts with empty list
+- Group names are case-insensitive — e.g `JB` and `jb` are
+  treated as the same group
+- Settlements are excluded from pie chart and status bar totals
+- Adding expenses to multiple groups shows all groups correctly
+  in the balance panel and groups window

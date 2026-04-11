@@ -7,7 +7,7 @@
   - [Target Users](#target-users)
   - [Stakeholders](#stakeholders)
 - [User Stories](#user-stories-)
-  - [MUST-HAVE](#must-have)
+  - [MUST-HAVE](#must-have-)
   - [SHOULD-HAVE](#should-have)
 - [Functional Requirements](#functional-requirements)
 - [Non-Functional Requirements](#non-functional-requirements)
@@ -66,12 +66,12 @@ Additional features include:
 8. The system should allow a user to mark a specific debt between two members as settled, updating balances accordingly. 
 9. The system should support equal split and custom split (by percentage or fixed amount) when recording an expense. 
 10. The system should allow a user to filter expenses by group name, expense name, payer or participant. 
-11. The system should display a pie chart showing spending breakdown by tag, excluding settlements. 
+11. The system should display a pie chart showing spending breakdown by tag or group, toggles by the user, excluding settlements. 
 12. The system should display a status bar showing total expense count and total amount, excluding settlements. 
 13. The system should display all groups in a popup window, categorised as 'Active' or 'Settled' based on outstanding balances. 
 14. The system should display participant proportions on each expense card showing percentage and dollar amount per person. 
 15. The system should colour-code expense cards by type and amount: green for settlements, orange for large expenses (>=$100) and blue for normal expenses.
-
+16. The system should display balances grouped by group name in a collapsible accordion panel, with active groups indicated in orange and settled groups in green.
 
 ## Non-Functional Requirements
 1. The application should load and display a group with up to 200 recorded expenses within 2 seconds.

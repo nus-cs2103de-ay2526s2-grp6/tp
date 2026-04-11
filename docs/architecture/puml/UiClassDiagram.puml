@@ -1,23 +1,85 @@
 @startuml
 !include style.puml
+show members
 skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_4
-skinparam classBackgroundColor UI_COLOR
+skinparam classBackgroundColor UI_COLOR_2
 
 package UI <<Rectangle>>{
-    Class "<<interface>>\nUi" as Ui
-    Class MainWindow
-    Class Header
-    Class ExpenseListPanel
-    Class ExpenseCard
-    Class BalancePanel
-    Class BalanceCard
-    Class TagPieChart
-    Class StatusBar
-    Class GroupWindow
-    Class ResultDisplay
-    Class CommandBox
-    Class HelpWindow
+    Class "<<interface>>\nUi" as Ui {
+        + start(primaryStage: Stage): void
+    }
+
+    Class MainWindow {
+        - primaryStage: Stage
+        - logic: Logic
+        + fillInnerParts(): void
+        + showStartupMessage(message: String): void
+    }
+
+    Class Header {
+        - groupsButton: Button
+        + setOnGroupsClicked(handler: Runnable): void
+    }
+
+    Class ExpenseListPanel {
+        - expenseListView: ListView<Expense>
+        - emptyStateLabel: Label
+        - currentSearchTerm: String
+        + setSearchTerm(term: String): void
+    }
+
+    Class ExpenseCard {
+        - expense: Expense
+        - displayIndex: int
+        - searchTerm: String
+    }
+
+    Class BalancePanel {
+        - balancesAccordion: Accordion
+        - emptyStateLabel: Label
+        + refresh(groupBalances: Map): void
+    }
+
+    Class BalanceCard {
+        - name: String
+        - balances: List<Balance>
+    }
+
+    Class TagPieChart {
+        - colourMap: Map<String, String>
+        - lastExpenses: List<Expense>
+        + refresh(expenses: List<Expense>): void
+    }
+
+    Class StatusBar {
+        - totalExpensesLabel: Label
+        - totalAmountLabel: Label
+        + refresh(expenses: List<Expense>): void
+    }
+
+    Class GroupWindow {
+        - groupStage: Stage
+        - activeGroupsContainer: VBox
+        - pastGroupsContainer: VBox
+        + show(expenses: List<Expense>, balances: List<Balance>): void
+        + refreshIfShowing(expenses: List<Expense>, balances: List<Balance>): void
+    }
+
+    Class ResultDisplay {
+        - resultDisplay: TextArea
+        + setFeedbackToUser(message: String): void
+    }
+
+    Class CommandBox {
+        - commandTextField: TextField
+        - commandExecutor: CommandExecutor
+    }
+
+    Class HelpWindow {
+        - helpStage: Stage
+        + show(): void
+    }
 }
 
 package Model <<Rectangle>> {
@@ -31,7 +93,6 @@ package Logic <<Rectangle>> {
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Ui
 
-' MainWindow implements UI interface
 MainWindow .up.|> Ui
 
 MainWindow *-down-> "1" Header
@@ -44,7 +105,6 @@ MainWindow *-down-> "1" CommandBox
 MainWindow *-down-> "0..1" HelpWindow
 MainWindow *-down-> "0..1" GroupWindow
 
-' Scroll pane contains multiple expense cards
 ExpenseListPanel -down-> "*" ExpenseCard
 BalancePanel -down-> "*" BalanceCard
 
@@ -54,15 +114,19 @@ TagPieChart ..> Model
 StatusBar ..> Model
 GroupWindow ..> Model
 
-' MainWindow passes the user input to Logic
 MainWindow -right-> Logic
 
-' Hints to keep the diagram wide and readable
 Header -[hidden]right- ExpenseListPanel
 ExpenseListPanel -[hidden]right- BalancePanel
 BalancePanel -[hidden]right- TagPieChart
 TagPieChart -[hidden]right- StatusBar
 StatusBar -[hidden]right- ResultDisplay
 ResultDisplay -[hidden]right- CommandBox
+
+Header -[hidden]down- ResultDisplay
+ExpenseListPanel -[hidden]down- CommandBox
+BalancePanel -[hidden]down- HelpWindow
+TagPieChart -[hidden]down- GroupWindow
+StatusBar -[hidden]down- GroupWindow
 
 @enduml

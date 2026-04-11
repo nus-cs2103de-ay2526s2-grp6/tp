@@ -30,9 +30,9 @@ interfaces and their interactions.
 - `getExpenseList()` — Returns `List<Expense>`. Provides the full
   unfiltered expense list used by `TagPieChart`, `StatusBar` and
   `GroupWindow`.
-- `calculateBalances()` — Returns `List<Balance>`. Returns the
-  simplified debt settlement list used by `BalancePanel` and
-  `GroupWindow`.
+- `calculateBalances()` — Returns `Map<Group, List<Balance>>`.
+  Returns the simplified debt settlement list grouped by group,
+  used by BalancePanel and GroupWindow.
 
 ## 2. Model Component
 
@@ -83,14 +83,16 @@ interfaces and their interactions.
   an empty state message when the list is empty.
 
 **`BalancePanel`**
-- `refresh(List<Balance> balances)` — Re-renders the balance list
-  with updated balance data.
+- `refresh(groupBalances: Map<Group, List<Balance>>)` —
+  Re-renders the accordion with updated balance data
+  grouped by group.
 
-**`TagPieChart`**
-- `refresh(List<Expense> expenses)` — Re-renders the pie chart with
-  updated expense data. Excludes settlements. Shows a no-data label
-  when empty.
-
+**`PieChart`** 
+- `refresh(expenses: List<Expense>)` — Re-renders the pie
+  chart with updated expense data. Supports toggle between
+  tag view and group view. Uses fixed colours per label so
+  colours do not change on refresh. Excludes settlements.
+  Shows a no-data label when empty.
 **`StatusBar`**
 - `refresh(List<Expense> expenses)` — Updates the expense count and
   total amount. Excludes settlements.
