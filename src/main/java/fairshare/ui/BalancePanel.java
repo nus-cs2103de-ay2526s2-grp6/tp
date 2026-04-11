@@ -152,7 +152,7 @@ public class BalancePanel {
         boolean isSettled = debts.isEmpty();
         String statusIndicator = isSettled ? "✓ " : "● ";
         String statusColour = isSettled
-                ? "#2e7d32" : "#ff9800";
+                ? "#d0f0c0" : "#ff9800";
 
         Label titleLabel = new Label(
                 statusIndicator
