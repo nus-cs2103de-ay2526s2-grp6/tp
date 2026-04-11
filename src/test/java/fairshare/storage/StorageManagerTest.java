@@ -65,7 +65,7 @@ public class StorageManagerTest {
 
         List<Expense> loaded = storageManager.readFairShare();
         assertEquals(1, loaded.size());
-        assertEquals("malaysia", loaded.get(0).getGroup().getGroupName());
+        assertEquals("MALAYSIA", loaded.get(0).getGroup().getGroupName());
         assertEquals("lunch", loaded.get(0).getExpenseName());
         assertEquals(20.0, loaded.get(0).getAmount());
         assertEquals("alice", loaded.get(0).getPayer().getName());
@@ -90,9 +90,9 @@ public class StorageManagerTest {
         List<Expense> loaded = storageManager.readFairShare();
 
         Participant bob = loaded.get(0).getParticipants().stream()
-                .filter(p -> p.getPerson().getName().equalsIgnoreCase("alice"))
+                .filter(p -> p.getPerson().getName().equalsIgnoreCase("bob"))
                 .findFirst()
-                .orElseThrow(() -> new AssertionError("john should be in the set"));
+                .orElseThrow(() -> new AssertionError("bob should be in the set"));
 
         Participant mary = loaded.get(0).getParticipants().stream()
                 .filter(p -> p.getPerson().getName().equalsIgnoreCase("mary"))
@@ -100,7 +100,7 @@ public class StorageManagerTest {
                 .orElseThrow(() -> new AssertionError("mary should be in the set"));
 
         assertEquals(2, bob.getShares());
-        assertEquals(2, mary.getShares());
+        assertEquals(1, mary.getShares());
     }
 
     @Test

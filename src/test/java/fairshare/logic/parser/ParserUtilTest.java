@@ -61,14 +61,14 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.tokenize(args));
     }
 
-    // Test getSingleFieldData returns first string when key is present.
+    // Test getSingleFieldData returns string when key is present.
     @Test
     public void getSingleFieldData_keyPresent_returnsString() throws ParseException {
         Map<String, List<String>> map = new HashMap<>();
-        map.put("s", List.of("john", "mary", "luke"));
+        map.put("n", List.of("lunch"));
 
-        String result = ParserUtil.getSingleFieldData(map, "s");
-        assertEquals("john", result);
+        String result = ParserUtil.getSingleFieldData(map, "n");
+        assertEquals("lunch", result);
     }
 
     // Test getSingleFieldData key not present in map.

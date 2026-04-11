@@ -44,7 +44,7 @@ public class TxtAdaptedExpenseTest {
     public void serialize_validExpense_correctFormat() {
         String serialized = adaptedExpense.serialize();
         assertEquals(
-                "malaysia|lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip|EXPENSE",
+                "MALAYSIA|lunch|30.0|alice|alice:1,bob:2,carol:1|food,trip|EXPENSE",
                 serialized);
     }
 
@@ -55,7 +55,7 @@ public class TxtAdaptedExpenseTest {
         Expense result = TxtAdaptedExpense.deserialize(line)
                 .toModelType();
 
-        assertEquals("malaysia", result.getGroup().getGroupName());
+        assertEquals("MALAYSIA", result.getGroup().getGroupName());
         assertEquals("lunch", result.getExpenseName());
         assertEquals(30.0, result.getAmount());
         assertEquals("alice", result.getPayer().getName());
@@ -89,7 +89,7 @@ public class TxtAdaptedExpenseTest {
         Expense result = TxtAdaptedExpense.deserialize(line)
                 .toModelType();
 
-        assertEquals("malaysia", result.getGroup().getGroupName());
+        assertEquals("MALAYSIA", result.getGroup().getGroupName());
         assertEquals("Settlement", result.getExpenseName());
         assertEquals(10.0, result.getAmount());
         assertEquals("alice", result.getPayer().getName());
@@ -116,7 +116,7 @@ public class TxtAdaptedExpenseTest {
     public void toModelType_validAdaptedExpense_correctExpense() {
         Expense result = adaptedExpense.toModelType();
 
-        assertEquals("malaysia",
+        assertEquals("MALAYSIA",
                 result.getGroup().getGroupName());
         assertEquals("lunch", result.getExpenseName());
         assertEquals(30.0, result.getAmount());

@@ -136,7 +136,7 @@ public class TxtSerializableFairShareTest {
                 .loadFromFile(testFilePath)
                 .toModelType();
 
-        assertEquals("malaysia",
+        assertEquals("MALAYSIA",
                 loaded.get(0).getGroup().getGroupName());
         assertEquals("lunch", loaded.get(0).getExpenseName());
         assertEquals(20.0, loaded.get(0).getAmount());

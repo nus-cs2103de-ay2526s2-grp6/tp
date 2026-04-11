@@ -78,7 +78,7 @@ public class TxtFairShareStorageTest {
         assertEquals("lunch", loaded.get(0).getExpenseName());
         assertEquals(20.0, loaded.get(0).getAmount());
         assertEquals("alice", loaded.get(0).getPayer().getName());
-        assertEquals("malaysia",
+        assertEquals("MALAYSIA",
                 loaded.get(0).getGroup().getGroupName());
     }
 

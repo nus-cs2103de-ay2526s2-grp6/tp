@@ -147,11 +147,14 @@ public class TxtAdaptedExpense {
         String payerStr = payer.serialize();
 
         String participantsStr = participants.stream()
+                .sorted((p1, p2)
+                        -> p1.getName().compareToIgnoreCase(p2.getName()))
                 .map(TxtAdaptedParticipant::serialize)
                 .collect(Collectors.joining(LIST_SEPARATOR));
 
         String tagsStr = tags.stream()
                 .map(TxtAdaptedTag::serialize)
+                .sorted()
                 .collect(Collectors.joining(LIST_SEPARATOR));
 
         String expenseTypeStr = expenseType.name();

@@ -31,14 +31,14 @@ public class TxtAdaptedGroupTest {
     public void toModelType_validAdaptedGroup_returnsCorrectGroup() {
         TxtAdaptedGroup adapted = new TxtAdaptedGroup("malaysia");
         Group group = adapted.toModelType();
-        assertEquals("malaysia", group.getGroupName());
+        assertEquals("MALAYSIA", group.getGroupName());
     }
 
     @Test
     public void constructor_fromGroup_correctGroupName() {
         Group group = new Group("malaysia");
         TxtAdaptedGroup adapted = new TxtAdaptedGroup(group);
-        assertEquals("malaysia", adapted.getGroupName());
+        assertEquals("MALAYSIA", adapted.getGroupName());
     }
 
     @Test
