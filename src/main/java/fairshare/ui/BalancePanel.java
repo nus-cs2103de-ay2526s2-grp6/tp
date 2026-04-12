@@ -150,13 +150,10 @@ public class BalancePanel {
         groupPane.setContent(cardContainer);
 
         boolean isSettled = debts.isEmpty();
-        String statusIndicator = isSettled ? "✓ " : "● ";
         String statusColour = isSettled
-                ? "#d0f0c0" : "#ff9800";
+                ? "#033500" : "#cc5500";
 
-        Label titleLabel = new Label(
-                statusIndicator
-                        + group.getGroupName().toUpperCase());
+        Label titleLabel = new Label(group.getGroupName().toUpperCase());
         titleLabel.setStyle(
                 "-fx-font-size: 12;"
                         + "-fx-font-weight: bold;"

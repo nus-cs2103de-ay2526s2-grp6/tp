@@ -4,16 +4,17 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <HBox xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER_LEFT"
+      spacing="10"
       style="-fx-background-color: #d0daf0;
              -fx-border-color: #c5d0e8;
-             -fx-border-width: 1 0 0 0;"
-      alignment="CENTER_LEFT"
-      spacing="10">
+             -fx-border-width: 1 0 0 0;">
     <padding>
         <Insets top="5" right="15" bottom="5" left="15"/>
     </padding>
     <Label fx:id="totalExpensesLabel"
-           style="-fx-text-fill: #4a5568; -fx-font-size: 12;"/>
+           style="-fx-text-fill: #4a5568;
+                  -fx-font-size: 12;"/>
     <Region HBox.hgrow="ALWAYS"/>
     <Label fx:id="totalAmountLabel"
            style="-fx-text-fill: #2e7d32;

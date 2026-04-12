@@ -122,7 +122,7 @@ public class PieChart {
                                    ToggleButton groupBtn) {
         String activeStyle =
                 "-fx-font-size: 11;"
-                        + "-fx-background-color: #4a7fe8;"
+                        + "-fx-background-color: #A8C4D2;"
                         + "-fx-text-fill: white;"
                         + "-fx-background-radius: 20;"
                         + "-fx-border-radius: 20;"

@@ -22,7 +22,7 @@
                    style="-fx-text-fill: #ffffff;
                           -fx-font-size: 10;
                           -fx-font-weight: bold;
-                          -fx-background-color: #4a7fe8;
+                          -fx-background-color: #A8C4D2;
                           -fx-background-radius: 20;
                           -fx-padding: 2 10 2 10;"/>
             <Label fx:id="expenseNameLabel"
@@ -38,11 +38,11 @@
                style="-fx-text-fill: #2c041d;
                       -fx-font-size: 12;
                       -fx-font-style: italic;
-                      -fx-font-weight: bold"/>
+                      -fx-font-weight: bold;"/>
         <VBox fx:id="participantsContainer" spacing="4"/>
         <Label fx:id="tagsLabel"
                style="-fx-text-fill: #6b7fa8;
                       -fx-font-size: 11;
-                      -fx-font-style: italic"/>
+                      -fx-font-style: italic;"/>
     </VBox>
 </HBox>

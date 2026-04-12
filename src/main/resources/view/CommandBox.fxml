@@ -27,7 +27,7 @@
     <Button fx:id="sendButton"
             text="Send →"
             prefHeight="34"
-            style="-fx-background-color: #4a7fe8;
+            style="-fx-background-color: #A8C4D2;
                    -fx-text-fill: white;
                    -fx-border-radius: 6;
                    -fx-background-radius: 6;

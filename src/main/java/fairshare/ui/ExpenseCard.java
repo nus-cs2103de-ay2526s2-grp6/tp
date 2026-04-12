@@ -96,7 +96,7 @@ public class ExpenseCard {
                     "-fx-text-fill: #ffffff; "
                             + "-fx-font-size: 10; "
                             + "-fx-font-weight: bold; "
-                            + "-fx-background-color: #4caf50; "
+                            + "-fx-background-color: #033500; "
                             + "-fx-background-radius: 20; "
                             + "-fx-padding: 2 10 2 10;");
         } else {
@@ -109,7 +109,7 @@ public class ExpenseCard {
                     "-fx-text-fill: #ffffff; "
                             + "-fx-font-size: 10; "
                             + "-fx-font-weight: bold; "
-                            + "-fx-background-color: #4a7fe8; "
+                            + "-fx-background-color: #A8C4D2; "
                             + "-fx-background-radius: 20; "
                             + "-fx-padding: 2 10 2 10;");
         }
