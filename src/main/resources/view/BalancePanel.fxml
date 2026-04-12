@@ -9,7 +9,7 @@
       minHeight="0.0"
       style="-fx-background-color: #F8FAFC;">
 
-    <Label text="Balances"
+    <Label text="Group Balances"
            style="-fx-font-size: 16;
                   -fx-font-weight: bold;
                   -fx-text-fill: #0F172A;">
