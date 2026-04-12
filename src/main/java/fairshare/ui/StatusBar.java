@@ -29,7 +29,7 @@ public class StatusBar {
     /**
      * Constructs a {@code StatusBar} with the given list of expenses.
      *
-     * @param expenses the list of expenses; cannot be null.
+     * @param expenses the list of expenses;
      */
     public StatusBar(List<Expense> expenses) {
         try {
@@ -56,7 +56,7 @@ public class StatusBar {
     /**
      * Refreshes the status bar with updated expense data.
      *
-     * @param expenses the updated list of expenses; cannot be null.
+     * @param expenses the updated list of expenses;
      */
     public void refresh(List<Expense> expenses) {
         long count = expenses.stream()
@@ -68,7 +68,7 @@ public class StatusBar {
                 .mapToDouble(Expense::getAmount)
                 .sum();
 
-        totalExpensesLabel.setText(count + " expenses");
-        totalAmountLabel.setText(String.format("Total: $%.2f", total));
+        totalExpensesLabel.setText("Total Expenses: " + count);
+        totalAmountLabel.setText(String.format("Grand Total: $%.2f", total));
     }
 }
