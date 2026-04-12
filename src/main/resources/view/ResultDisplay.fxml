@@ -2,21 +2,21 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      style="-fx-background-color: transparent;">
+      style="-fx-background-color: #f0f4fc;">
     <TextArea fx:id="resultDisplay"
               editable="false"
               prefHeight="68"
               wrapText="true"
               focusTraversable="false"
-              style="-fx-font-family: Consolas, 'Courier New', monospace;
+              style="-fx-font-family: monospace;
                      -fx-font-size: 12;
                      -fx-focus-color: transparent;
                      -fx-faint-focus-color: transparent;
                      -fx-highlight-fill: #CCFBF1;
                      -fx-highlight-text-fill: #0F172A;
-                     -fx-background-color: #F8FAFC;
+                     -fx-background-color: #ffffff;
                      -fx-border-color: #E2E8F0;
                      -fx-border-radius: 12;
                      -fx-background-radius: 12;
-                     -fx-text-fill: #0F172A;"/>
+                     -fx-text-fill: #1a2a4a;"/>
 </VBox>

@@ -10,7 +10,7 @@
 <HBox xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER"
       spacing="15"
-      style="-fx-background-color: #FFFFFF;
+      style="-fx-background-color: #A8C4D2;
              -fx-border-color: #E2E8F0;
              -fx-border-width: 0 0 1 0;">
     <padding>
@@ -30,17 +30,17 @@
         <Label text="FairShare"
                style="-fx-font-size: 22;
                       -fx-font-weight: bold;
-                      -fx-text-fill: #0F172A;"/>
+                      -fx-text-fill: #334E6B;"/>
         <Label text="Shared expense tracker"
                style="-fx-font-size: 12;
-                      -fx-text-fill: #64748B;"/>
+                      -fx-text-fill: rgba(15,42,68,0.7);"/>
     </VBox>
 
     <Region HBox.hgrow="ALWAYS"/>
 
     <Label text="Type 'help' for commands"
            style="-fx-font-size: 12;
-                  -fx-text-fill: #64748B;"/>
+                  -fx-text-fill: rgba(15,42,68,0.7);"/>
 
     <Button fx:id="insightsButton"
             id="insightsButton"

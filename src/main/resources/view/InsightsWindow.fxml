@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.VBox?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fitToWidth="true"
-            style="-fx-background-color: #F8FAFC;
-                   -fx-background: #F8FAFC;">
+            style="-fx-background-color: #e8eef7;
+                   -fx-background: #e8eef7;">
     <VBox spacing="16"
-          style="-fx-background-color: #F8FAFC;">
+          style="-fx-background-color: #e8eef7;">
         <padding>
             <Insets top="20" right="20"
                     bottom="20" left="20"/>
@@ -17,21 +17,21 @@
         <Label text="Group Insights"
                style="-fx-font-size: 20;
                       -fx-font-weight: bold;
-                      -fx-text-fill: #0F172A;"/>
+                      -fx-text-fill: #1a2a4a;"/>
 
         <Label text="A summary of each group's spending."
                style="-fx-font-size: 12;
-                      -fx-text-fill: #64748B;"/>
+                      -fx-text-fill: #6b7fa8;"/>
 
         <Label fx:id="activeGroupsHeader"
                text="Active Groups"
                style="-fx-font-size: 13;
                       -fx-font-weight: bold;
-                      -fx-text-fill: #D97706;"/>
+                      -fx-text-fill: #ff9800;"/>
 
         <Label fx:id="noActiveLabel"
                text="No active groups"
-               style="-fx-text-fill: #64748B;
+               style="-fx-text-fill: #6b7fa8;
                       -fx-font-size: 12;"/>
 
         <VBox fx:id="activeGroupsContainer" spacing="12"/>
@@ -40,11 +40,11 @@
                text="Settled Groups"
                style="-fx-font-size: 13;
                       -fx-font-weight: bold;
-                      -fx-text-fill: #15803D;"/>
+                      -fx-text-fill: #2e7d32;"/>
 
         <Label fx:id="noPastLabel"
                text="No settled groups"
-               style="-fx-text-fill: #64748B;
+               style="-fx-text-fill: #6b7fa8;
                       -fx-font-size: 12;"/>
 
         <VBox fx:id="pastGroupsContainer" spacing="12"/>

@@ -4,12 +4,12 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      style="-fx-background-color: #F8FAFC;">
+      style="-fx-background-color: #e8eef7;">
 
     <Label text="Expenses"
            style="-fx-font-size: 16;
                   -fx-font-weight: bold;
-                  -fx-text-fill: #0F172A;">
+                  -fx-text-fill: #1a2a4a;">
         <padding>
             <Insets top="14" right="0" bottom="8" left="15"/>
         </padding>
@@ -17,14 +17,14 @@
 
     <ListView fx:id="expenseListView"
               VBox.vgrow="ALWAYS"
-              style="-fx-background-color: transparent;
+              style="-fx-background-color: #e8eef7;
                      -fx-border-color: transparent;
                      -fx-focus-color: transparent;
                      -fx-faint-focus-color: transparent;"/>
 
     <Label fx:id="emptyStateLabel"
            text="No expenses yet. Add one using the command box below."
-           style="-fx-text-fill: #64748B;
+           style="-fx-text-fill:  #6b7fa8;
                   -fx-font-size: 13;"
            wrapText="true">
         <padding>

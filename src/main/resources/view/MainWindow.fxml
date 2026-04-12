@@ -5,29 +5,29 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       prefWidth="1000" prefHeight="700"
-      style="-fx-background-color: #F8FAFC;">
+      style="-fx-background-color: #e8eef7;">
 
     <StackPane fx:id="headerPlaceholder"/>
 
     <SplitPane VBox.vgrow="ALWAYS"
                minHeight="0.0"
-               style="-fx-background-color: transparent;
+               style="-fx-background-color: #e8eef7;
                       -fx-border-color: transparent;">
         <StackPane fx:id="expenseListPanelPlaceholder"
                    prefWidth="650"
                    minHeight="0.0"
-                   style="-fx-background-color: #F8FAFC;"/>
+                   style="-fx-background-color: #e8eef7;"/>
         <VBox prefWidth="350"
               minHeight="0.0"
-              style="-fx-background-color: #F8FAFC;">
+              style="-fx-background-color: #e8eef7;">
             <StackPane fx:id="pieChartPlaceholder"
-                       style="-fx-background-color: #FFFFFF;
+                       style="-fx-background-color: #f0f4fc;
                               -fx-border-color: #E2E8F0;
                               -fx-border-width: 0 0 1 0;"/>
             <StackPane fx:id="balancePanelPlaceholder"
                        VBox.vgrow="ALWAYS"
                        minHeight="0.0"
-                       style="-fx-background-color: #F8FAFC;"/>
+                       style="-fx-background-color: #e8eef7;"/>
         </VBox>
     </SplitPane>
 
@@ -35,7 +35,7 @@
                minHeight="30"
                prefHeight="30"
                maxHeight="30"
-               style="-fx-background-color: #FFFFFF;
+               style="-fx-background-color: #d0daf0;
                       -fx-border-color: #E2E8F0;
                       -fx-border-width: 1 0 0 0;"/>
 
@@ -43,14 +43,14 @@
                minHeight="72"
                prefHeight="72"
                maxHeight="72"
-               style="-fx-background-color: #F8FAFC;
+               style="-fx-background-color: #f0f4fc;
                       -fx-padding: 8 12 8 12;"/>
 
     <StackPane fx:id="commandBoxPlaceholder"
                minHeight="40"
                prefHeight="40"
                maxHeight="40"
-               style="-fx-background-color: #F8FAFC;
+               style="-fx-background-color: #e8eef7;
                       -fx-padding: 0 12 12 12;"/>
 
 </VBox>
