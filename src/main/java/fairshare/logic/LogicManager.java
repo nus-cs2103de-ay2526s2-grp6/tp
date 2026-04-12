@@ -68,4 +68,9 @@ public class LogicManager implements Logic {
     public List<Expense> getExpenseList() {
         return model.getExpenseList();
     }
+
+    @Override
+    public Map<Group, List<Balance>> calculateAllBalances() {
+        return model.calculateAllBalances();
+    }
 }

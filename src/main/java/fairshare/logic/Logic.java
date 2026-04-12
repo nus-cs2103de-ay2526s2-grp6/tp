@@ -48,4 +48,12 @@ public interface Logic {
      * @return a {@code List} of all {@code Expense} objects.
      */
     List<Expense> getExpenseList();
+
+    /**
+     * Calculates and returns the simplified list of debts for all
+     * expenses regardless of current filter, grouped by group.
+     *
+     * @return a map of group to list of balances using full expense list.
+     */
+    Map<Group, List<Balance>> calculateAllBalances();
 }

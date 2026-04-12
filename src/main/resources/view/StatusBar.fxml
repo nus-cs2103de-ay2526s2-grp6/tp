@@ -6,16 +6,16 @@
 <HBox xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER_LEFT"
       spacing="10"
-      style="-fx-background-color: transparent;">
+      style="-fx-background-color: #d0daf0;">
     <padding>
         <Insets top="6" right="15" bottom="6" left="15"/>
     </padding>
     <Label fx:id="totalExpensesLabel"
-           style="-fx-text-fill: #64748B;
+           style="-fx-text-fill: #4a5568;
                   -fx-font-size: 12;"/>
     <Region HBox.hgrow="ALWAYS"/>
     <Label fx:id="totalAmountLabel"
-           style="-fx-text-fill: #15803D;
+           style="-fx-text-fill: #2e7d32;
                   -fx-font-weight: bold;
                   -fx-font-size: 12;"/>
 </HBox>

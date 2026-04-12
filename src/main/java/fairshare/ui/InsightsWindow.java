@@ -85,7 +85,7 @@ public class InsightsWindow {
             insightStage = new Stage();
             insightStage.setTitle(TITLE);
             insightStage.getIcons().add(new Image(
-                    getClass().getResourceAsStream("/images/group.png")));
+                    getClass().getResourceAsStream("/images/insights.png")));
             Scene scene = new Scene(root, WIDTH, HEIGHT);
             scene.getStylesheets().add(
                     getClass().getResource("/view/styles.css")
@@ -142,25 +142,22 @@ public class InsightsWindow {
                     name, k -> new ArrayList<>()).add(e);
         }
 
-        List<String> activeDebtors = balances.values().stream()
-                .flatMap(List::stream)
-                .map(b -> b.getDebtor().getName())
-                .distinct()
-                .toList();
+        // build a map of group name -> has outstanding balance
+        // by looking directly at the balances map
+        Map<String, Boolean> groupHasBalance = new LinkedHashMap<>();
+        for (Map.Entry<Group, List<Balance>> entry
+                : balances.entrySet()) {
+            groupHasBalance.put(
+                    entry.getKey().getGroupName(),
+                    !entry.getValue().isEmpty());
+        }
 
         List<String> activeGroups = new ArrayList<>();
         List<String> pastGroups = new ArrayList<>();
 
-        for (Map.Entry<String, List<Expense>> entry
-                : groupedExpenses.entrySet()) {
-            String groupName = entry.getKey();
-            List<Expense> groupExpenses = entry.getValue();
-
-            boolean hasBalance = groupExpenses.stream()
-                    .anyMatch(e -> e.getParticipants().stream()
-                            .anyMatch(p -> activeDebtors.contains(
-                                    p.getPerson().getName())));
-
+        for (String groupName : groupedExpenses.keySet()) {
+            boolean hasBalance = groupHasBalance.getOrDefault(
+                    groupName, false);
             if (hasBalance) {
                 activeGroups.add(groupName);
             } else {

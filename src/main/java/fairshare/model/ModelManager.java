@@ -77,4 +77,10 @@ public class ModelManager implements Model {
     public Map<Group, List<Balance>> calculateBalances() {
         return BalanceCalculator.calculate(filteredExpenses);
     }
+
+    @Override
+    public Map<Group, List<Balance>> calculateAllBalances() {
+        return BalanceCalculator.calculate(
+                expenseList.getUnmodifiableExpenseList());
+    }
 }

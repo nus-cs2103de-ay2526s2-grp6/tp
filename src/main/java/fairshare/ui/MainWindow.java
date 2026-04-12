@@ -120,7 +120,7 @@ public class MainWindow implements Ui {
         header.setOnInsightsClicked(() ->
                 insightsWindow.show(
                         logic.getExpenseList(),
-                        logic.calculateBalances()));
+                        logic.calculateAllBalances()));
 
         showStartupMessage("Welcome to FairShare! \n"
                 + "Add an expense or type 'help' to show all available commands.");
@@ -174,7 +174,7 @@ public class MainWindow implements Ui {
             statusBar.refresh(logic.getFilteredExpenseList());
             insightsWindow.refreshIfShowing(
                     logic.getExpenseList(),
-                    logic.calculateBalances());
+                    logic.calculateAllBalances());
 
         } catch (CommandException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());

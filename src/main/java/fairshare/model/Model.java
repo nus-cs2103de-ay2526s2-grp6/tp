@@ -70,4 +70,12 @@ public interface Model {
      *     objects representing the balances within that specific group.
      */
     Map<Group, List<Balance>> calculateBalances();
+
+    /**
+     * Calculates and returns the simplified list of debts for all
+     * expenses regardless of current filter, grouped by group.
+     *
+     * @return a map of group to list of balances using full expense list.
+     */
+    Map<Group, List<Balance>> calculateAllBalances();
 }
