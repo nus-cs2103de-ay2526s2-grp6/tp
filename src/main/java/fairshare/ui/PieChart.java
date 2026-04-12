@@ -28,14 +28,14 @@ public class PieChart {
     private static final String UNTAGGED_LABEL = "Untagged";
 
     private static final String[] FIXED_COLOURS = {
-            "#3B82F6", // Blue
-            "#10B981", // Emerald
-            "#F59E0B", // Amber
-            "#EF4444", // Red
-            "#8B5CF6", // Purple
-            "#06B6D4", // Cyan
-            "#EC4899", // Pink
-            "#64748B"  // Slate
+        "#3B82F6", // Blue
+        "#10B981", // Emerald
+        "#F59E0B", // Amber
+        "#EF4444", // Red
+        "#8B5CF6", // Purple
+        "#06B6D4", // Cyan
+        "#EC4899", // Pink
+        "#64748B" // Slate
     };
 
     private final Map<String, String> colourMap = new HashMap<>();
