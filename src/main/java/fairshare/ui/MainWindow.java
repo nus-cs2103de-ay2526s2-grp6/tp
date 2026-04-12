@@ -171,7 +171,7 @@ public class MainWindow implements Ui {
 
             balancePanel.refresh(logic.calculateBalances());
             pieChart.refresh(new ArrayList<>(logic.getFilteredExpenseList()));
-            statusBar.refresh(logic.getExpenseList());
+            statusBar.refresh(logic.getFilteredExpenseList());
             insightsWindow.refreshIfShowing(
                     logic.getExpenseList(),
                     logic.calculateBalances());
