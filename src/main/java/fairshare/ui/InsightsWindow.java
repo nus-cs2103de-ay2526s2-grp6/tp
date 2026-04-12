@@ -85,7 +85,7 @@ public class InsightsWindow {
             insightStage = new Stage();
             insightStage.setTitle(TITLE);
             insightStage.getIcons().add(new Image(
-                    getClass().getResourceAsStream("/images/group.png")));
+                    getClass().getResourceAsStream("/images/insights.png")));
             Scene scene = new Scene(root, WIDTH, HEIGHT);
             scene.getStylesheets().add(
                     getClass().getResource("/view/styles.css")
