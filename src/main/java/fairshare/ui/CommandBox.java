@@ -17,7 +17,6 @@ import javafx.scene.layout.Region;
 public class CommandBox {
 
     private static final String FXML = "/view/CommandBox.fxml";
-    private static final String ERROR_STYLE_CLASS = "error";
 
     private final CommandExecutor commandExecutor;
     private Region root;

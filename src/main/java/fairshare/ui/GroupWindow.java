@@ -40,7 +40,6 @@ public class GroupWindow {
     private static final int WIDTH = 420;
     private static final int HEIGHT = 550;
 
-    private static final String ACCENT_COLOUR = "#A8C4D2";
     private static final String ACTIVE_COLOUR = "#cc5500";
     private static final String SETTLED_COLOUR = "#033500";
     private static final String TEXT_DARK = "#1a2a4a";
@@ -60,12 +59,6 @@ public class GroupWindow {
 
     @FXML
     private VBox pastGroupsContainer;
-
-    @FXML
-    private Label activeGroupsHeader;
-
-    @FXML
-    private Label pastGroupsHeader;
 
     @FXML
     private Label noActiveLabel;
@@ -88,8 +81,7 @@ public class GroupWindow {
             groupStage = new Stage();
             groupStage.setTitle(TITLE);
             groupStage.getIcons().add(new Image(
-                    getClass().getResourceAsStream(
-                            "/images/group.png")));
+                    getClass().getResourceAsStream("/images/group.png")));
             groupStage.setScene(
                     new Scene(root, WIDTH, HEIGHT));
             groupStage.initModality(Modality.NONE);
