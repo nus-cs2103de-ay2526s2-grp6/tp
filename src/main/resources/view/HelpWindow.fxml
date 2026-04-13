@@ -5,22 +5,23 @@
 <?import javafx.scene.layout.VBox?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fitToWidth="true"
-            style="-fx-background-color: #F8FAFC;
-                   -fx-background: #F8FAFC;">
-    <VBox spacing="10"
-          style="-fx-background-color: #F8FAFC;">
+            style="-fx-background-color: #e8eef7;
+                   -fx-background: #e8eef7;">
+    <VBox fx:id="helpContent"
+          spacing="16"
+          style="-fx-background-color: #e8eef7;">
         <padding>
-            <Insets top="14" right="14"
-                    bottom="14" left="14"/>
+            <Insets top="20" right="20"
+                    bottom="20" left="20"/>
         </padding>
-        <Label text="FairShare Commands"
-               style="-fx-font-size: 18;
-                      -fx-font-weight: bold;
-                      -fx-text-fill: #0F172A;"/>
-        <Label fx:id="helpMessage"
-               style="-fx-font-family: monospace;
-                      -fx-text-fill: #334155;
-                      -fx-font-size: 12;"
-               wrapText="true"/>
+
+        <VBox spacing="6">
+            <Label text="FairShare Commands"
+                   style="-fx-font-size: 20;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #1a2a4a;"/>
+        </VBox>
+
+        <VBox fx:id="helpSectionsContainer" spacing="16"/>
     </VBox>
 </ScrollPane>

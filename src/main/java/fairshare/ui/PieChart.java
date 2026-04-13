@@ -30,14 +30,14 @@ public class PieChart {
     private static final String UNTAGGED_LABEL = "Untagged";
 
     private static final String[] FIXED_COLOURS = {
-            "#0F766E", // Teal
-            "#0EA5E9", // Sky
-            "#6366F1", // Indigo
-            "#D97706", // Amber
-            "#14B8A6", // Mint
-            "#64748B", // Slate
-            "#8B5CF6", // Violet
-            "#84CC16"  // Lime
+        "#0F766E",
+        "#0EA5E9",
+        "#6366F1",
+        "#D97706",
+        "#14B8A6",
+        "#64748B",
+        "#8B5CF6",
+        "#84CC16"
     };
 
     private List<Expense> lastExpenses;
