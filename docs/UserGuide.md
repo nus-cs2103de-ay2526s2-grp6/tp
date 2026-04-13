@@ -84,6 +84,7 @@ among all participants.
 - `t/TAG...` — optional tags for categorization
 
 **Examples:**
+
 `add n/Lunch a/30.0 g/malaysia p/alice s/alice s/bob s/carol t/food`
 
 `add n/Taxi a/20.0 g/malaysia p/bob s/alice s/bob t/transport`
@@ -101,6 +102,7 @@ Adds a shared expense where each participant pays a different proportion of the 
     For example, `s/alice:2 s/bob:1` means alice pays 2/3 and bob pays 1/3 of the total.
 
 **Examples:**
+
 `add n/Lunch a/30.0 g/malaysia p/alice s/alice:2 s/bob:1 t/food` --> alice pays $20.00 (2/3), bob pays $10.00 (1/3)
 
 `add n/Hotel a/150.0 g/japan p/carol s/alice:1 s/bob:2 s/carol:3 t/accommodation` --> alice pays $25.00, bob pays $50.00, carol pays $75.00
@@ -116,7 +118,9 @@ Removes an existing expense from the list by its index number.
 - `INDEX` — the number shown beside the expense in the list.
 
 **Examples:**
+
 `delete 1`
+
 `delete 3`
 
 > ⚠️ **Warning:** Deleted expenses cannot be recovered.
@@ -131,6 +135,7 @@ Edits the details of an existing expense. At least one field must be provided.
 `update INDEX [n/NAME] [a/AMOUNT] [g/GROUP] [p/PAYER] [s/PERSON:SHARES...] [t/TAG...]`
 
 **Examples:**
+
 `update 1 a/50.0` --> updates amount of expense 1 to $50.00
 
 `update 2 p/bob t/transport` --> updates payer and tag of expense 2
@@ -154,6 +159,7 @@ Shows only expenses matching the given criteria. Multiple filters can be combine
 `filter [g/GROUP] [n/NAME] [p/PAYER] [s/PERSON] [t/TAG]`
 
 **Examples:**
+
 `filter g/malaysia` --> shows only malaysia group expenses
 
 `filter p/alice` --> shows only expenses paid by alice
@@ -175,6 +181,7 @@ Records a debt repayment between two members in a group. This updates the balanc
 `settle g/GROUP p/PAYER r/RECEIVER a/AMOUNT`
 
 **Examples:**
+
 `settle g/malaysia p/bob r/alice a/10.00` -->  bob pays alice $10.00 in the malaysia group
 
 `settle g/japan p/alice r/carol a/25.00` --> alice pays carol $25.00 in the japan group
