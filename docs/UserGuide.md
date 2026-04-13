@@ -8,21 +8,21 @@ Whether you are on a trip with friends, sharing household bills with housemates,
 ## Table of Contents
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [1. Managing Expenses](#1-managing-expenses)
+  - [Managing Expenses](#1-managing-expenses)
     - [Adding an expense (equal split)](#adding-an-expense-equal-split-add)
     - [Adding an expense (proportional split)](#adding-an-expense-proportional-split-add)
     - [Deleting an expense](#deleting-an-expense-delete)
     - [Updating an expense](#updating-an-expense-update)
     - [Listing all expenses](#listing-all-expenses-list)
-  - [2. Settling Debts](#2-settling-debts)
-  - [3. Viewing Balances](#3-viewing-balances)
+  - [Settling Debts](#2-settling-debts)
+  - [Viewing Balances](#3-viewing-balances)
 - [Other Features](#other-features)
   - [Viewing help window](#viewing-help-window-help)
   - [Exiting the app](#exiting-the-app-exit)
 - [UI Features](#ui-features)
-  - [1. Pie Chart](#1-pie-chart-)
-  - [2. Insights Window](#2-insights-window)
-  - [3. Status Bar](#3-status-bar)
+  - [Pie Chart](#1-pie-chart-)
+  - [Insights Window](#2-insights-window)
+  - [Status Bar](#3-status-bar)
 - [Data Storage](#data-storage)
 - [Frequently Asked Questions (FAQ)](#faq)
 - [Known Issues](#known-issues)
@@ -45,7 +45,7 @@ Whether you are on a trip with friends, sharing household bills with housemates,
 
 5. A GUI similar to the below should appear:
 
-   ![FairShare Screenshot](Ui.png) // replace with fairshare screenshot
+   ![FairShare Screenshot](Ui.png)
 
 6. Type commands in the input box and press **Send** (or press Enter) to execute them.
 
@@ -62,10 +62,8 @@ Whether you are on a trip with friends, sharing household bills with housemates,
 > **Notes about command format:**
 > - Words in `UPPER_CASE` are parameters you supply.
 > - Items in `[square brackets]` are optional.
-> - Parameters with `...` can be repeated e.g. `s/PERSON...`
-    >   means you can add multiple participants.
-> - Group names are **case-insensitive** — `Malaysia` and
-    >   `malaysia` refer to the same group.
+> - Parameters with `...` can be repeated e.g. `s/PERSON...` --> means you can add multiple participants.
+> - Group names are **case-insensitive** --> `Malaysia` and `malaysia` refer to the same group.
 
 ---
 
@@ -75,7 +73,7 @@ Whether you are on a trip with friends, sharing household bills with housemates,
 Adds a new shared expense where the cost is split equally
 among all participants.
 
-**Format: `add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON...[t/TAG...]`**
+**Format: `add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON... [t/TAG...]`**
 
 - `n/NAME` — description of the expense
 - `a/AMOUNT` — total amount paid
@@ -87,7 +85,9 @@ among all participants.
 
 **Examples:**
 `add n/Lunch a/30.0 g/malaysia p/alice s/alice s/bob s/carol t/food`
+
 `add n/Taxi a/20.0 g/malaysia p/bob s/alice s/bob t/transport`
+
 `add n/Hotel a/150.0 g/japan p/carol s/alice s/bob s/carol t/accommodation`
 
 ---
@@ -102,6 +102,7 @@ Adds a shared expense where each participant pays a different proportion of the 
 
 **Examples:**
 `add n/Lunch a/30.0 g/malaysia p/alice s/alice:2 s/bob:1 t/food` --> alice pays $20.00 (2/3), bob pays $10.00 (1/3)
+
 `add n/Hotel a/150.0 g/japan p/carol s/alice:1 s/bob:2 s/carol:3 t/accommodation` --> alice pays $25.00, bob pays $50.00, carol pays $75.00
 
 ---
@@ -131,7 +132,9 @@ Edits the details of an existing expense. At least one field must be provided.
 
 **Examples:**
 `update 1 a/50.0` --> updates amount of expense 1 to $50.00
+
 `update 2 p/bob t/transport` --> updates payer and tag of expense 2
+
 `update 3 s/alice:2 s/bob:1 s/carol:1` --> updates participant shares of expense 3
 
 ---
@@ -152,8 +155,11 @@ Shows only expenses matching the given criteria. Multiple filters can be combine
 
 **Examples:**
 `filter g/malaysia` --> shows only malaysia group expenses
+
 `filter p/alice` --> shows only expenses paid by alice
+
 `filter t/food` --> shows only expenses tagged as food
+
 `filter g/malaysia t/food` --> shows malaysia expenses tagged as food
 
 > 💡 **Tip:** Run `list` to clear the filter and show all expenses again.
@@ -170,6 +176,7 @@ Records a debt repayment between two members in a group. This updates the balanc
 
 **Examples:**
 `settle g/malaysia p/bob r/alice a/10.00` -->  bob pays alice $10.00 in the malaysia group
+
 `settle g/japan p/alice r/carol a/25.00` --> alice pays carol $25.00 in the japan group
 
 > 💡 **Tip:** Settlements appear in the expense list with a green badge and are excluded from the pie chart and status bar totals.
@@ -213,8 +220,8 @@ The pie chart on the upper right shows a spending breakdown. It updates automati
 
 ### 2. Insights Window
 Click the **Insights** button in the header to open the Insights window. It shows statistics for each group:
-- **Active Groups** — groups with outstanding balances shown with an orange badge
-- **Settled Groups** — groups where all debts are cleared shown with a green badge
+- **Active Groups** --> groups with outstanding balances shown with an orange badge
+- **Settled Groups** --> groups where all debts are cleared shown with a green badge
 
 Each group card shows:
 - Number of expenses, members and total amount spent
