@@ -1,3 +1,8 @@
+---
+layout: default
+title: FairShare User Guide
+---
+
 # FairShare User Guide
 
 FairShare is a shared expense tracker that helps groups manage and split costs fairly. 
