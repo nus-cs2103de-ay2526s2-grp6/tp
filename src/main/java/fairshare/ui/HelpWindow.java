@@ -170,13 +170,14 @@ public class HelpWindow {
         infoRows.getChildren().addAll(
                 createGuideRow(
                         "UPPERCASE",
-                        "Placeholder values such as NAME, GROUP, and AMOUNT."),
+                        "Placeholder values such as NAME, GROUP, and AMOUNT.\n"
+                                + "(Note: NAME refers to the expense name, e.g., 'lunch')"),
                 createGuideRow(
                         "[optional]",
                         "Fields inside square brackets can be omitted."),
                 createGuideRow(
                         "Repeated prefixes",
-                        "Use prefixes like s/PERSON more than once when needed."));
+                        "Use prefixes like s/PERSON or t/TAG more than once when needed."));
 
         card.getChildren().addAll(
                 headerRow,
@@ -218,9 +219,9 @@ public class HelpWindow {
                         "add",
                         "Create a new expense using either an equal split or a proportional split.",
                         "Equal split:\n"
-                                + "add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON...\n\n"
+                                + "add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON... [t/TAG...]\n\n"
                                 + "Proportional split:\n"
-                                + "add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON:PARTS...",
+                                + "add n/NAME a/AMOUNT g/GROUP p/PAYER s/PERSON:PARTS... [t/TAG...]",
                         "add n/Lunch a/20.0 g/JB p/alice s/alice:3 s/bob:1 t/food",
                         "Use s/alice:3 s/bob:1 for a 3:1 split.",
                         BLUE,
@@ -238,7 +239,7 @@ public class HelpWindow {
                         "Update an expense",
                         "update",
                         "Edit selected fields on an existing expense without re-adding it.",
-                        "update INDEX [n/NAME] [a/AMOUNT] [p/PAYER] [s/PERSON...] [t/TAG] [g/GROUP]",
+                        "update INDEX [n/NAME] [a/AMOUNT] [p/PAYER] [s/PERSON...] [t/TAG...] [g/GROUP]",
                         "update 2 a/50.0 p/bob",
                         "Only include the fields that you want to change.",
                         BLUE,
@@ -275,12 +276,8 @@ public class HelpWindow {
                         "Filter expenses",
                         "filter",
                         "Show only expenses that match a group, expense name, payer, participant, or tag.",
-                        "filter g/GROUP   by group\n"
-                                + "filter n/NAME    by expense name\n"
-                                + "filter p/PAYER   by payer\n"
-                                + "filter s/PERSON  by participant\n"
-                                + "filter t/TAG     by tag",
-                        "filter g/JB",
+                        "filter [g/GROUP] [n/NAME] [p/PAYER] [s/PERSON] [t/TAG]...",
+                        "filter g/JB t/food",
                         "Run list afterwards to show all expenses again.",
                         BLUE,
                         BLUE_SOFT),
