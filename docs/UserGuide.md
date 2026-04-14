@@ -284,8 +284,8 @@ A: No. Each expense belongs to exactly one group specified by `g/GROUP`.
 
 **Q: What does the filter command do to the balance panel?**
 
-A: The balance panel always shows balances for all groups regardless of the current filter. 
-Only the expense list and pie chart are affected by filters.
+A: The balance panel shows balances for the filtered results regardless of the type of filter. 
+For example, if the list is filtered by `t/food`, the balance panel will display the balances for the expenses tagged `food` only.  
 
 **Q: How do I know if all debts in a group are settled?**
 
