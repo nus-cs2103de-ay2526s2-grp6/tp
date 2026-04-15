@@ -1,3 +1,6 @@
+/**
+ * AI declaration --> claude ai was used to help with the colours of the piechart.
+ */
 package fairshare.ui;
 
 import java.io.IOException;
@@ -98,6 +101,9 @@ public class PieChart {
         }
     }
 
+    /**
+     * Sets up the toggle group for the Tag and Group buttons.
+     */
     private void setupToggle() {
         ToggleGroup toggleGroup = new ToggleGroup();
         byTagButton.setToggleGroup(toggleGroup);
@@ -118,7 +124,14 @@ public class PieChart {
         });
     }
 
-    private void updateToggleStyle(ToggleButton tagBtn,
+    /**
+     * Updates the visual style of the toggle buttons to reflect
+     * which one is currently active.
+     *
+     * @param tagBtn the Tag toggle button.
+     * @param groupBtn the Group toggle button.
+    */
+ private void updateToggleStyle(ToggleButton tagBtn,
                                    ToggleButton groupBtn) {
         String activeStyle =
                 "-fx-font-size: 11;"
@@ -144,6 +157,11 @@ public class PieChart {
         groupBtn.setStyle(groupBtn.isSelected() ? activeStyle : inactiveStyle);
     }
 
+    /**
+     * Aggregates spending by tag and renders the chart.
+     *
+     * @param expenses the expense list to aggregate; cannot be null.
+     */
     private void renderByTag(List<Expense> expenses) {
         Map<String, Double> amounts = new HashMap<>();
 
@@ -164,6 +182,10 @@ public class PieChart {
         renderChart(amounts);
     }
 
+    /**
+     * Aggregates spending by group name and renders the chart.
+     * @param expenses the expense list to aggregate; cannot be null.
+     */
     private void renderByGroup(List<Expense> expenses) {
         Map<String, Double> amounts = new HashMap<>();
 

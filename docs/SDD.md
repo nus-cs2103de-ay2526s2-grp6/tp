@@ -23,6 +23,7 @@
 - [6. Testing](#6-testing)
   - [6.1 Unit Testing](#61-unit-testing)
   - [6.2 Manual Testing](#62-manual-testing)
+- [7. AI Use Declaration](#7-ai-use-declaration)
 
 ## 1. System Overview
 The Shared Expense Tracker is an application that enables groups of users to record, manage and settle shared expenses.
@@ -337,3 +338,16 @@ The following UI components were tested manually:
 - Settlements are excluded from pie chart and status bar totals
 - Adding expenses to multiple groups shows all groups correctly
   in the balance panel and groups window
+
+---
+
+## 7. AI Use Declaration
+
+**UI layer:**
+Claude AI was used to organize and clean up the structure of the FXML files, namely to avoid repetition.
+Additionally, Claude AI was used to help fix UI bugs and improve the overall UI: 
+- the various panels not displaying properly
+- implement insights window as a separate popup window 
+- generate ideas on small UI improvements:
+  - display group names labels in expense panel
+  - display shares in labels in expense panel, with percentages and amounts shown 

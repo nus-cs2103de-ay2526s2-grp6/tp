@@ -34,6 +34,7 @@ public class BalanceCard {
      * @param balances   the list of balances for this person;
      *                   cannot be null or empty.
      */
+    // AI declaration --> claude ai was used here to help complete the implementation of this method
     public BalanceCard(String personName, List<Balance> balances) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(

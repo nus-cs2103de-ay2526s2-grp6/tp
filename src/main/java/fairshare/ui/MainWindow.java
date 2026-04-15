@@ -1,3 +1,8 @@
+/**AI declaration --> claude ai was used to help complete this class,
+ * namely how to load the different sections,
+ * and how to bring everything together in the main window
+ */
+
 package fairshare.ui;
 
 import java.io.IOException;
@@ -39,6 +44,8 @@ public class MainWindow implements Ui {
     private Header header;
     private InsightsWindow insightsWindow;
 
+    //Each placeholder is an empty StackPane defined in MainWindow.fxml
+    //Sub-panel root nodes are placed into these placeholders in fillInnerParts()
     @FXML
     private StackPane expenseListPanelPlaceholder;
 
@@ -70,6 +77,9 @@ public class MainWindow implements Ui {
         this.primaryStage = primaryStage;
         this.logic = logic;
 
+        //Load the FXML layout and set this class as the controller
+        //use setController(this) instead of fx:controller in FXML to avoid
+        //the "Controller value already specified" error
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     MainWindow.class.getResource(FXML));
@@ -86,42 +96,58 @@ public class MainWindow implements Ui {
      * Injects all subcomponents into their placeholders.
      */
     public void fillInnerParts() {
+        //header must be first
         header = new Header();
         headerPlaceholder.getChildren().add(header.getRoot());
 
+        //expense list panel --> bound to the filtered expense list
+        //so it automatically updates when the filter changes
         expenseListPanel = new ExpenseListPanel(
                 logic.getFilteredExpenseList());
         expenseListPanelPlaceholder.getChildren().add(
                 expenseListPanel.getRoot());
 
+        //balance panel --> shows debts grouped by group name in an accordion
+        //uses calculateBalances() which is the filtered list
         balancePanel = new BalancePanel(logic.calculateBalances());
         balancePanelPlaceholder.getChildren().add(
                 balancePanel.getRoot());
 
+        //pie chart --> initially shows the full filtered expense list
         pieChart = new PieChart(new ArrayList<>(logic.getFilteredExpenseList()));
         pieChartPlaceholder.getChildren().add(
                 pieChart.getRoot());
 
+        //status bar --> always shows totals for the full unfiltered list
+        //so that the count and total are not affected by filters
         statusBar = new StatusBar(logic.getExpenseList());
         statusBarPlaceholder.getChildren().add(
                 statusBar.getRoot());
 
+        //result display --> shows feedback messages after each command
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(
                 resultDisplay.getRoot());
 
+        //command box --> every command typed by the user flows through executeCommand()
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(
                 commandBox.getRoot());
 
+        //help window --> not added to a placeholder since it is a separate popup window
         helpWindow = new HelpWindow();
 
+        // Insights window --> separate popup Stage showing group stats.
+        // Uses calculateAllBalances() (not calculateBalances()) so active/
+        // settled status is always based on the full unfiltered list,
+        // regardless of what filter is currently active
         insightsWindow = new InsightsWindow(primaryStage);
         header.setOnInsightsClicked(() ->
                 insightsWindow.show(
                         logic.getExpenseList(),
                         logic.calculateAllBalances()));
 
+        //show startup message in the result display on first launch
         showStartupMessage("Welcome to FairShare! \n"
                 + "Add an expense or type 'help' to show all available commands.");
 

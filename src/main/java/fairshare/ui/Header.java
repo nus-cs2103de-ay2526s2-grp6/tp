@@ -1,3 +1,7 @@
+/**AI declaration --> claude ai was used to help complete this class,
+ * namely how to load the different sections
+ */
+
 package fairshare.ui;
 
 import java.io.IOException;
