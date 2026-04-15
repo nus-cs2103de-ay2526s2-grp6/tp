@@ -27,6 +27,8 @@ public class ParserUtil {
      * @throws ParseException If the argument formatting is invalid.
      */
     public static Map<String, List<String>> tokenize(String args) throws ParseException {
+        assert args != null : "args should not be null";
+
         Map<String, List<String>> map = new HashMap<>();
 
         String[] tokens = args.split(" (?=[a-z]/)");
@@ -62,6 +64,9 @@ public class ParserUtil {
      * @throws ParseException If multiple values are detected, the key is missing, or the data is empty.
      */
     public static String getSingleFieldData(Map<String, List<String>> map, String key) throws ParseException {
+        assert map != null : "map should not be null";
+        assert key != null : "key should not be null";
+
         List<String> data = map.get(key);
         if (data == null || data.isEmpty()) {
             throw new ParseException("Missing mandatory field: " + key + "/");
@@ -85,6 +90,9 @@ public class ParserUtil {
      * @throws ParseException If the key is missing or the data is empty.
      */
     public static List<String> getMultiFieldData(Map<String, List<String>> map, String key) throws ParseException {
+        assert map != null : "map should not be null";
+        assert key != null : "key should not be null";
+
         List<String> data = map.get(key);
         if (data == null || data.isEmpty()) {
             throw new ParseException("Missing mandatory field: " + key + "/");
@@ -102,6 +110,9 @@ public class ParserUtil {
      */
     public static Optional<String> getOptionalSingleFieldData(
             Map<String, List<String>> map, String key) throws ParseException {
+        assert map != null : "map should not be null";
+        assert key != null : "key should not be null";
+
         List<String> data = map.get(key);
         if (data == null) {
             return Optional.empty();
@@ -130,6 +141,9 @@ public class ParserUtil {
     public static Optional<List<String>> getOptionalMultiFieldData(
             Map<String, List<String>> map, String key) throws ParseException {
         List<String> data = map.get(key);
+        assert map != null : "map should not be null";
+        assert key != null : "key should not be null";
+
         if (data == null) {
             return Optional.empty();
         }

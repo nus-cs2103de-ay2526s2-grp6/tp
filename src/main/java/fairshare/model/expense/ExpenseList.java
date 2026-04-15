@@ -26,6 +26,8 @@ public class ExpenseList {
      * @param expenses A list of {@code Expense} objects.
      */
     public ExpenseList(List<Expense> expenses) {
+        assert expenses != null : "expenses should not be null";
+
         this.expenses = FXCollections.observableArrayList(expenses);
         this.unmodifiableExpenses = FXCollections.unmodifiableObservableList(this.expenses);
     }
@@ -36,6 +38,8 @@ public class ExpenseList {
      * @param expense The {@code Expense} to be added.
      */
     public void addExpense(Expense expense) {
+        assert expense != null : "expense should not be null";
+
         expenses.add(expense);
     }
 
@@ -46,6 +50,8 @@ public class ExpenseList {
      * @return The removed {@code Expense}.
      */
     public Expense deleteExpense(Expense expense) {
+        assert expense != null : "expense should not be null";
+
         int expenseIndex = getExpenseIndex(expense);
         return expenses.remove(expenseIndex);
     }

@@ -26,6 +26,8 @@ public class UpdateCommandParser implements Parser {
      * @throws ParseException If the user input does not match the required format.
      */
     public UpdateCommand parse(String args) throws ParseException {
+        assert args != null : "args should not be null";
+
         String[] updateParts = args.split("\\s+", 2);
         if (updateParts.length == 1) {
             throw new ParseException("Please specify the fields to update.");

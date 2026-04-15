@@ -34,6 +34,8 @@ public class ModelManager implements Model {
      * @param expenseList The initial list of {@code Expense} objects to load into the model.
      */
     public ModelManager(List<Expense> expenseList) {
+        assert expenseList != null : "expenseList should not be null";
+
         this.expenseList = new ExpenseList(expenseList);
         this.filteredExpenses = new FilteredList<>(this.expenseList.getUnmodifiableExpenseList(), LIST_ALL_EXPENSES);
     }

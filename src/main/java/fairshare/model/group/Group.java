@@ -12,6 +12,8 @@ public class Group {
      * @param groupName The group name.
      */
     public Group(String groupName) {
+        assert groupName != null && !groupName.isBlank() : "group name should not be null or blank";
+
         this.groupName = groupName.toUpperCase();
     }
 

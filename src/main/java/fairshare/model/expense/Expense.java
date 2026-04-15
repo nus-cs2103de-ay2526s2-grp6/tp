@@ -31,6 +31,13 @@ public class Expense {
      */
     public Expense(Group group, String expenseName, double amount, Person payer,
                    Set<Participant> participants, Set<Tag> tags, ExpenseType expenseType) {
+        assert group != null : "group should not be null";
+        assert expenseName != null && !expenseName.isBlank() : "expense name should not be null or empty";
+        assert amount >= 0 : "amount should be non-negative";
+        assert participants != null && !participants.isEmpty() : "participants should not be null or empty";
+        assert tags != null : "tags should not be null, should be empty set if no tags";
+        assert expenseType != null : "expense type should not be null";
+
         this.group = group;
         this.expenseName = expenseName;
         this.amount = amount;

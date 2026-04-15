@@ -12,6 +12,8 @@ public class Person {
      * @param name The name of the person.
      */
     public Person(String name) {
+        assert name != null && !name.isBlank() : "name should not be null or blank";
+
         this.name = name.trim();
     }
 

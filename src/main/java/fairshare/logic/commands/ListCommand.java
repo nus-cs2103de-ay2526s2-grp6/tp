@@ -15,6 +15,8 @@ public class ListCommand extends Command {
      * @return A {@code CommandResult} containing the success message.
      */
     public CommandResult execute(Model model) {
+        assert model != null : "model should not be null";
+
         model.filterExpenses(expense -> true); // Matches all expenses
         return new CommandResult(MESSAGE_SUCCESS, false, false);
     }

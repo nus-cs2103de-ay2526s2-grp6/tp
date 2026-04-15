@@ -18,6 +18,10 @@ public class Balance {
      * @param amount The exact amount owed.
      */
     public Balance(Person debtor, Person creditor, double amount) {
+        assert debtor != null : "debtor should not be null";
+        assert creditor != null : "creditor should not be null";
+        assert amount > 0 : "amount should be positive";
+
         this.debtor = debtor;
         this.creditor = creditor;
         this.amount = amount;

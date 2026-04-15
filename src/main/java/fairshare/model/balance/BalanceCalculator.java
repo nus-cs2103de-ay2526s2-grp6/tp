@@ -24,6 +24,8 @@ public class BalanceCalculator {
      *     representing the final simplified debts.
      */
     public static Map<Group, List<Balance>> calculate(List<Expense> expenses) {
+        assert expenses != null : "expenses should not be null";
+
         // Filter expenses by their respective groups
         Map<Group, List<Expense>> groupedExpenses = new HashMap<>();
         for (Expense expense : expenses) {
