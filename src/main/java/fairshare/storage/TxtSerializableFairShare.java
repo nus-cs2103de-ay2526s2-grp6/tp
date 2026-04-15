@@ -1,3 +1,5 @@
+// AI declaration --> claude ai was used to generate ideas for this class
+
 package fairshare.storage;
 
 import java.io.IOException;

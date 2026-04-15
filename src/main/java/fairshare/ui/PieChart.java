@@ -1,3 +1,6 @@
+/**
+ * AI declaration --> claude ai was used to help with the colours of the piechart.
+ */
 package fairshare.ui;
 
 import java.io.IOException;

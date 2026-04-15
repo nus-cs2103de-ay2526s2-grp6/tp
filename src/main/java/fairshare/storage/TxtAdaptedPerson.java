@@ -23,6 +23,8 @@ public class TxtAdaptedPerson {
      *
      * @param source the {@code Person} to adapt.
      */
+
+    // AI declaration --> this idea was adapted from claude ai
     public TxtAdaptedPerson(Person source) {
         this.name = source.getName();
     }

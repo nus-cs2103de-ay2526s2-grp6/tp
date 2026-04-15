@@ -52,10 +52,10 @@ public class TxtAdaptedExpense {
      * Used during deserialization.
      *
      * @param expenseName the expense name; cannot be null or empty.
-     * @param amount      the expense amount; must be greater than 0.
-     * @param payer       the adapted payer person; cannot be null.
+     * @param amount the expense amount; must be greater than 0.
+     * @param payer the adapted payer person; cannot be null.
      * @param participants the list of adapted participant persons; cannot be null.
-     * @param tags        the list of adapted tags; cannot be null.
+     * @param tags the list of adapted tags; cannot be null.
      */
     public TxtAdaptedExpense(TxtAdaptedGroup group, String expenseName, double amount, TxtAdaptedPerson payer,
                              Set<TxtAdaptedParticipant> participants, Set<TxtAdaptedTag> tags,

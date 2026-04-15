@@ -24,6 +24,7 @@ public class TxtAdaptedTag {
      *
      * @param source the {@code Tag} to adapt; cannot be null.
      */
+    //AI declaration --> this idea was adapted from claude ai
     public TxtAdaptedTag(Tag source) {
         this.tagName = source.getTagName();
     }
