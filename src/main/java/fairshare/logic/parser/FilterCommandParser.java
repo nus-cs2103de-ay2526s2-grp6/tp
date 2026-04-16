@@ -22,6 +22,8 @@ public class FilterCommandParser implements Parser {
      * @throws ParseException If the user input does not match the required format.
      */
     public FilterCommand parse(String args) throws ParseException {
+        assert args != null : "args should not be null";
+
         Map<String, List<String>> map = ParserUtil.tokenize(args);
         Optional<List<String>> groupNames = ParserUtil.getOptionalMultiFieldData(map, "g");
         Optional<List<String>> expenseNames = ParserUtil.getOptionalMultiFieldData(map, "n");

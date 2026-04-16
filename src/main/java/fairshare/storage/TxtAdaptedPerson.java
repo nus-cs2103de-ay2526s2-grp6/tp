@@ -15,6 +15,8 @@ public class TxtAdaptedPerson {
      * @param name the name of the person.
      */
     public TxtAdaptedPerson(String name) {
+        assert name != null && !name.isBlank() : "name should not be null or blank";
+
         this.name = name;
     }
 

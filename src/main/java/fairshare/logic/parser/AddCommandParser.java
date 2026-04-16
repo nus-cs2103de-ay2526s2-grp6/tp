@@ -27,6 +27,8 @@ public class AddCommandParser implements Parser {
      * @throws ParseException If the user input does not match the required format.
      */
     public AddCommand parse(String args) throws ParseException {
+        assert args != null : "args should not be null";
+
         Map<String, List<String>> map = ParserUtil.tokenize(args);
 
         Group group = new Group(ParserUtil.getSingleFieldData(map, "g"));

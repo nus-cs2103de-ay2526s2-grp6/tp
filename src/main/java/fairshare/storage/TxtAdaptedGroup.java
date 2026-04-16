@@ -15,6 +15,8 @@ public class TxtAdaptedGroup {
      * @param groupName the name of the group.
      */
     public TxtAdaptedGroup(String groupName) {
+        assert groupName != null && !groupName.isBlank() : "groupName should not be null or blank";
+
         this.groupName = groupName;
     }
 

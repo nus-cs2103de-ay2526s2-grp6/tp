@@ -51,10 +51,13 @@ public class ExpenseCard {
     /**
      * Constructs an {@code ExpenseCard} for the given expense and index.
      *
-     * @param expense      the expense to display; cannot be null.
-     * @param displayIndex the 1-based index of this expense in the list.
+     * @param expense      the expense to display
+     * @param displayIndex the 1-based index (expense id) of this expense in the list.
      */
     public ExpenseCard(Expense expense, int displayIndex) {
+        assert expense != null : "expense should not be null";
+        assert displayIndex > 0 : "displayIndex should be greater than 0";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     ExpenseCard.class.getResource(FXML));

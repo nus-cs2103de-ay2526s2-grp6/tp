@@ -12,6 +12,8 @@ public class Tag {
      * @param tagName The name of the tag.
      */
     public Tag(String tagName) {
+        assert tagName != null && !tagName.isBlank() : "tag name should not be null or blank";
+
         this.tagName = tagName.toLowerCase();
     }
 

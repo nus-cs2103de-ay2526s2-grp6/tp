@@ -20,6 +20,8 @@ public class FairShareParser {
      * @throws ParseException If the user input does not match any command word.
      */
     public Command parseCommand(String userInput) throws ParseException {
+        assert userInput != null : "userInput should not be null";
+
         String[] parts = userInput.trim().split("\\s+", 2);
 
         String cmd = parts[0];

@@ -16,6 +16,9 @@ public class Participant {
      * @param shares The number of shares (weight) this person holds in the expense split.
      */
     public Participant(Person person, int shares) {
+        assert person != null : "person should not be null";
+        assert shares >= 1 : "shares should be greater than 0";
+
         this.person = person;
         this.shares = shares;
     }

@@ -21,9 +21,11 @@ public class TxtSerializableFairShare {
      * Constructs a {@code TxtSerializableExpenseTracker} from a list of
      * {@code Expense} model objects.
      *
-     * @param expenses the list of expenses to serialise; cannot be null.
+     * @param expenses the list of expenses to serialize
      */
     public TxtSerializableFairShare(List<Expense> expenses) {
+        assert expenses != null : "expenses should not be null";
+
         this.expenses = expenses.stream()
                 .map(TxtAdaptedExpense::new)
                 .toList();

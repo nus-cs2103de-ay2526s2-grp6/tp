@@ -31,9 +31,11 @@ public class TxtAdaptedExpense {
     /**
      * Constructs a {@code TxtAdaptedExpense} from an {@code Expense} model object.
      *
-     * @param source the {@code Expense} to adapt; cannot be null.
+     * @param source the {@code Expense} to adapt
      */
     public TxtAdaptedExpense(Expense source) {
+        assert source != null : "expense source should not be null";
+
         this.group = new TxtAdaptedGroup(source.getGroup());
         this.expenseName = source.getExpenseName();
         this.amount = source.getAmount();

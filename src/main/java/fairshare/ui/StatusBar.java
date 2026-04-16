@@ -32,6 +32,8 @@ public class StatusBar {
      * @param expenses the list of expenses;
      */
     public StatusBar(List<Expense> expenses) {
+        assert expenses != null : "expenses should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     StatusBar.class.getResource(FXML));

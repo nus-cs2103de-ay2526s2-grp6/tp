@@ -70,10 +70,13 @@ public class MainWindow implements Ui {
     /**
      * Constructs a {@code MainWindow} with the given stage and logic.
      *
-     * @param primaryStage the main JavaFX stage; cannot be null.
-     * @param logic        the logic component; cannot be null.
+     * @param primaryStage the main JavaFX stage
+     * @param logic        the logic component
      */
     public MainWindow(Stage primaryStage, Logic logic) {
+        assert primaryStage != null : "primaryStage should not be null";
+        assert logic != null : "logic should not be null";
+
         this.primaryStage = primaryStage;
         this.logic = logic;
 
@@ -161,15 +164,19 @@ public class MainWindow implements Ui {
      */
     @Override
     public void start(Stage primaryStage) {
+        assert primaryStage != null : "primaryStage should not be null";
+
         primaryStage.show();
     }
 
     /**
      * Displays a startup message in the result display.
      *
-     * @param message the message to display; cannot be null.
+     * @param message the message to display
      */
     public void showStartupMessage(String message) {
+        assert message != null : "message should not be null";
+
         resultDisplay.setFeedbackToUser(message);
     }
 

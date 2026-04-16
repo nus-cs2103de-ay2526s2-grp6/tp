@@ -30,12 +30,14 @@ public class BalanceCard {
     /**
      * Constructs a {@code BalanceCard} for the given person's balances.
      *
-     * @param personName the name of the debtor; cannot be null.
-     * @param balances   the list of balances for this person;
-     *                   cannot be null or empty.
+     * @param personName the name of the debtor.
+     * @param balances   the list of balances for this person.
      */
     // AI declaration --> claude ai was used here to help complete the implementation of this method
     public BalanceCard(String personName, List<Balance> balances) {
+        assert personName != null : "personName should not be null";
+        assert balances != null : "balances should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     BalanceCard.class.getResource(FXML));

@@ -36,9 +36,11 @@ public class ExpenseListPanel {
     /**
      * Constructs an {@code ExpenseListPanel} with the given expense list.
      *
-     * @param expenses the list of expenses to display; cannot be null.
+     * @param expenses the list of expenses to display.
      */
     public ExpenseListPanel(ObservableList<Expense> expenses) {
+        assert expenses != null : "expenses should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     ExpenseListPanel.class.getResource(FXML));

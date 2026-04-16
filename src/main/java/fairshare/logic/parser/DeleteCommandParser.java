@@ -16,6 +16,8 @@ public class DeleteCommandParser implements Parser {
      * @throws ParseException If the user input does not match the required format.
      */
     public DeleteCommand parse(String args) throws ParseException {
+        assert args != null : "args should not be null";
+
         int expenseId = ParserUtil.parseExpenseId(args);
         int expenseIndex = expenseId - 1;
         return new DeleteCommand(expenseIndex);

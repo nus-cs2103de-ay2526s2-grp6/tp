@@ -16,6 +16,8 @@ public class TxtAdaptedParticipant {
      * @param source the {@code Participant} to adapt.
      */
     public TxtAdaptedParticipant(Participant source) {
+        assert source != null : "participant source should not be null";
+
         this.person = new TxtAdaptedPerson(source.getPerson());
         this.shares = source.getShares();
     }

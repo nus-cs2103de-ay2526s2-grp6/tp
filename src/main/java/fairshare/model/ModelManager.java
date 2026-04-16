@@ -34,27 +34,37 @@ public class ModelManager implements Model {
      * @param expenseList The initial list of {@code Expense} objects to load into the model.
      */
     public ModelManager(List<Expense> expenseList) {
+        assert expenseList != null : "expenseList should not be null";
+
         this.expenseList = new ExpenseList(expenseList);
         this.filteredExpenses = new FilteredList<>(this.expenseList.getUnmodifiableExpenseList(), LIST_ALL_EXPENSES);
     }
 
     @Override
     public void addExpense(Expense expense) {
+        assert expense != null : "expense should not be null";
+
         expenseList.addExpense(expense);
     }
 
     @Override
     public Expense deleteExpense(Expense expense) {
+        assert expense != null : "expense should not be null";
+
         return expenseList.deleteExpense(expense);
     }
 
     @Override
     public void updateExpense(Expense targetExpense, Expense updatedExpense) {
+        assert targetExpense != null && updatedExpense != null: "targetExpense and updatedExpense should not be null";
+
         expenseList.updateExpense(targetExpense, updatedExpense);
     }
 
     @Override
     public void filterExpenses(Predicate<Expense> predicate) {
+        assert predicate != null : "predicate should not be null";
+
         filteredExpenses.setPredicate(predicate);
     }
 

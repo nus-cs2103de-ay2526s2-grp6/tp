@@ -18,10 +18,11 @@ public class StorageManager implements Storage {
     /**
      * Constructs a {@code StorageManager} with the given storage implementation.
      *
-     * @param fairShareStorage the storage implementation to delegate to;
-     *                              cannot be null.
+     * @param fairShareStorage the storage implementation to delegate to
      */
     public StorageManager(FairShareStorage fairShareStorage) {
+        assert fairShareStorage != null : "fairShareStorage should not be null";
+
         this.fairShareStorage = fairShareStorage;
     }
 
@@ -46,6 +47,8 @@ public class StorageManager implements Storage {
      */
     @Override
     public void saveFairShare(List<Expense> expenses) throws StorageException {
+        assert expenses != null : "expenses should not be null";
+
         fairShareStorage.saveFairShare(expenses);
     }
 }

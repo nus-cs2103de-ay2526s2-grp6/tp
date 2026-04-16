@@ -46,6 +46,8 @@ public class BalancePanel {
      *                      to display.
      */
     public BalancePanel(Map<Group, List<Balance>> groupBalances) {
+        assert groupBalances != null : "groupBalances should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     BalancePanel.class.getResource(FXML));

@@ -73,9 +73,11 @@ public class InsightsWindow {
     /**
      * Constructs a {@code InsightsWindow}.
      *
-     * @param primaryStage the primary stage; cannot be null.
+     * @param primaryStage the primary stage
      */
     public InsightsWindow(Stage primaryStage) {
+        assert primaryStage != null : "primaryStage should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     InsightsWindow.class.getResource(FXML));

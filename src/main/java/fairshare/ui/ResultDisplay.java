@@ -47,9 +47,11 @@ public class ResultDisplay {
     /**
      * Sets the feedback text displayed to the user.
      *
-     * @param feedbackToUser the message to display; cannot be null.
+     * @param feedbackToUser the message to display.
      */
     public void setFeedbackToUser(String feedbackToUser) {
+        assert feedbackToUser != null : "feedbackToUser should not be null";
+
         resultDisplay.setText(feedbackToUser);
     }
 }

@@ -16,6 +16,8 @@ public class TxtAdaptedTag {
      * @param tagName the name of the tag; cannot be null or empty.
      */
     public TxtAdaptedTag(String tagName) {
+        assert tagName != null && !tagName.isBlank() : "tagName should not be null or blank";
+
         this.tagName = tagName;
     }
 

@@ -21,10 +21,11 @@ public class TxtFairShareStorage implements FairShareStorage {
     /**
      * Constructs a {@code TxtFairShareStorage} with the given file path.
      *
-     * @param filePath the path of the data file to read from and write to;
-     *                 cannot be null.
+     * @param filePath the path of the data file to read from and write to
      */
     public TxtFairShareStorage(Path filePath) {
+        assert filePath != null : "filePath should not be null";
+
         this.filePath = filePath;
     }
 
@@ -75,12 +76,13 @@ public class TxtFairShareStorage implements FairShareStorage {
     /**
      * Saves the given list of expenses to the local text file.
      *
-     * @param expenses the list of {@code Expense} to save;
-     *                 cannot be null.
+     * @param expenses the list of {@code Expense} to save
      * @throws StorageException if the file cannot be written to.
      */
     @Override
     public void saveFairShare(List<Expense> expenses) throws StorageException {
+        assert expenses != null : "expenses should not be null";
+
         try {
             new TxtSerializableFairShare(expenses).saveToFile(filePath);
         } catch (IOException e) {
