@@ -1,42 +1,38 @@
 @startuml
 !include style.puml
-skinparam arrowThickness 1.1
-skinparam arrowColor STORAGE_COLOR
+skinparam linetype ortho
+skinparam ArrowThickness 1.5
+skinparam ArrowColor STORAGE_COLOR_4
 skinparam classBackgroundColor STORAGE_COLOR
 skinparam nodesep 60
 skinparam ranksep 60
 
-package Storage as StoragePackage {
+package Storage as StoragePackage <<Rectangle>> {
+    interface FairShareStorage
+    interface Storage
 
-    Class "<<interface>>\nStorage" as Storage
-    Class StorageManager
+    class StorageManager
+    class TxtFairShareStorage
+    class TxtSerializableFairShare
+    class TxtAdaptedExpense
+    class TxtAdaptedGroup
+    class TxtAdaptedPerson
+    class TxtAdaptedParticipant
+    class TxtAdaptedTag
 
-    package "FairShare Storage" #F4F6F6 {
-        Class "<<interface>>\nFairShareStorage" as FairShareStorage
-        Class TxtFairShareStorage
-        Class TxtSerializableFairShare
-        Class TxtAdaptedExpense
-        Class TxtAdaptedPerson
-        Class TxtAdaptedTag
-        Class TxtAdaptedParticipant
-    }
+    Storage ..|> FairShareStorage
+    StorageManager ..|> Storage
+    StorageManager --> FairShareStorage
+
+    TxtFairShareStorage ..|> FairShareStorage
+    TxtFairShareStorage ..> TxtSerializableFairShare : load/save
+
+    TxtSerializableFairShare *-- "*" TxtAdaptedExpense
+    TxtAdaptedExpense *-- "1" TxtAdaptedGroup : group
+    TxtAdaptedExpense *-- "1" TxtAdaptedPerson : payer
+    TxtAdaptedExpense *-- "*" TxtAdaptedParticipant : participants
+    TxtAdaptedExpense *-- "*" TxtAdaptedTag : tags
+    TxtAdaptedParticipant *-- "1" TxtAdaptedPerson : person
 }
-
-Class HiddenOutside #FFFFFF
-HiddenOutside -down..> Storage
-
-StorageManager .up.|> Storage
-Storage -right-|> FairShareStorage
-
-StorageManager -down-> "1" FairShareStorage
-
-TxtFairShareStorage .up.|> FairShareStorage
-
-TxtFairShareStorage ..> TxtSerializableFairShare
-TxtSerializableFairShare *-down-> "*" TxtAdaptedExpense
-TxtAdaptedExpense *-down-> "1" TxtAdaptedPerson : payer >
-TxtAdaptedExpense *-down-> "*" TxtAdaptedParticipant : participants >
-TxtAdaptedExpense *-down-> "*" TxtAdaptedTag : tags >
-TxtAdaptedParticipant *-down-> "1" TxtAdaptedPerson : person >
 
 @enduml

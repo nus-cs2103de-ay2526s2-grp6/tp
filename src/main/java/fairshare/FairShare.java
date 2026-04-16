@@ -19,8 +19,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * The main application class. Initialises all components and starts
- * the UI.
+ * The main application class. Initializes all components and starts the UI.
  */
 public class FairShare extends Application {
 

@@ -1,25 +1,21 @@
 @startuml
-skinparam dpi 150
-skinparam defaultFontSize 13
-skinparam ClassFontSize 13
-skinparam ClassAttributeFontSize 12
-skinparam ArrowFontSize 12
-skinparam ClassPadding 15
-skinparam Nodesep 60
-skinparam Ranksep 60
 !include style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_4
 skinparam classBackgroundColor LOGIC_COLOR
+skinparam nodesep 60
+skinparam ranksep 60
 
 package Logic as LogicPackage {
 
     package Parser <<Rectangle>> {
         Class FairShareParser
+        Class "<<interface>>\nParser" as Parser
+        Class "<<utility>>\nParserUtil" as ParserUtil
         Class AddCommandParser
         Class DeleteCommandParser
-        Class UpdateCommandParser
         Class FilterCommandParser
+        Class UpdateCommandParser
         Class SettleCommandParser
     }
 
@@ -28,7 +24,9 @@ package Logic as LogicPackage {
         Class AddCommand
         Class DeleteCommand
         Class UpdateCommand
+        Class "UpdateCommand.\nUpdateFields" as UpdateFields
         Class FilterCommand
+        Class ClearCommand
         Class ListCommand
         Class SettleCommand
         Class HelpCommand
@@ -40,11 +38,11 @@ package Logic as LogicPackage {
     Class LogicManager
 }
 
-package Model {
+package Model <<Rectangle>> {
     Class HiddenModel #FFFFFF
 }
 
-package Storage {
+package Storage <<Rectangle>> {
     Class HiddenStorage #FFFFFF
 }
 
@@ -52,25 +50,44 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
 LogicManager .up.|> Logic
-
 LogicManager -right-> "1" FairShareParser
+
+AddCommandParser .up.|> Parser
+DeleteCommandParser .up.|> Parser
+FilterCommandParser .up.|> Parser
+UpdateCommandParser .up.|> Parser
+SettleCommandParser .up.|> Parser
 
 FairShareParser ..> AddCommandParser : <<create>>
 FairShareParser ..> DeleteCommandParser : <<create>>
-FairShareParser ..> UpdateCommandParser : <<create>>
 FairShareParser ..> FilterCommandParser : <<create>>
+FairShareParser ..> UpdateCommandParser : <<create>>
 FairShareParser ..> SettleCommandParser : <<create>>
+FairShareParser ..> ClearCommand : <<create>>
+FairShareParser ..> ListCommand : <<create>>
+FairShareParser ..> HelpCommand : <<create>>
+FairShareParser ..> ExitCommand : <<create>>
+
+AddCommandParser ..> ParserUtil
+DeleteCommandParser ..> ParserUtil
+FilterCommandParser ..> ParserUtil
+UpdateCommandParser ..> ParserUtil
+SettleCommandParser ..> ParserUtil
 
 AddCommandParser ..> AddCommand : <<create>>
 DeleteCommandParser ..> DeleteCommand : <<create>>
-UpdateCommandParser ..> UpdateCommand : <<create>>
 FilterCommandParser ..> FilterCommand : <<create>>
+UpdateCommandParser ..> UpdateFields : <<create>>
+UpdateCommandParser ..> UpdateCommand : <<create>>
 SettleCommandParser ..> SettleCommand : <<create>>
+
+UpdateCommand *--> UpdateFields
 
 AddCommand -up-|> Command
 DeleteCommand -up-|> Command
 UpdateCommand -up-|> Command
 FilterCommand -up-|> Command
+ClearCommand -up-|> Command
 ListCommand -up-|> Command
 SettleCommand -up-|> Command
 HelpCommand -up-|> Command
@@ -88,5 +105,4 @@ Command .up.> CommandResult : <<create>>
 
 Storage --[hidden] Model
 Command .[hidden]up.> Storage
-
 @enduml

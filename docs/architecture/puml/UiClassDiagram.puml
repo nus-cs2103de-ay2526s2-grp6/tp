@@ -1,132 +1,78 @@
 @startuml
 !include style.puml
-show members
+hide members
 skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_4
 skinparam classBackgroundColor UI_COLOR_2
+skinparam nodesep 60
+skinparam ranksep 60
 
-package UI <<Rectangle>>{
-    Class "<<interface>>\nUi" as Ui {
-        + start(primaryStage: Stage): void
-    }
-
-    Class MainWindow {
-        - primaryStage: Stage
-        - logic: Logic
-        + fillInnerParts(): void
-        + showStartupMessage(message: String): void
-    }
-
-    Class Header {
-        - groupsButton: Button
-        + setOnGroupsClicked(handler: Runnable): void
-    }
-
-    Class ExpenseListPanel {
-        - expenseListView: ListView<Expense>
-        - emptyStateLabel: Label
-        - currentSearchTerm: String
-        + setSearchTerm(term: String): void
-    }
-
-    Class ExpenseCard {
-        - expense: Expense
-        - displayIndex: int
-        - searchTerm: String
-    }
-
-    Class BalancePanel {
-        - balancesAccordion: Accordion
-        - emptyStateLabel: Label
-        + refresh(groupBalances: Map): void
-    }
-
-    Class BalanceCard {
-        - name: String
-        - balances: List<Balance>
-    }
-
-    Class TagPieChart {
-        - colourMap: Map<String, String>
-        - lastExpenses: List<Expense>
-        + refresh(expenses: List<Expense>): void
-    }
-
-    Class StatusBar {
-        - totalExpensesLabel: Label
-        - totalAmountLabel: Label
-        + refresh(expenses: List<Expense>): void
-    }
-
-    Class GroupWindow {
-        - groupStage: Stage
-        - activeGroupsContainer: VBox
-        - pastGroupsContainer: VBox
-        + show(expenses: List<Expense>, balances: List<Balance>): void
-        + refreshIfShowing(expenses: List<Expense>, balances: List<Balance>): void
-    }
-
-    Class ResultDisplay {
-        - resultDisplay: TextArea
-        + setFeedbackToUser(message: String): void
-    }
-
-    Class CommandBox {
-        - commandTextField: TextField
-        - commandExecutor: CommandExecutor
-    }
-
-    Class HelpWindow {
-        - helpStage: Stage
-        + show(): void
-    }
-}
-
-package Model <<Rectangle>> {
-    Class HiddenModel #FFFFFF
+package UI <<Rectangle>> {
+    interface Ui
+    class MainWindow
+    class Header
+    class ExpenseListPanel
+    class ExpenseCard
+    class BalancePanel
+    class BalanceCard
+    class PieChart
+    class InsightsWindow
+    class StatusBar
+    class ResultDisplay
+    class CommandBox
+    class HelpWindow
 }
 
 package Logic <<Rectangle>> {
     Class HiddenLogic #FFFFFF
 }
 
-Class HiddenOutside #FFFFFF
-HiddenOutside ..> Ui
+package Model <<Rectangle>> {
+    Class HiddenModel #FFFFFF
+}
 
-MainWindow .up.|> Ui
+Ui <|.. MainWindow
 
-MainWindow *-down-> "1" Header
-MainWindow *-down-> "1" ExpenseListPanel
-MainWindow *-down-> "1" BalancePanel
-MainWindow *-down-> "1" TagPieChart
-MainWindow *-down-> "1" StatusBar
-MainWindow *-down-> "1" ResultDisplay
-MainWindow *-down-> "1" CommandBox
-MainWindow *-down-> "0..1" HelpWindow
-MainWindow *-down-> "0..1" GroupWindow
+MainWindow *--> "1" Header
+MainWindow *--> "1" ExpenseListPanel
+MainWindow *--> "1" BalancePanel
+MainWindow *--> "1" PieChart
+MainWindow *--> "1" StatusBar
+MainWindow *--> "1" ResultDisplay
+MainWindow *--> "1" CommandBox
+MainWindow *--> "0..1" HelpWindow
+MainWindow *--> "0..1" InsightsWindow
 
-ExpenseListPanel -down-> "*" ExpenseCard
-BalancePanel -down-> "*" BalanceCard
+ExpenseListPanel --> "*" ExpenseCard
+BalancePanel --> "*" BalanceCard
 
+MainWindow --> Logic
+
+ExpenseListPanel ..> Model
 ExpenseCard ..> Model
-BalanceCard ..> Model
-TagPieChart ..> Model
+PieChart ..> Model
 StatusBar ..> Model
-GroupWindow ..> Model
+InsightsWindow ..> Model
 
-MainWindow -right-> Logic
+BalancePanel ..> Model
+BalanceCard ..> Model
+InsightsWindow ..> Model
+
+BalancePanel ..> Model
+InsightsWindow ..> Model
+
+CommandBox ..> CommandExecutor
 
 Header -[hidden]right- ExpenseListPanel
 ExpenseListPanel -[hidden]right- BalancePanel
-BalancePanel -[hidden]right- TagPieChart
-TagPieChart -[hidden]right- StatusBar
+BalancePanel -[hidden]right- PieChart
+PieChart -[hidden]right- StatusBar
 StatusBar -[hidden]right- ResultDisplay
 ResultDisplay -[hidden]right- CommandBox
 
 Header -[hidden]down- ResultDisplay
 ExpenseListPanel -[hidden]down- CommandBox
 BalancePanel -[hidden]down- HelpWindow
-TagPieChart -[hidden]down- GroupWindow
-StatusBar -[hidden]down- GroupWindow
-
+PieChart -[hidden]down- InsightsWindow
+StatusBar -[hidden]down- InsightsWindow
 @enduml

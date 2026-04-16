@@ -20,7 +20,7 @@
 !define STORAGE_COLOR_1 #FFE374
 !define STORAGE_COLOR_2 #EDC520
 !define STORAGE_COLOR_3 #806600
-!define STORAGE_COLOR_2 #544400
+!define STORAGE_COLOR_4 #544400
 
 !define USER_COLOR #000000
 
@@ -54,7 +54,7 @@ skinparam Sequence {
 }
 
 skinparam Participant {
-    FontColor #FFFFFFF
+    FontColor #FFFFFF
     Padding 20
 }
 
