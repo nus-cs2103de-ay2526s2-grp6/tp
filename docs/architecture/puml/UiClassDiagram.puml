@@ -4,8 +4,8 @@ hide members
 skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_4
 skinparam classBackgroundColor UI_COLOR_2
-skinparam nodesep 60
-skinparam ranksep 60
+skinparam nodesep 50
+skinparam ranksep 50
 
 package UI <<Rectangle>> {
     interface Ui
@@ -31,48 +31,34 @@ package Model <<Rectangle>> {
     Class HiddenModel #FFFFFF
 }
 
+Class CommandExecutor #FFFFFF
+
 Ui <|.. MainWindow
 
-MainWindow *--> "1" Header
-MainWindow *--> "1" ExpenseListPanel
-MainWindow *--> "1" BalancePanel
-MainWindow *--> "1" PieChart
-MainWindow *--> "1" StatusBar
-MainWindow *--> "1" ResultDisplay
-MainWindow *--> "1" CommandBox
-MainWindow *--> "0..1" HelpWindow
-MainWindow *--> "0..1" InsightsWindow
+MainWindow *-down-> "1" Header
+MainWindow *-down-> "1" ExpenseListPanel
+MainWindow *-down-> "1" BalancePanel
+MainWindow *-down-> "1" PieChart
+MainWindow *-down-> "1" StatusBar
+MainWindow *-down-> "1" ResultDisplay
+MainWindow *-down-> "1" CommandBox
+MainWindow *-down-> "0..1" HelpWindow
+MainWindow *-down-> "0..1" InsightsWindow
 
-ExpenseListPanel --> "*" ExpenseCard
-BalancePanel --> "*" BalanceCard
+ExpenseListPanel *-down-> "*" ExpenseCard
+BalancePanel *-down-> "*" BalanceCard
 
-MainWindow --> Logic
+MainWindow -down-> Logic
 
 ExpenseListPanel ..> Model
 ExpenseCard ..> Model
 PieChart ..> Model
 StatusBar ..> Model
 InsightsWindow ..> Model
-
 BalancePanel ..> Model
 BalanceCard ..> Model
-InsightsWindow ..> Model
-
-BalancePanel ..> Model
-InsightsWindow ..> Model
 
 CommandBox ..> CommandExecutor
 
-Header -[hidden]right- ExpenseListPanel
-ExpenseListPanel -[hidden]right- BalancePanel
-BalancePanel -[hidden]right- PieChart
-PieChart -[hidden]right- StatusBar
-StatusBar -[hidden]right- ResultDisplay
-ResultDisplay -[hidden]right- CommandBox
-
-Header -[hidden]down- ResultDisplay
-ExpenseListPanel -[hidden]down- CommandBox
-BalancePanel -[hidden]down- HelpWindow
-PieChart -[hidden]down- InsightsWindow
-StatusBar -[hidden]down- InsightsWindow
+UI -[hidden]--> Model
 @enduml
