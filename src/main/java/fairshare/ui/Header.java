@@ -1,5 +1,7 @@
-/**AI declaration --> claude ai was used to help complete this class,
+/**
+ * AI declaration --> claude ai was used to help complete this class,
  * namely how to load the different sections
+ *
  */
 
 package fairshare.ui;

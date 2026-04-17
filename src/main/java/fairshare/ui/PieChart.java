@@ -130,9 +130,8 @@ public class PieChart {
      *
      * @param tagBtn the Tag toggle button.
      * @param groupBtn the Group toggle button.
-    */
- private void updateToggleStyle(ToggleButton tagBtn,
-                                   ToggleButton groupBtn) {
+     */
+    private void updateToggleStyle(ToggleButton tagBtn, ToggleButton groupBtn) {
         String activeStyle =
                 "-fx-font-size: 11;"
                         + "-fx-font-weight: bold;"
