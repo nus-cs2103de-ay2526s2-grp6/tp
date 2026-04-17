@@ -1,0 +1,75 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":FairShareParser" as FairShareParser LOGIC_COLOR
+participant ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+participant "a:AddCommand" as AddCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "add n/Lunch a/20 ..."
+activate MainWindow
+
+MainWindow -> LogicManager : execute("add ...")
+activate LogicManager
+
+LogicManager -> FairShareParser : parseCommand("add ...")
+activate FairShareParser
+
+create AddCommandParser
+FairShareParser -> AddCommandParser : new
+activate AddCommandParser
+
+FairShareParser -> AddCommandParser : parse(args)
+AddCommandParser -> AddCommandParser : tokenize and parse fields
+
+create AddCommand
+AddCommandParser -> AddCommand : new(expense)
+activate AddCommand
+
+AddCommand --> AddCommandParser : a
+deactivate AddCommand
+
+AddCommandParser --> FairShareParser : a
+deactivate AddCommandParser
+destroy AddCommandParser
+
+FairShareParser --> LogicManager : a
+deactivate FairShareParser
+
+LogicManager -> AddCommand : execute(m)
+activate AddCommand
+
+AddCommand -> Model : addExpense(expense)
+activate Model
+Model --> AddCommand
+deactivate Model
+
+create CommandResult
+AddCommand -> CommandResult : new("New expense added...", false, false)
+activate CommandResult
+CommandResult --> AddCommand : r
+deactivate CommandResult
+
+AddCommand --> LogicManager : r
+deactivate AddCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "New expense added..."
+deactivate MainWindow
+@enduml

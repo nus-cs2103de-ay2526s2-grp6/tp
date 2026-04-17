@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":FairShareParser" as FairShareParser LOGIC_COLOR
+participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
+participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "delete 1"
+activate MainWindow
+
+MainWindow -> LogicManager : execute("delete 1")
+activate LogicManager
+
+LogicManager -> FairShareParser : parseCommand("delete 1")
+activate FairShareParser
+
+create DeleteCommandParser
+FairShareParser -> DeleteCommandParser : new
+activate DeleteCommandParser
+
+FairShareParser -> DeleteCommandParser : parse(args)
+DeleteCommandParser -> DeleteCommandParser : parse expense id and convert\nto zero-based index
+
+create DeleteCommand
+DeleteCommandParser -> DeleteCommand : new(expenseIndex)
+activate DeleteCommand
+
+DeleteCommand --> DeleteCommandParser : d
+deactivate DeleteCommand
+
+DeleteCommandParser --> FairShareParser : d
+deactivate DeleteCommandParser
+destroy DeleteCommandParser
+
+FairShareParser --> LogicManager : d
+deactivate FairShareParser
+
+LogicManager -> DeleteCommand : execute(m)
+activate DeleteCommand
+
+DeleteCommand -> Model : getFilteredExpenseList()
+activate Model
+Model --> DeleteCommand : filteredExpenses
+deactivate Model
+
+DeleteCommand -> DeleteCommand : retrieve target expense
+DeleteCommand -> Model : deleteExpense(expenseToDelete)
+activate Model
+Model --> DeleteCommand
+deactivate Model
+
+create CommandResult
+DeleteCommand -> CommandResult : new("Deleted expense...", false, false)
+activate CommandResult
+CommandResult --> DeleteCommand : r
+deactivate CommandResult
+
+DeleteCommand --> LogicManager : r
+deactivate DeleteCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "Deleted expense..."
+deactivate MainWindow
+@enduml

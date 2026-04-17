@@ -1,0 +1,90 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Actor User as user
+
+box UI UI_COLOR_1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":FairShareParser" as FairShareParser LOGIC_COLOR
+participant ":UpdateCommandParser" as UpdateCommandParser LOGIC_COLOR
+participant "u:UpdateCommand" as UpdateCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+user -> MainWindow : inputs "update 1 a/50.0"
+activate MainWindow
+
+MainWindow -> LogicManager : execute("update 1 a/50.0")
+activate LogicManager
+
+LogicManager -> FairShareParser : parseCommand("update 1 a/50.0")
+activate FairShareParser
+
+create UpdateCommandParser
+FairShareParser -> UpdateCommandParser : new
+activate UpdateCommandParser
+
+FairShareParser -> UpdateCommandParser : parse(args)
+UpdateCommandParser -> UpdateCommandParser : split expense id from update fields
+UpdateCommandParser -> UpdateCommandParser : parse valid prefixes into UpdateFields
+
+create UpdateCommand
+UpdateCommandParser -> UpdateCommand : new(expenseIndex, updateFields)
+activate UpdateCommand
+
+UpdateCommand --> UpdateCommandParser : u
+deactivate UpdateCommand
+
+UpdateCommandParser --> FairShareParser : u
+deactivate UpdateCommandParser
+destroy UpdateCommandParser
+
+FairShareParser --> LogicManager : u
+deactivate FairShareParser
+
+LogicManager -> UpdateCommand : execute(m)
+activate UpdateCommand
+
+UpdateCommand -> Model : getFilteredExpenseList()
+activate Model
+Model --> UpdateCommand : filteredExpenses
+deactivate Model
+
+UpdateCommand -> UpdateCommand : retrieve target expense
+alt targetExpense is a settlement
+    UpdateCommand -> UpdateCommand : validate settlement fields
+    UpdateCommand -> UpdateCommand : create updated settlement
+else targetExpense is a regular expense
+    UpdateCommand -> UpdateCommand : validate expense fields
+    UpdateCommand -> UpdateCommand : create updated expense
+end
+
+UpdateCommand -> Model : updateExpense(targetExpense,\nupdatedExpense)
+activate Model
+Model --> UpdateCommand
+deactivate Model
+
+create CommandResult
+UpdateCommand -> CommandResult : new("Update success", false, false)
+activate CommandResult
+CommandResult --> UpdateCommand : r
+deactivate CommandResult
+
+UpdateCommand --> LogicManager : r
+deactivate UpdateCommand
+
+LogicManager --> MainWindow : r
+deactivate LogicManager
+
+MainWindow --> user : displays "Update success"
+deactivate MainWindow
+@enduml
