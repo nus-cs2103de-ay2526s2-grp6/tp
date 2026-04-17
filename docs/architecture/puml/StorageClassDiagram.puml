@@ -1,15 +1,17 @@
 @startuml
 !include style.puml
 skinparam linetype ortho
-skinparam ArrowThickness 1.5
-skinparam ArrowColor STORAGE_COLOR_4
+skinparam arrowThickness 1.1
+skinparam arrowColor STORAGE_COLOR_4
 skinparam classBackgroundColor STORAGE_COLOR
-skinparam nodesep 60
-skinparam ranksep 60
+skinparam nodesep 50
+skinparam ranksep 50
+
+Class HiddenOutside #FFFFFF
 
 package Storage as StoragePackage <<Rectangle>> {
-    interface FairShareStorage
-    interface Storage
+    interface "<<interface>>\nFairShareStorage" as FairShareStorage
+    interface "<<interface>>\nStorage" as Storage
 
     class StorageManager
     class TxtFairShareStorage
@@ -20,19 +22,24 @@ package Storage as StoragePackage <<Rectangle>> {
     class TxtAdaptedParticipant
     class TxtAdaptedTag
 
-    Storage ..|> FairShareStorage
-    StorageManager ..|> Storage
-    StorageManager --> FairShareStorage
+    HiddenOutside .down.> Storage
 
-    TxtFairShareStorage ..|> FairShareStorage
-    TxtFairShareStorage ..> TxtSerializableFairShare : load/save
+    Storage -up-|> FairShareStorage
 
-    TxtSerializableFairShare *-- "*" TxtAdaptedExpense
-    TxtAdaptedExpense *-- "1" TxtAdaptedGroup : group
-    TxtAdaptedExpense *-- "1" TxtAdaptedPerson : payer
-    TxtAdaptedExpense *-- "*" TxtAdaptedParticipant : participants
-    TxtAdaptedExpense *-- "*" TxtAdaptedTag : tags
-    TxtAdaptedParticipant *-- "1" TxtAdaptedPerson : person
+    StorageManager .up.|> Storage
+    StorageManager -right-> "1" FairShareStorage
+
+    TxtFairShareStorage .up.|> FairShareStorage
+    TxtFairShareStorage .down.> TxtSerializableFairShare : load/save >
+
+    TxtSerializableFairShare *-down-> "*" TxtAdaptedExpense
+
+    TxtAdaptedExpense *-left-> "1" TxtAdaptedGroup : group
+    TxtAdaptedExpense *-right-> "*" TxtAdaptedTag : tags
+    TxtAdaptedExpense *-down-> "*" TxtAdaptedParticipant : participants
+    TxtAdaptedExpense *-down-> "1" TxtAdaptedPerson : payer
+
+    TxtAdaptedParticipant *-right-> "1" TxtAdaptedPerson : person
 }
 
 @enduml

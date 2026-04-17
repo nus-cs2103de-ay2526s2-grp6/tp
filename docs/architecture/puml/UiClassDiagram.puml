@@ -7,8 +7,10 @@ skinparam classBackgroundColor UI_COLOR_2
 skinparam nodesep 50
 skinparam ranksep 50
 
+Class HiddenOutside #FFFFFF
+
 package UI <<Rectangle>> {
-    interface Ui
+    Class "<<interface>>\nUi" as Ui
     class MainWindow
     class Header
     class ExpenseListPanel
@@ -32,6 +34,8 @@ package Model <<Rectangle>> {
 }
 
 Class CommandExecutor #FFFFFF
+
+HiddenOutside .down.> Ui
 
 Ui <|.. MainWindow
 

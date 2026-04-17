@@ -3,39 +3,26 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_4
 skinparam classBackgroundColor LOGIC_COLOR
-skinparam nodesep 60
-skinparam ranksep 60
+skinparam nodesep 50
+skinparam ranksep 50
 
 package Logic as LogicPackage {
 
-    package Parser <<Rectangle>> {
-        Class FairShareParser
-        Class "<<interface>>\nParser" as Parser
-        Class "<<utility>>\nParserUtil" as ParserUtil
-        Class AddCommandParser
-        Class DeleteCommandParser
-        Class FilterCommandParser
-        Class UpdateCommandParser
-        Class SettleCommandParser
-    }
-
-    package Commands <<Rectangle>> {
-        Class "{abstract}\nCommand" as Command
-        Class AddCommand
-        Class DeleteCommand
-        Class UpdateCommand
-        Class "UpdateCommand.\nUpdateFields" as UpdateFields
-        Class FilterCommand
-        Class ClearCommand
-        Class ListCommand
-        Class SettleCommand
-        Class HelpCommand
-        Class ExitCommand
-    }
-
-    Class CommandResult
     Class "<<interface>>\nLogic" as Logic
     Class LogicManager
+
+    package ParserPackage as "Parser" {
+        Class FairShareParser
+        Class "<<interface>>\nParser" as ParserInterface
+        Class XYZCommandParser
+        Class "<<utility>>\nParserUtil" as ParserUtil
+    }
+
+    package CommandsPackage as "Commands" {
+        Class "{abstract}\nCommand" as Command
+        Class XYZCommand
+        Class CommandResult
+    }
 }
 
 package Model <<Rectangle>> {
@@ -50,59 +37,28 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
 LogicManager .up.|> Logic
-LogicManager -right-> "1" FairShareParser
 
-AddCommandParser .up.|> Parser
-DeleteCommandParser .up.|> Parser
-FilterCommandParser .up.|> Parser
-UpdateCommandParser .up.|> Parser
-SettleCommandParser .up.|> Parser
+LogicManager -down-> "1" FairShareParser
+LogicManager .down.> Command : <<executes>>
 
-FairShareParser ..> AddCommandParser : <<create>>
-FairShareParser ..> DeleteCommandParser : <<create>>
-FairShareParser ..> FilterCommandParser : <<create>>
-FairShareParser ..> UpdateCommandParser : <<create>>
-FairShareParser ..> SettleCommandParser : <<create>>
-FairShareParser ..> ClearCommand : <<create>>
-FairShareParser ..> ListCommand : <<create>>
-FairShareParser ..> HelpCommand : <<create>>
-FairShareParser ..> ExitCommand : <<create>>
+XYZCommandParser .up.|> ParserInterface
+XYZCommandParser ..> ParserUtil
 
-AddCommandParser ..> ParserUtil
-DeleteCommandParser ..> ParserUtil
-FilterCommandParser ..> ParserUtil
-UpdateCommandParser ..> ParserUtil
-SettleCommandParser ..> ParserUtil
+FairShareParser .down.> XYZCommandParser : <<create>>
+FairShareParser .down.> XYZCommand : <<create>>
 
-AddCommandParser ..> AddCommand : <<create>>
-DeleteCommandParser ..> DeleteCommand : <<create>>
-FilterCommandParser ..> FilterCommand : <<create>>
-UpdateCommandParser ..> UpdateFields : <<create>>
-UpdateCommandParser ..> UpdateCommand : <<create>>
-SettleCommandParser ..> SettleCommand : <<create>>
+XYZCommandParser ..> XYZCommand : <<create>>
 
-UpdateCommand *--> UpdateFields
+XYZCommand -up-|> Command
 
-AddCommand -up-|> Command
-DeleteCommand -up-|> Command
-UpdateCommand -up-|> Command
-FilterCommand -up-|> Command
-ClearCommand -up-|> Command
-ListCommand -up-|> Command
-SettleCommand -up-|> Command
-HelpCommand -up-|> Command
-ExitCommand -up-|> Command
-
-LogicManager .left.> Command : <<executes>>
-
-LogicManager --> Model
-LogicManager --> Storage
-Command .right.> Model
-
-Logic ..> CommandResult
 LogicManager .down.> CommandResult
+Logic .down.> CommandResult
 Command .up.> CommandResult : <<create>>
 
-Storage --[hidden] Model
-Command .[hidden]up.> Storage
+LogicManager -right-> Model
+LogicManager -right-> Storage
+Command .right.> Model
+
+ParserPackage -[hidden]right- CommandsPackage
+Model -[hidden]down- Storage
 @enduml

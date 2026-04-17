@@ -4,19 +4,19 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR_4
 skinparam classBackgroundColor MODEL_COLOR
 skinparam nodesep 60
-skinparam ranksep 60
+skinparam ranksep 50
 
 package Model as ModelPackage <<Rectangle>> {
     Class "<<interface>>\nModel" as Model
     Class ModelManager
     Class ExpenseList
+    Class "<<utility>>\nBalanceCalculator" as BalanceCalculator
     Class Expense
-    Class Participant
+    Class Balance
     Class Group
     Class Person
+    Class Participant
     Class Tag
-    Class Balance
-    Class "<<utility>>\nBalanceCalculator" as BalanceCalculator
     Class "ExpenseType\n<<enumeration>>" as ExpenseType
 }
 
@@ -24,30 +24,28 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
 ModelManager .up.|> Model
-ModelManager *-left-> "1" ExpenseList
-ModelManager ..> BalanceCalculator : uses
+ModelManager *-down-> "1" ExpenseList
+ModelManager .right.> BalanceCalculator : uses
 
 ExpenseList *-down-> "*" Expense
 
-Expense *-down-> "1" Group : group >
-Expense *-down-> "1" Person : payer >
+Expense *-up-> "1" ExpenseType
+Expense *-left-> "1" Group : group >
+Expense *-right-> "*" Tag : tags >
 Expense *-down-> "*" Participant : participants >
-Expense *-down-> "*" Tag : tags >
-Expense --> "1" ExpenseType
+Expense *-down-> "1" Person : payer >
 
-Participant *-down-> "1" Person : person >
+Participant *-right-> "1" Person : person >
 
-Balance *-down-> "1" Person : debtor >
-Balance *-down-> "1" Person : creditor >
+BalanceCalculator .down.> Expense : calculate(...)
+BalanceCalculator .down.> Group
+BalanceCalculator -down-> "*" Balance : creates
+
+Balance *--> "1" Person : debtor >
+Balance *--> "1" Person : creditor >
 
 Model .down.> Expense
 Model .down.> Balance
 
-BalanceCalculator ..> Expense : calculate(...)
-BalanceCalculator ..> Group
-BalanceCalculator -down-> "*" Balance : creates
-
-Group -[hidden]right- Person
-Person -[hidden]right- Tag
 ExpenseList -[hidden]right- BalanceCalculator
 @enduml
