@@ -47,15 +47,15 @@ The following diagram shows a high-level design of the application.
 ![High-level architecture](architecture/HighLevelSystemArchitectureDiagram.png)
 
 ### Core Components
-The `Main` component consists of [Launcher](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/Launcher.java) and [FairShare](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/FairShare.java). They are in charge of the application launch and shut down.
-- At launch, `Launcher` launches `FairShare` which in turns initializes the other components of the app.
-- At shutdown, `FairShare` saves the necessary program state and exit.
+The `Main` component consists of [Launcher](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/Launcher.java) and [FairShare](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/FairShare.java). These classes are responsible for starting up and shutting down the application.
+- At startup, `Launcher` launches `FairShare` which then initializes the other components of the app.
+- At shutdown, `FairShare` saves the application state before exiting.
 
 Once started (after boot), the application is mostly handled by the other four components:
 - [UI](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/ui/Ui.java): user interface of the app.
 - [Logic](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/logic/Logic.java): parses and executes commands
-- [Model](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/model/Model.java): holds app data
-- [Storage](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/storage/Storage.java): Read and writes application data to the hard disk.
+- [Model](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/model/Model.java): stores and manages the app data
+- [Storage](https://github.com/nus-cs2103de-ay2526s2-grp6/tp/blob/master/src/main/java/fairshare/storage/Storage.java): reads and writes application data to the hard disk.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -230,7 +230,7 @@ This section provides guidance on common feature extensions in FairShare. The li
 1. Add the field to the `Expense` class.
 2. Update `TxtAdaptedExpense` and any related adapter classes.
 3. Update serialization and deserialization logic.
-4. Update parsers, commands, and UI cards that uses or displays the new field.
+4. Update parsers, commands, and UI cards that use or display the new field.
 5. Add storage tests to ensure the new field is saved and loaded correctly.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -284,7 +284,6 @@ Detailed step-by-step manual test cases are provided in the appendix below.
     - No expense is added.
     - An error message is shown indicating that equal and proportional split syntax cannot be mixed.
 
----
 
 ### Deleting an Expense
 
@@ -304,7 +303,6 @@ Detailed step-by-step manual test cases are provided in the appendix below.
     - No expense is deleted.
     - An error message is shown.
 
----
 
 ### Updating an Expense
 
@@ -321,8 +319,6 @@ Detailed step-by-step manual test cases are provided in the appendix below.
 - **Expected:**
     - No expense is updated.
     - An error message is shown.
-
----
 
 ### Filtering Expenses
 
