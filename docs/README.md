@@ -4,5 +4,5 @@ FairShare is an application for tracking shared expenses, balances, and settleme
 
 ## Get Started
 
-- **For Users:** [User Guide](./docs/UserGuide.md)
-- **For Developers:** [Developer Guide](./docs/DeveloperGuide.md)
+- **For Users:** [User Guide](./UserGuide.md)
+- **For Developers:** [Developer Guide](./DeveloperGuide.md)
