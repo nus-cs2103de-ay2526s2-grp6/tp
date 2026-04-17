@@ -215,7 +215,9 @@ public class UpdateCommandTest {
         when(expense.getExpenseName()).thenReturn("old");
         when(expense.getAmount()).thenReturn(5.00);
         when(expense.getPayer()).thenReturn(Mockito.mock(Person.class));
-        when(expense.getParticipants()).thenReturn(Set.of());
+
+        Participant participant = Mockito.mock(Participant.class);
+        when(expense.getParticipants()).thenReturn(Set.of(participant));
 
         return expense;
     }
