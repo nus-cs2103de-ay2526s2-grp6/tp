@@ -56,7 +56,7 @@ public class ModelManager implements Model {
 
     @Override
     public void updateExpense(Expense targetExpense, Expense updatedExpense) {
-        assert targetExpense != null && updatedExpense != null: "targetExpense and updatedExpense should not be null";
+        assert targetExpense != null && updatedExpense != null : "targetExpense and updatedExpense should not be null";
 
         expenseList.updateExpense(targetExpense, updatedExpense);
     }
